@@ -7,6 +7,7 @@ export default class CardComponent extends Component {
 
         var bodyWidth = 'col-lg-6';
         //this.onClick        = this.onClick.bind(this);
+        //test
         this.state = {
             //value          : 'selected' in this.props ? this.props.selected : false,
             open           : false,
