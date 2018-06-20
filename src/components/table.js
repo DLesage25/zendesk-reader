@@ -7,8 +7,10 @@ export default class Table extends Component {
 
         //this.onClick        = this.onClick.bind(this);
         this.state = {
-
+          data: 'data' in this.props ? this.props.data : null
         };
+
+        
     }
 
 	render() {

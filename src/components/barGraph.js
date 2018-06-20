@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-var LineChart = require("react-chartjs").Line;
+var BarChart = require("react-chartjs").Bar;
 
-export default class Linegraph extends Component {
+export default class Bargraph extends Component {
 
 	constructor(props) {
 		super(props);
@@ -72,7 +72,7 @@ export default class Linegraph extends Component {
 
 	render() {
 		return (
-			<LineChart data={ this.state.data } width={ this.state.width } height={ this.state.heigth }/>
+			<BarChart data={ this.state.data } width={ this.state.width } height={ this.state.heigth }/>
 		)
 	}
 }

@@ -15,7 +15,7 @@ export default class TopBar extends Component {
 				                <div className="header-buttons" style={{boxSizing: 'inherit'}}>
 				                    <div style={{float: 'left', width:'50%'}}>
 				                    	<Dropdown icon="fa fa-signal" text="General stats" />
-				                    	<Dropdown icon="fa fa-user" text="Associate stats"/>
+				                    	<Dropdown icon="fa fa-user" text="Team breakdown"/>
 				                    	<Dropdown icon="fa fa-superscript" text="Forecasting"/>
 				                    </div>
 				                    <div style={{float: 'right', width:'23%'}}>
@@ -29,3 +29,4 @@ export default class TopBar extends Component {
 		)
 	}
 }
+

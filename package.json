@@ -21,6 +21,7 @@
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
+    "namor": "^1.0.1",
     "react-addons-test-utils": "^0.14.7",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
@@ -29,11 +30,13 @@
     "babel-preset-stage-1": "^6.1.18",
     "chart.js": "^1.1.1",
     "lodash": "^3.10.1",
+    "prop-types": "^15.6.1",
     "react": "^0.14.9",
     "react-chartjs": "^1.2.0",
     "react-dom": "^0.14.9",
     "react-redux": "4.3.0",
     "react-router": "^2.0.1",
+    "react-table": "^6.8.6",
     "redux": "^3.0.4"
   }
 }
