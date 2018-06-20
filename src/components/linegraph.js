@@ -16,7 +16,7 @@ export default class Linegraph extends Component {
 			// scaleGridLineColor : "rgba(0,0,0,.05)",
 
 			// //Number - Width of the grid lines
-			// scaleGridLineWidth : 1,
+				scaleGridLineWidth : 1,
 
 			// //Boolean - Whether to show horizontal lines (except X axis)
 			// scaleShowHorizontalLines: true,
