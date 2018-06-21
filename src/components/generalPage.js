@@ -23,7 +23,7 @@ export default class Generalpage extends Component {
 			    	<div className="col-large" style={{ marginTop: '100px', width: '100%' }}>
 			      		<Card title="PartnerHero-Udemy">
 						   <div className="row" style={{ marginBottom: '20px' }}>
-					        	<CardComponent marginLeft='30px' size="col-lg-12" title="Performance" description="The incoming volume for the last 24 hrs" body="these are some stats" >
+					        	<CardComponent marginLeft='30px' size="col-lg-12" title="Team Performance" description="The incoming volume for the last 24 hrs" body="these are some stats" >
 					        		<Linegraph width="1000" height="280" data={ this.state.dataTypes.linegraph2 } />
 					        	</CardComponent>
 				        	</div>
@@ -32,6 +32,23 @@ export default class Generalpage extends Component {
 					        		<Linegraph  width="1000" height="280" data={ this.state.dataTypes.linegraph1 } />
 					        	</CardComponent>
 				        	</div>
+				        	<div className="row" style={{ marginBottom: '20px' }}>
+					        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title="Daniel Lesage" description="Tags used the last 24 hrs" body="these are some stats" >
+					        		<Linegraph  width="500" height="280" data={ this.state.dataTypes.linegraph2 } />
+					        	</CardComponent>
+					        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title="Eunice Rodriguez" description="Tags used the last 24 hrs" body="these are some stats" >
+					        		<Linegraph  width="500" height="280" data={ this.state.dataTypes.linegraph2 } />
+					        	</CardComponent>
+				        	</div>
+				        	<div className="row" style={{ marginBottom: '20px' }}>
+					        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title="Edgar Poe" description="Tags used the last 24 hrs" body="these are some stats" >
+					        		<Linegraph  width="500" height="280" data={ this.state.dataTypes.linegraph2 } />
+					        	</CardComponent>
+					        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title="Ernest Hemmingway" description="Tags used the last 24 hrs" body="these are some stats" >
+					        		<Linegraph  width="500" height="280" data={ this.state.dataTypes.linegraph2 } />
+					        	</CardComponent>
+				        	</div>
+				        	<hr />
 				        	<div className="row">
 					        	<CardComponent marginLeft='30px' size="col-lg-6" title="Tag distribution" description="Tags used the last 24 hrs" body="these are some stats" >
 									<Radargraph />
