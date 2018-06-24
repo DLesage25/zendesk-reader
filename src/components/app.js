@@ -16,7 +16,7 @@ import Generalpage from './generalPage';
 
 import TopBar from './topBar';
 
-export default class App extends Component {
+class App extends Component {
   constructor(props){
     super(props);
     if(!this.props.EntryData) this.props.login();

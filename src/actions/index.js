@@ -38,6 +38,8 @@ function unwatch(path){
     return true;
 };
 
+export function email2id   ( email ) { return email.substring(0,email.indexOf('@')).replace(/\./g,'_'); };
+
 var provider = new FB.auth.GoogleAuthProvider();
 provider.setCustomParameters({ 'hd': 'partnerhero.com' });
 
@@ -80,22 +82,42 @@ export function fetchAndInitialize(email){
         ] = await Promise.all([
             get('users/current/byUserID/' + userID),
             //get('settings/byUser/' + userID),
-            get(program + '/production')
+            //get(program + '/production')
         ]);
 
-        if(!userSettings){
-            const newSett = newSettings();
-            userSettings = newSett;
-            postSettings2(userID,newSett);
-        }
+        // if(!userSettings){
+        //     const newSett = newSettings();
+        //     userSettings = newSett;
+        //     postSettings2(userID,newSett);
+        // }
 
         const prettyObject = {
             user : {
-                ...userData,
-                userSettings         : userSettings,
+                ...userData
+                //userSettings         : userSettings,
             },
             productionData          : productionData
         };
-        return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
+        return dispatch({ type: FETCH_USER_DATA, payload: prettyObject });
     }
 };
+
+// export async function fetchInsight(userID){
+//     err.isFalsy(arguments,'userID',userID);
+//     const [
+//         received,
+//         authored
+//     ] = await Promise.all([
+//         get('peerinsights/current/responses/byUser/' + userID),
+//         get('peerinsights/current/responses/byAuthor/' + userID)
+//     ]);
+//     return dispatch => {
+//         dispatch({ 
+//             type    : FETCH_TARGET_INSIGHTS,
+//             payload : {
+//                 received : received,
+//                 made     : authored
+//             }
+//         });
+//     };
+// };
