@@ -35,9 +35,9 @@
     "react": "^0.14.9",
     "react-chartjs": "^1.2.0",
     "react-dom": "^0.14.9",
-    "react-redux": "4.3.0",
+    "react-redux": "^4.3.0",
     "react-router": "^2.0.1",
     "react-table": "^6.8.6",
-    "redux": "^3.0.4"
+    "redux": "^3.7.2"
   }
 }
