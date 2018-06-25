@@ -1,5 +1,12 @@
+
+import Types from './types'
 import dataTypes from '../components/dataTypes';
 import FB from 'firebase';
+
+const {
+    FETCH_ALL_DATA,
+    SET_ENTRY,
+} = Types;
 
 let AccessData = {
     apiKey: "AIzaSyA_7XYTtYjyMedZ8_TZhspDlOERSBKc4pE",
@@ -80,8 +87,8 @@ export function fetchAndInitialize(email){
             //settings,
             productionData
         ] = await Promise.all([
-            get('users/current/byUserID/' + userID),
-            //get('settings/byUser/' + userID),
+            get('users/byUserID/' + userID),
+            get('khan/productivity/')
             //get(program + '/production')
         ]);
 
@@ -92,7 +99,7 @@ export function fetchAndInitialize(email){
         // }
 
         const prettyObject = {
-            user : {
+            entryData : {
                 ...userData
                 //userSettings         : userSettings,
             },

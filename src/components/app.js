@@ -5,26 +5,21 @@ import {
     login,
     fetchAndInitialize
 }                             from '../actions';
-// import { 
-//     login,
-//     fetchAndInitialize
-// }                             from '../actions';
-// import Signed                 from './signed';
+import Signed                 from './signed';
 // import ThingyLoader           from './thingyloader';
 
 import Generalpage from './generalPage';
-
 import TopBar from './topBar';
 
 class App extends Component {
-  constructor(props){
-    super(props);
-    if(!this.props.EntryData) this.props.login();
-  }
+    constructor(props){
+        super(props);
+        if(!this.props.EntryData) this.props.login();
+    }
 
-  render() {
+    render() {
         const { EntryData, Loaded } = this.props;
-        if(!EntryData) return <div />;
+        if(!EntryData) return <div> No entry data.. </div>;
         return(
             <div>
                 { 
@@ -38,20 +33,13 @@ class App extends Component {
                                 transform:  'translate(-50%,-50%)'
                             }}
                         >
-                            <p>
-                                Loading...
-                            </p>
+                        <p> Loading... </p>
                         </div>
                     </div>
                     : <Signed />
                 }
             </div>
-        );
-  }
-
-    componentDidUpdate(){
-        if(this.props.EntryData && !this.props.Loaded)
-        this.props.fetchAndInitialize(this.props.EntryData);
+        )
     }
 }
 
@@ -64,7 +52,9 @@ function mapDispatchToProps(dispath){
 
 function mapStateToProps(state){
     const {
-
+        entryData,
+        userData,
+        productionData
     } = state;
     return { 
         EntryData : entryData,
