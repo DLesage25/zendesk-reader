@@ -29,6 +29,9 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-plugin-transform-remove-strict-mode": "0.0.2",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-stage-1": "^6.1.18",
     "chart.js": "^1.1.1",
     "firebase": "^5.0.4",
@@ -40,6 +43,9 @@
     "react-redux": "^4.3.0",
     "react-router": "^2.0.1",
     "react-table": "^6.8.6",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.3.0",
+    "webpack-merge": "^4.1.3"
   }
 }

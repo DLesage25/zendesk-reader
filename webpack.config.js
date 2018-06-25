@@ -1,5 +1,6 @@
 module.exports = {
   entry: [
+    'babel-polyfill',
     './src/index.js'
   ],
   output: {
@@ -8,6 +9,18 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
+        rules : [
+        {
+        exclude : /node_modules/,
+        loader  : 'babel-loader',
+        query   : { 
+            presets : [
+                'react',
+                'babel-preset-env'
+            ] 
+        }
+        }
+    ],
     loaders: [{
       exclude: /node_modules/,
       loader: 'babel',
@@ -22,5 +35,10 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     contentBase: './'
-  }
+  },
+    node: {
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
+    }
 };
