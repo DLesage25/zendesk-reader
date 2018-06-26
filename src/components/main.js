@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import Welcome              from './generalPage';
+import Generalpage              from './generalPage';
 
 class Main extends Component {
     constructor(props) {
         super(props);
         this.state        = { hasError: false };
         this.onGetStarted = this.onGetStarted.bind(this);
+        console.log('what I want to see', this.props)
     }
     componentDidCatch(){ this.setState({ hasError : true }); }
+
     render() {
         const { hasError } = this.state;
         return (
@@ -15,17 +17,17 @@ class Main extends Component {
                 <div className = 'page-content-inner'>
                     <nav className = 'top-submenu top-submenu-with-background'>
                         <div className = 'row' style = {{ height:'100%'}} >
-                            {this.renderSections()}
+                            {this.renderSections(this.props.data)}
                         </div >
                     </nav >
                 </div>
             </section >
         );
     }
-    renderSections() {
+    renderSections(data) {
         switch (this.props.view) {
-            case 'Welcome'             : return <Welcome />;
-            default:                     return <div><Welcome onGetStarted = { this.onGetStarted } /></div>;
+            case 'generalPage'             : return <Generalpage data={data} />;
+            default:                     return <div><Generalpage onGetStarted = { this.onGetStarted } /></div>;
         };
     }
     onGetStarted(){

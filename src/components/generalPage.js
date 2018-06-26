@@ -16,11 +16,15 @@ export default class Generalpage extends Component {
         this.state = {};
         this.state.dataTypes = dataTypes;
     }
+    componentDidMount() {
+        console.log('general page props:', this.props)
 
+    }
 	render() {
+		const programName = this.props.data.programData.settings.prettyName;
 		return (
 		    	<div className="col-large" style={{ marginTop: '100px', width: '100%' }}>
-		      		<Card title="PartnerHero-Udemy">
+		      		<Card title={programName}>
 					   <div className="row" style={{ marginBottom: '20px' }}>
 				        	<CardComponent marginLeft='30px' size="col-lg-12" title="Team Performance" description="The incoming volume for the last 24 hrs" body="these are some stats" >
 				        		<Linegraph width="1000" height="280" data={ this.state.dataTypes.linegraph2 } />

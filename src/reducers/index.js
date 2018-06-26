@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
-import entryData from './entry_data';
+import entryEmail from './entryEmail';
+import startupData from './startup_data';
 
 const rootReducer = combineReducers({
-	entryData: entryData
+	entryEmail: entryEmail,
+	startupData: startupData
 });
 
 export default rootReducer;
+

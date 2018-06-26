@@ -1,10 +1,12 @@
-
 import Types from './types'
+// import objects from '../modules/objects';
 import dataTypes from '../components/dataTypes';
 import FB from 'firebase';
+import rest from 'restler';
 
 const {
     FETCH_ALL_DATA,
+    FETCH_USER_DATA,
     SET_ENTRY,
 } = Types;
 
@@ -20,27 +22,22 @@ FB.initializeApp(AccessData);
 const DB     = FB.database();
 
 async function get(path){
-    err.isInvalidPath(arguments,'path',path);
     let res = await DB.ref('/' + path).once('value');
     if(res) res = res.val();
     return res;
 };
 
 function write(path,data){
-    err.isInvalidPath(arguments,'path',path);
-    err.isInvalidWriteData(arguments,'data',data);
     DB.ref('/' + path).set(data);
     return true;
 };
 
 function remove(path){
-    err.isInvalidPath(arguments,'path',path);
     DB.ref('/' + path).remove();
     return true;
 };
 
 function unwatch(path){
-    err.isInvalidPath(arguments,'path',path);
     DB.ref('/' + path).off();
     return true;
 };
@@ -79,16 +76,47 @@ export async function login(){
     }
 };
 
+export function fetchUserData(email){
+    return dispatch => {
+        DB.ref('/users').once('value', snapshot => {
+            dispatch({ type: FETCH_USER_DATA, payload: [snapshot.val(),email] });
+    });};
+};
+
+// export function fetchAndInitialize(email){
+//     return async dispatch => {
+//         const userID = email2id(email);
+//         let userData = await get('users/byUserId/' + userID);
+//         console.log(userData);
+//         let productionData = await get(userData.program + '/productivity');
+//         // if(!userData.userSettings){
+//         //     const newUser = newSettings();
+//         //     userSettings = newSett;
+//         //     postSettings2(userID,newSett);
+//         // }
+//         const payload = {
+//             userData : {
+//                 ...userData
+//                 //userSettings         : userSettings,
+//             },
+//             productionData          : productionData
+//         };
+
+//         return dispatch({ type: FETCH_ALL_DATA, payload: payload });
+//     }
+// };
+
 export function fetchAndInitialize(email){
     return async dispatch => {
         const userID = email2id(email);
+        console.log(userID);
         let [
             userData,
             //settings,
-            productionData
+            programData
         ] = await Promise.all([
-            get('users/byUserID/' + userID),
-            get('khan/productivity/')
+            get('users/byUserId/' + userID),
+            get('khan/')
             //get(program + '/production')
         ]);
 
@@ -99,18 +127,25 @@ export function fetchAndInitialize(email){
         // }
 
         const prettyObject = {
-            entryData : {
+            userData : {
                 ...userData
                 //userSettings         : userSettings,
             },
-            productionData          : productionData
+            programData          : programData
         };
-        return dispatch({ type: FETCH_USER_DATA, payload: prettyObject });
+
+        console.log('prettyobject', prettyObject)
+        return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
     }
 };
 
+// function createNewUser() {
+//     return new Promise(resolve => {
+
+//     })
+// }
+
 // export async function fetchInsight(userID){
-//     err.isFalsy(arguments,'userID',userID);
 //     const [
 //         received,
 //         authored

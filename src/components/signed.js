@@ -7,7 +7,7 @@ class Signed extends Component {
         super(props);
         this.onSelectView  = this.onSelectView  .bind(this);
         this.onGetStarted  = this.onGetStarted  .bind(this);
-        this.state         = { view : 'Home' };
+        this.state         = { view : 'generalPage' };
     }
     render() {
         const { onSelectView, onGetStarted } = this;
@@ -15,12 +15,12 @@ class Signed extends Component {
         return (
                 <div style = {{ maxWidth : '1400px', maxHeight : '100%' }}>
                     <TopBar onClick = {onSelectView} />
-                    <Main view = {view} onGetStarted = {onGetStarted} />
+                    <Main view = {view} data={this.props.data} />
                 </div>
         );
     }
     onSelectView(view){ this.setState({view : view}); }
-    onGetStarted(){ this.setState({ view : 'Performance Review' }); }
+    onGetStarted(){ this.setState({ view : 'generalPage' }); }
 };
     
 export default Signed;

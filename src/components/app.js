@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
+import Signed                 from './signed';
 import { 
     login,
     fetchAndInitialize
 }                             from '../actions';
-import Signed                 from './signed';
-// import ThingyLoader           from './thingyloader';
-
-import Generalpage from './generalPage';
-import TopBar from './topBar';
 
 class App extends Component {
     constructor(props){
         super(props);
-        if(!this.props.EntryData) this.props.login();
+        if(!this.props.EntryEmail) this.props.login();
+    }
+
+    componentDidUpdate(){
+        console.log('componentDidUpdate');
+        if(this.props.EntryEmail && !this.props.Loaded) this.props.fetchAndInitialize(this.props.EntryEmail);
     }
 
     render() {
-        const { EntryData, Loaded } = this.props;
-        if(!EntryData) return <div> No entry data.. </div>;
+        console.log('app props', this.props)
+        const { EntryEmail, StartupData, Loaded } = this.props;
+        if(!EntryEmail) return <div> Logging in ... </div>;
         return(
             <div>
                 { 
@@ -36,29 +38,29 @@ class App extends Component {
                         <p> Loading... </p>
                         </div>
                     </div>
-                    : <Signed />
+                    : <Signed data={StartupData} />
                 }
             </div>
         )
     }
 }
 
-function mapDispatchToProps(dispath){
+function mapDispatchToProps(dispatch){
     return bindActionCreators({
         login : login,
         fetchAndInitialize : fetchAndInitialize
-    }, dispath);
+    }, dispatch);
 }
 
 function mapStateToProps(state){
     const {
-        entryData,
-        userData,
-        productionData
+        entryEmail,
+        startupData
     } = state;
     return { 
-        EntryData : entryData,
-        Loaded    : 'rubricData && userData && userAssessments'
+        EntryEmail : entryEmail,
+        StartupData : startupData,
+        Loaded    : startupData
     };
 }
 
