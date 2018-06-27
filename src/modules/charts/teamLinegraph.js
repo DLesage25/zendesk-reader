@@ -2,10 +2,7 @@ import _ from 'lodash';
 import data from './chartdata';
 
 const formatChartData = async (chartData) => {
-		console.log('chartData 1', chartData)
-
 		let formattedData = await processDays(chartData);
-
 		return formattedData;
 }
 
@@ -28,13 +25,13 @@ const getGoalLine = async (dayData) => {
 
 		hours.map((hour)=>{
 			let index = dayData[hour];
+
+			//convert to array
 			index = Object.keys(index).map(function (key) { return index[key]; });
+			//filter out queue load
 			index = _.filter(index, function(o){ return o.email })
-			console.log('index', index)
 
 			let totalHourlyGoal = _.sumBy(index, function(o) { return Number(o.goal) });
-
-			console.log('totalHourlyGoal', totalHourlyGoal)
 
 			goalLine.push(totalHourlyGoal);
 		})

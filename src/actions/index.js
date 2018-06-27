@@ -112,8 +112,8 @@ export function getTeamLinegraphData(data) {
     return async dispatch => {
         console.log('teamLinegraph data', data);
         let graphData = await teamLinegraph.formatChartData(data);
-
-        return dispatch => { return dispatch({ type: GRAPH_DATA, payload: graphData });  };
+        
+        return dispatch({ type: GRAPH_DATA, payload: graphData });
     }
 }
 
