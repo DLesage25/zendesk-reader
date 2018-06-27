@@ -19,19 +19,17 @@ class Generalpage extends Component {
 
         this.state = {};
         this.state.dataTypes = dataTypes;
-    }
-    componentDidMount() {
-        console.log('general page props:', this.props)
-        if (!this.props.graphData) this.props.getTeamLinegraphData(this.props.data.programData.productivity)
+
+        if (!this.props.GraphData) this.props.getTeamLinegraphData(this.props.data.programData.productivity)
 
     }
 
     componentDidUpdate(){
-        console.log('componentDidUpdate');
-        console.log('formatted data should', this.props.GraphData)
+        console.log('componentDidUpdate general', this.props);
     }
 
 	render() {
+		console.log('general page props', this.props)
 		const programName = this.props.data.programData.settings.prettyName;
 		return (
 		    	<div className="col-large" style={{ marginTop: '100px', width: '100%' }}>
