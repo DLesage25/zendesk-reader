@@ -6,7 +6,6 @@ class Main extends Component {
         super(props);
         this.state        = { hasError: false };
         this.onGetStarted = this.onGetStarted.bind(this);
-        console.log('what I want to see', this.props)
     }
     componentDidCatch(){ this.setState({ hasError : true }); }
 

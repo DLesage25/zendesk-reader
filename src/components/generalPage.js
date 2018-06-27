@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect }            from 'react-redux';
+
+import { getTeamLinegraphData } from '../actions';
 
 import Card from './card'
 import CardComponent from './cardComponent'
@@ -8,7 +12,7 @@ import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
 import dataTypes from './dataTypes'
 
-export default class Generalpage extends Component {
+class Generalpage extends Component {
 
     constructor(props){
         super(props);
@@ -18,8 +22,15 @@ export default class Generalpage extends Component {
     }
     componentDidMount() {
         console.log('general page props:', this.props)
+        if (!this.props.graphData) this.props.getTeamLinegraphData(this.props.data.programData.productivity)
 
     }
+
+    componentDidUpdate(){
+        console.log('componentDidUpdate');
+        console.log('formatted data should', this.props.GraphData)
+    }
+
 	render() {
 		const programName = this.props.data.programData.settings.prettyName;
 		return (
@@ -27,7 +38,7 @@ export default class Generalpage extends Component {
 		      		<Card title={programName}>
 					   <div className="row" style={{ marginBottom: '20px' }}>
 				        	<CardComponent marginLeft='30px' size="col-lg-12" title="Team Performance" description="The incoming volume for the last 24 hrs" body="these are some stats" >
-				        		<Linegraph width="1000" height="280" data={ this.state.dataTypes.linegraph2 } />
+				        		<Linegraph width="1000" height="280" data={ this.state.dataTypes.linegraph3 } />
 				        	</CardComponent>
 			        	</div>
 					   <div className="row" style={{ marginBottom: '20px' }}>
@@ -68,3 +79,20 @@ export default class Generalpage extends Component {
 				)
 	}
 }
+
+function mapDispatchToProps(dispatch){
+    return bindActionCreators({
+        getTeamLinegraphData : getTeamLinegraphData
+    }, dispatch);
+}
+
+function mapStateToProps(state){
+    const {
+        graphData
+    } = state;
+    return { 
+        GraphData : graphData
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Generalpage);
