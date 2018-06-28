@@ -1,51 +1,88 @@
 import _ from 'lodash';
-import data from './chartdata';
+import moment from 'moment-timezone';
+import colorSchemes from './linegraphColorScheme';
 
-const formatChartData = async (chartData) => {
-		let formattedData = await processAllDays(chartData);
-		return formattedData;
+const formatChartData = async(chartData) => {
+    let groupedData = await groupAllData(chartData);
+    let formattedData = await formatAllData(groupedData);
+    return formattedData;
 }
 
-const processAllDays = async (chartData) => {
-		let days = Object.keys(chartData);
-		let formattedData = [];
-
-		days.map(async (dayKey) => {
-			let dayData = chartData[dayKey];
-			let formattedDayData = await buildDayObject(dayKey, dayData)
-			formattedData.push({[dayKey]:formattedDayData}) 
-		})
-		return formattedData;
+const groupAllData = async(chartData) => {
+    let groupedData = await processAllDays(chartData);
+    return groupedData;
 }
 
-const buildDayObject = async (dayKey, dayData) => {	
-	let hours = Object.keys(dayData);
-	let dayObject = await getSeries(dayData, hours);
-	return dayObject;
+const formatAllData = async(groupedData) => {
+    return groupedData.map((dayIndex, dayKey) => {
+        var series = dayIndex.series;
+        var seriesKeys = Object.keys(series);
+        var data = {
+            dayKey: dayIndex.dayKey,
+            labels: dayIndex.hourLine,
+            datasets: [{
+                    ...colorSchemes[0],
+                    label: seriesKeys[0],
+                    data: series[seriesKeys[0]]
+                },
+                {
+                    ...colorSchemes[1],
+                    label: seriesKeys[1],
+                    data: series[seriesKeys[1]]
+                }
+            ]
+        };
+        return data;
+    })
 }
 
-const getSeries = async (dayData, hours) => {
-		let goalLine = [];
-		let productionLine = [];
+const processAllDays = async(chartData) => {
+    let days = Object.keys(chartData);
+    let groupedData = [];
 
-		hours.map((hour)=>{
-			let index = dayData[hour];
+    days.map(async(dayKey) => {
+        let dayData = chartData[dayKey];
+        let formattedDayData = await buildDayObject(dayKey, dayData)
+        groupedData.push(formattedDayData)
+    })
+    return groupedData;
+}
 
-			//convert to array
-			index = Object.keys(index).map(function (key) { return index[key]; });
-			//filter out queue load
-			index = _.filter(index, function(o){ return o.email })
+const buildDayObject = async(dayKey, dayData) => {
+    let hours = Object.keys(dayData);
+    let dayObject = await getSeries(dayData, hours, dayKey);
+    return dayObject;
+}
 
-			let totalHourlyGoal = _.sumBy(index, function(o) { return Number(o.goal) });
-			let totalHourlyProd = _.sumBy(index, function(o) { return Number(o.touches) });
+const getSeries = async(dayData, hours, dayKey) => {
+    let goalLine = [];
+    let productionLine = [];
 
-			goalLine.push(totalHourlyGoal);
-			productionLine.push(totalHourlyProd);
-		})
+    hours.map((hour) => {
+        let index = dayData[hour];
 
-		return {goalLine: goalLine, productionLine: productionLine, hourLine: hours}
+        //convert to array
+        index = Object.keys(index).map(function(key) { return index[key]; });
+        //filter out queue load
+        index = _.filter(index, function(o) { return o.email })
+
+        let totalHourlyGoal = _.sumBy(index, function(o) { return Number(o.goal) });
+        let totalHourlyProd = _.sumBy(index, function(o) { return Number(o.touches) });
+
+        goalLine.push(totalHourlyGoal);
+        productionLine.push(totalHourlyProd);
+    })
+
+    return {
+        dayKey: dayKey,
+        hourLine: hours,
+        series: {
+            'Goal': goalLine,
+            'Production': productionLine
+        }
+    }
 }
 
 export default {
-	formatChartData: formatChartData
+    formatChartData: formatChartData
 }
