@@ -32,7 +32,7 @@ const getTeamEmails = async(programData) => {
 */
 
 const extractAgentProductivity = async(email, programData) => {
-    let productivity = programData.productivity;
+    let productivity =      ata.productivity;
     let goal = programData.settings.goal;   
     let days = Object.keys(productivity);
     let groupedData = [];
@@ -49,7 +49,7 @@ const buildDayObject = async(dayKey, dayData, goal, email) => {
     let hours = Object.keys(dayData);
     let dayObject = await getSeries(dayData, hours, dayKey, settings);
     return dayObject;
-}
+}M
 
 // const formatAllData = async(groupedData) => {
 //     return groupedData.map((dayIndex, dayKey) => {
