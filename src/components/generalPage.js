@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 
-import { getTeamLinegraphData } from '../actions';
+import { getLinegraphData } from '../actions';
 
 import Card from './card'
 import CardComponent from './cardComponent'
@@ -20,7 +20,7 @@ class Generalpage extends Component {
         this.state = {};
         this.state.dataTypes = dataTypes;
 
-        if (!this.props.GraphData) this.props.getTeamLinegraphData(this.props.data.programData.productivity)
+        if (!this.props.GraphData) this.props.getLinegraphData(this.props.data.programData)
 
     }
 
@@ -80,7 +80,7 @@ class Generalpage extends Component {
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        getTeamLinegraphData : getTeamLinegraphData
+        getLinegraphData : getLinegraphData
     }, dispatch);
 }
 

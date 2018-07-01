@@ -2,14 +2,23 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import colorSchemes from './linegraphColorScheme';
 
-const formatChartData = async(chartData) => {
-    let groupedData = await groupAllData(chartData);
+// const formatChartData = async(programData) => {
+// 	let teamLinegraphData = awaitformatTeamChartData(programData);
+// }
+
+const formatIndividualChartData = async(programData) => {
+	let productivity = programData.productivity;
+
+}
+
+const formatChartData = async(programData) => {
+    let groupedData = await groupAllData(programData);
     let formattedData = await formatAllData(groupedData);
     return formattedData;
 }
 
-const groupAllData = async(chartData) => {
-    let groupedData = await processAllDays(chartData);
+const groupAllData = async(programData) => {
+    let groupedData = await processAllDays(programData);
     return groupedData;
 }
 
@@ -36,25 +45,27 @@ const formatAllData = async(groupedData) => {
     })
 }
 
-const processAllDays = async(chartData) => {
-    let days = Object.keys(chartData);
+const processAllDays = async(programData) => {
+	let productivity = programData.productivity;
+    let goal = programData.settings.goal;   
+    let days = Object.keys(productivity);
     let groupedData = [];
 
     days.map(async(dayKey) => {
-        let dayData = chartData[dayKey];
-        let formattedDayData = await buildDayObject(dayKey, dayData)
+        let dayData = productivity[dayKey];
+        let formattedDayData = await buildDayObject(dayKey, dayData, goal)
         groupedData.push(formattedDayData)
     })
     return groupedData;
 }
 
-const buildDayObject = async(dayKey, dayData) => {
+const buildDayObject = async(dayKey, dayData, goal) => {
     let hours = Object.keys(dayData);
-    let dayObject = await getSeries(dayData, hours, dayKey);
+    let dayObject = await getSeries(dayData, hours, dayKey, goal);
     return dayObject;
 }
 
-const getSeries = async(dayData, hours, dayKey) => {
+const getSeries = async(dayData, hours, dayKey, goal) => {
     let goalLine = [];
     let productionLine = [];
 
@@ -67,7 +78,7 @@ const getSeries = async(dayData, hours, dayKey) => {
         index = _.filter(index, function(o) { return o.email })
 
         let totalHourlyGoal = _.sumBy(index, function(o) { return Number(o.goal) });
-        let totalHourlyProd = _.sumBy(index, function(o) { return Number(o.touches) });
+        let totalHourlyProd = _.sumBy(index, function(o) { return Number(o[goal]) });
 
         goalLine.push(totalHourlyGoal);
         productionLine.push(totalHourlyProd);
