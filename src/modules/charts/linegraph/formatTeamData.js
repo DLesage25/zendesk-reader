@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment-timezone';
-import colorSchemes from './linegraphColorScheme';
+import colorSchemes from './colorScheme';
 
 // const formatChartData = async(programData) => {
 // 	let teamLinegraphData = awaitformatTeamChartData(programData);

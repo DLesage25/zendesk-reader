@@ -4,8 +4,8 @@ import dataTypes from '../components/dataTypes';
 import FB from 'firebase';
 import rest from 'restler';
 
-import formatTeamLinegraphData from '../modules/charts/formatTeamLinegraphData';
-import formatIndividualLinegraphData from '../modules/charts/formatIndividualLinegraphData';
+import formatTeamLinegraphData from '../modules/charts/linegraph/formatTeamData';
+import formatIndividualLinegraphData from '../modules/charts/linegraph/formatIndividualData';
 
 const {
     FETCH_ALL_DATA,
@@ -116,11 +116,22 @@ export function fetchUserData(email){
 export function getLinegraphData(programData) {
     return async dispatch => {
         console.log('teamLinegraph data', programData);
-//        let teamGraphData = await formatTeamLinegraphData.formatChartData(programData);
-        let individualGraphData = await formatIndividualLinegraphData.formatChartData(programData);
-        
+        // let teamGraphData = await formatTeamLinegraphData.formatChartData(programData);
+        // let individualGraphData = await formatIndividualLinegraphData.formatChartData(programData);
+        let [
+            teamGraphData,
+            individualGraphData
+        ] = await Promise.all([
+            formatTeamLinegraphData.formatChartData(programData),
+            formatIndividualLinegraphData.formatChartData(programData)
+        ]);
 
-        return dispatch({ type: GRAPH_DATA, payload: individualGraphData });
+        let payload = {
+            teamGraphData,
+            individualGraphData
+        }
+
+        return dispatch({ type: GRAPH_DATA, payload: payload });
     }
 }
 
