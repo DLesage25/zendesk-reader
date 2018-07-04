@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux';
-import BooksReducer from './reducer_books';
-
+import entryEmail from './entryEmail';
+import startupData from './startupData';
+import graphData from './graphData';
 
 const rootReducer = combineReducers({
-	books: BooksReducer
+	entryEmail: entryEmail,
+	startupData: startupData,
+	graphData: graphData
 });
 
 export default rootReducer;
+

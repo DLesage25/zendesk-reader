@@ -19,16 +19,16 @@ export default class CardComponent extends Component {
             bodyWidth: bodyWidth,
             marginBottom: 'marginBottom' in this.props ? this.props.marginBottom: '0px',
             divHeight: 'divHeight' in this.props ? this.props.divHeight: '233px',
-            marginLeft: 'marginLeft' in this.props ? this.props.marginLeft: '0px'
+            marginLeft: 'marginLeft' in this.props ? this.props.marginLeft: '0px',
+            maxWidth: 'maxWidth' in this.props ? this.props.maxWidth: ''
         };
 
-		if (this.props.size !== 'col-lg-6') this.state.bodyWidth = '100%';
     }
 
 	render() {
 
 		return (
-	            <div className={ this.state.size } style={{ marginBottom: this.state.marginBottom, marginLeft: this.state.marginLeft }}>
+	            <div className={ this.state.size } style={{ maxWidth: this.state.maxWidth, marginBottom: this.state.marginBottom, marginLeft: this.state.marginLeft }}>
 	                <h5 className="text-black"><strong> { this.state.title } </strong></h5>
 	                <p className="text-muted"> { this.state.description } </p>
 	                <div className="mb-5">
