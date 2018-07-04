@@ -4,6 +4,8 @@ import { connect }            from 'react-redux';
 
 import { getLinegraphData } from '../actions';
 
+import IndividualLinegraphRenderer from './individualLinegraphRenderer'
+
 import Card from './card'
 import CardComponent from './cardComponent'
 import Table from './table3'
@@ -29,11 +31,12 @@ class Generalpage extends Component {
     }
 
 	render() {
-		console.log('general page props', this.props)
-		const programName = this.props.data.programData.settings.prettyName;
+        const { data, GraphData } = this.props;
+		const programName = data.programData.settings.prettyName;
 		return (
 		    	<div className="col-large" style={{ marginTop: '100px', width: '100%' }}>
 		      		<Card title={programName}>
+		    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer individualProductivity={this.props.GraphData.individualGraphData}/> }
 					   <div className="row" style={{ marginBottom: '20px' }}>
 				        	<CardComponent marginLeft='30px' size="col-lg-12" title="Team Performance" description="The incoming volume for the last 24 hrs" body="these are some stats" >
 				        		<Linegraph width="1000" height="280" data={ this.state.dataTypes.linegraph3 } />

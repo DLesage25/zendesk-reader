@@ -1,8 +1,6 @@
 export default (state = null, action) => {
     switch (action.type) {
         case 'FETCH_ALL_DATA':
-
-            console.log('reducer 2 running')
             /**
              * TODO: Work case:
              * What happens if email by provided google authenticator,

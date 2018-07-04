@@ -8,15 +8,13 @@ const formatChartData = async(programData) => {
 
     teamEmails.map(async(email) => {
         let groupedData = await extractAgentProductivity(email, programData);
+
         let userPayload = {
             email: email,
             productivity: groupedData
-        }
-        teamObjects.push(userPayload)
-        //return groupedData;
+        };
+        teamObjects.push(userPayload);
     })
-
-    console.log(teamObjects)
 
     return teamObjects
 }
@@ -29,14 +27,13 @@ const getTeamEmails = async(programData) => {
     })
 }
 
-
 const extractAgentProductivity = async(email, programData) => {
     let productivity = programData.productivity;
     let goal = programData.settings.goal;
     let days = Object.keys(productivity);
     let groupedData = [];
 
-       days.map(async(dayKey) => {
+    days.map(async(dayKey) => {
         let dayData = productivity[dayKey];
         let dayObjects = await buildDayObjects(dayKey, dayData, goal, email)
         groupedData.push(dayObjects)
@@ -54,7 +51,7 @@ const getSeries = async(dayData, hours, dayKey, goal, email) => {
     let goalLine = [];
     let productionLine = [];
 
-    hours.map(async (hour) => {
+    hours.map(async(hour) => {
         let index = dayData[hour];
 
         //convert to array
@@ -74,12 +71,23 @@ const getSeries = async(dayData, hours, dayKey, goal, email) => {
 
     return {
         dayKey: dayKey,
-        hourLine: hours,
+        labels: hours,
         email: email,
         series: {
             'Goal': goalLine,
             'Production': productionLine
-        }
+        },
+        datasets: [{
+                ...colorSchemes[0],
+                label: 'Goal',
+                data: goalLine
+            },
+            {
+                ...colorSchemes[1],
+                label: 'Production',
+                data: productionLine
+            }
+        ]
     }
 }
 

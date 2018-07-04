@@ -14,7 +14,6 @@ class App extends Component {
     }
 
     componentDidUpdate(){
-        console.log('componentDidUpdate');
         if(this.props.EntryEmail && !this.props.Loaded) this.props.fetchAndInitialize(this.props.EntryEmail);
     }
 

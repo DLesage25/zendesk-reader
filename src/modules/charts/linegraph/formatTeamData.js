@@ -6,10 +6,6 @@ import colorSchemes from './colorScheme';
 // 	let teamLinegraphData = awaitformatTeamChartData(programData);
 // }
 
-const formatIndividualChartData = async(programData) => {
-	let productivity = programData.productivity;
-
-}
 
 const formatChartData = async(programData) => {
     let groupedData = await groupAllData(programData);

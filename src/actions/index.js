@@ -115,7 +115,6 @@ export function fetchUserData(email){
 
 export function getLinegraphData(programData) {
     return async dispatch => {
-        console.log('teamLinegraph data', programData);
         // let teamGraphData = await formatTeamLinegraphData.formatChartData(programData);
         // let individualGraphData = await formatIndividualLinegraphData.formatChartData(programData);
         let [

@@ -1,8 +1,6 @@
 export default (state = null, action) => {
     switch (action.type) {
         case 'SET_ENTRY':
-
-            console.log('reducer running', action)
             /**
              * TODO: Work case:
              * What happens if email by provided google authenticator,
