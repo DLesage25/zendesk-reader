@@ -3,6 +3,7 @@ import Types from './types'
 import dataTypes from '../components/dataTypes';
 import FB from 'firebase';
 import rest from 'restler';
+import moment from 'moment-timezone';
 
 import formatTeamLinegraphData from '../modules/charts/linegraph/formatTeamData';
 import formatIndividualLinegraphData from '../modules/charts/linegraph/formatIndividualData';
@@ -86,37 +87,8 @@ export function fetchUserData(email){
     });};
 };
 
-// export function fetchAndInitialize(email){
-//     return async dispatch => {
-//         const userID = email2id(email);
-//         let userData = await get('users/byUserId/' + userID);
-//         console.log(userData);
-//         let productionData = await get(userData.program + '/productivity');
-//         // if(!userData.userSettings){
-//         //     const newUser = newSettings();
-//         //     userSettings = newSett;
-//         //     postSettings2(userID,newSett);
-//         // }
-//         const payload = {
-//             userData : {
-//                 ...userData
-//                 //userSettings         : userSettings,
-//             },
-//             productionData          : productionData
-//         };
-
-//         return dispatch({ type: FETCH_ALL_DATA, payload: payload });
-//     }
-// };
-
-// async function getIndividualLineGraphData(programData) {
-    
-// }
-
 export function getLinegraphData(programData) {
     return async dispatch => {
-        // let teamGraphData = await formatTeamLinegraphData.formatChartData(programData);
-        // let individualGraphData = await formatIndividualLinegraphData.formatChartData(programData);
         let [
             teamGraphData,
             individualGraphData
@@ -144,7 +116,7 @@ export function fetchAndInitialize(email){
             programData
         ] = await Promise.all([
             get('users/byUserId/' + userID),
-            get('khan/')
+            get('khan/') //fix this
             //get(program + '/production')
         ]);
 
@@ -159,10 +131,10 @@ export function fetchAndInitialize(email){
                 ...userData
                 //userSettings         : userSettings,
             },
-            programData          : programData
+            programData          : programData,
+            date: moment().format('MM_DD_YY')
         };
 
-        console.log('prettyobject', prettyObject)
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
     }
 };
