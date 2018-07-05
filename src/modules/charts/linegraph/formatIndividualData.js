@@ -50,20 +50,24 @@ const buildDayObjects = async(dayKey, dayData, goal, email) => {
 const getSeries = async(dayData, hours, dayKey, goal, email) => {
     let goalLine = [];
     let productionLine = [];
+    let checkedHours = [];
 
     hours.map(async(hour) => {
         let index = dayData[hour];
 
         //convert to array
         index = Object.keys(index).map(function(key) { return index[key]; });
+
         //filter out by user email
         index = _.find(index, function(o) { return o.email === email })
 
         if (index) {
             let totalHourlyGoal = Number(index.goal);
             let totalHourlyProd = Number(index[goal]);
+
             goalLine.push(totalHourlyGoal);
             productionLine.push(totalHourlyProd);
+            checkedHours.push(hour);
         } else {
             return true;
         }
@@ -71,7 +75,7 @@ const getSeries = async(dayData, hours, dayKey, goal, email) => {
 
     return {
         dayKey: dayKey,
-        labels: hours,
+        labels: checkedHours,
         email: email,
         series: {
             'Goal': goalLine,

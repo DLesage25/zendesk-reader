@@ -30,6 +30,7 @@ class IndividualLinegraphRenderer extends Component {
 		    })
 		    .filter(function(item){ return item; 
 		});
+		    console.log('groups', groups)
 
     	return groups.map((group) => {
     		if (group.length > 1) {
