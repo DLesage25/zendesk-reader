@@ -132,18 +132,12 @@ export function fetchAndInitialize(email){
                 //userSettings         : userSettings,
             },
             programData          : programData,
-            date: moment().format('MM_DD_YY')
+            globalDate: moment().format('MM_DD_YY')
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
     }
 };
-
-// function createNewUser() {
-//     return new Promise(resolve => {
-
-//     })
-// }
 
 // export async function fetchInsight(userID){
 //     const [

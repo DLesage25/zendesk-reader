@@ -10,7 +10,8 @@ export default (state = null, action) => {
             return {
                 ...state,
                 userData: action.payload.userData,
-                programData: action.payload.programData
+                programData: action.payload.programData,
+                globalDate: action.payload.globalDate
             }
     }
     return state;

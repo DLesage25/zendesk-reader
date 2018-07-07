@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect }            from 'react-redux';
+
 import moment from 'moment-timezone';
 
 import CardComponent from './cardComponent'
@@ -63,6 +65,15 @@ class IndividualLinegraphRenderer extends Component {
 				</div>	
 				)
 	}	
+}
+
+function mapStateToProps(state){
+    const {
+        graphData
+    } = state;
+    return { 
+        GraphData : graphData
+    };
 }
 
 export default IndividualLinegraphRenderer;
