@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
+import moment from 'moment-timezone';
 
 import { filterIndividualProductivity } from '../actions';
-
-import moment from 'moment-timezone';
 
 import CardComponent from './cardComponent'
 import Linegraph from './linegraph_individual'
@@ -32,12 +31,7 @@ class IndividualLinegraphRenderer extends Component {
         return data[data.length - 1]; //returning last record for now
 	}
 
-
-	//I cannot filter with function because of setstte error, which seems to be ecause of the function in the render mehtod
-
     renderLinegraphs ({data}) {
-
-    	console.log('filteredindividualprod', data)
     	//ordering all production data in groups of 2
     	var groups = _.map(data, function(item, index){
 		    return index % 2 === 0 ? data.slice(index, index + 2) : null; 
@@ -69,7 +63,6 @@ class IndividualLinegraphRenderer extends Component {
     }
 
 	render() {
-		console.log(this.props)
         const { FilteredIndividualProductivity, GlobalDate } = this.props;
 		return (
 				<div>
@@ -86,7 +79,6 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state){
-	console.log('state', {state})
     const {
   		startupData,
 		filteredIndividualProductivity
