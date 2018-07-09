@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
+
+import { filterIndividualProductivity } from '../actions';
 
 import moment from 'moment-timezone';
 
@@ -8,31 +11,38 @@ import Linegraph from './linegraph_individual'
 import dataTypes from './dataTypes'
 
 class IndividualLinegraphRenderer extends Component {
-
     constructor(props){
         super(props);
+        this.state = {
+        	globalDate: 'GlobalDate' in this.props ? this.props.GlobalDate : moment().format('MM_DD_YY')
+        };
+    
+    }
 
-        this.state = {};
-        this.state.individualProductivity = this.props.individualProductivity;
+    componentWillMount() {
+        if (!this.props.FilteredIndividualProductivity) this.props.filterIndividualProductivity(this.props.individualProductivity, this.props.GlobalDate);	
+    }
 
+    componentDidUpdate(){
+        console.log('componentDidUpdate IndividualLinegraphRenderer', this.props);
     }
 
 	renderData() {
         let data = this.props.data;
         return data[data.length - 1]; //returning last record for now
-
 	}
 
-    renderLinegraphs () {
 
-    	let individualProductivity = this.props.individualProductivity;
+	//I cannot filter with function because of setstte error, which seems to be ecause of the function in the render mehtod
 
-    	var groups = _.map(individualProductivity, function(item, index){
-		    return index % 2 === 0 ? individualProductivity.slice(index, index + 2) : null; 
+    renderLinegraphs ({data}) {
+
+    	console.log('filteredindividualprod', data)
+    	//ordering all production data in groups of 2
+    	var groups = _.map(data, function(item, index){
+		    return index % 2 === 0 ? data.slice(index, index + 2) : null; 
 		    })
-		    .filter(function(item){ return item; 
-		});
-		    console.log('groups', groups)
+		    .filter(function(item){ return item; })
 
     	return groups.map((group) => {
     		if (group.length > 1) {
@@ -59,21 +69,32 @@ class IndividualLinegraphRenderer extends Component {
     }
 
 	render() {
+		console.log(this.props)
+        const { FilteredIndividualProductivity, GlobalDate } = this.props;
 		return (
 				<div>
-                    {this.renderLinegraphs()}
+                    { !FilteredIndividualProductivity ? <p> Loading </p> : this.renderLinegraphs(FilteredIndividualProductivity, GlobalDate) }
 				</div>	
 				)
 	}	
 }
 
+function mapDispatchToProps(dispatch){
+    return bindActionCreators({
+        filterIndividualProductivity : filterIndividualProductivity
+    }, dispatch);
+}
+
 function mapStateToProps(state){
+	console.log('state', {state})
     const {
-        graphData
+  		startupData,
+		filteredIndividualProductivity
     } = state;
     return { 
-        GraphData : graphData
+        GlobalDate : startupData.globalDate,
+        FilteredIndividualProductivity: filteredIndividualProductivity
     };
 }
 
-export default IndividualLinegraphRenderer;
+export default connect(mapStateToProps, mapDispatchToProps)(IndividualLinegraphRenderer);

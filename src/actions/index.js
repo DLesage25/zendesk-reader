@@ -11,7 +11,8 @@ import formatIndividualLinegraphData from '../modules/charts/linegraph/formatInd
 const {
     FETCH_ALL_DATA,
     SET_ENTRY,
-    GRAPH_DATA
+    GRAPH_DATA,
+    FILTER_INDIVIDUAL_PRODUCTIVITY
 } = Types;
 
 let AccessData = {
@@ -139,21 +140,23 @@ export function fetchAndInitialize(email){
     }
 };
 
-// export async function fetchInsight(userID){
-//     const [
-//         received,
-//         authored
-//     ] = await Promise.all([
-//         get('peerinsights/current/responses/byUser/' + userID),
-//         get('peerinsights/current/responses/byAuthor/' + userID)
-//     ]);
-//     return dispatch => {
-//         dispatch({ 
-//             type    : FETCH_TARGET_INSIGHTS,
-//             payload : {
-//                 received : received,
-//                 made     : authored
-//             }
-//         });
-//     };
-// };
+export function filterIndividualProductivity(individualProductivity, globalDate) {
+    return async dispatch => {
+
+        let filteredProductivity = individualProductivity.map((userIndex) => {
+            userIndex.productivity = _.filter(userIndex.productivity, function(o) { return o.series.Goal.length || o.series.Production.length })
+
+            let dayKeys = userIndex.productivity.map((index) => { return index.dayKey })
+
+            if (dayKeys.indexOf(globalDate) >= 0) {
+                return userIndex;
+            } else {
+                return null;
+            }
+        })
+
+        filteredProductivity = _.filter(filteredProductivity, function(item) { return item; });
+
+        return dispatch({ type: FILTER_INDIVIDUAL_PRODUCTIVITY, payload: filteredProductivity });
+    }
+}
