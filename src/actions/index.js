@@ -7,6 +7,8 @@ import moment from 'moment-timezone';
 
 import formatTeamLinegraphData from '../modules/charts/linegraph/formatTeamData';
 import formatIndividualLinegraphData from '../modules/charts/linegraph/formatIndividualData';
+import formatQueueData from '../modules/charts/linegraph/formatQueueData';
+
 
 const {
     FETCH_ALL_DATA,
@@ -92,16 +94,21 @@ export function getLinegraphData(programData) {
     return async dispatch => {
         let [
             teamGraphData,
-            individualGraphData
+            individualGraphData,
+            queueData
         ] = await Promise.all([
             formatTeamLinegraphData.formatChartData(programData),
-            formatIndividualLinegraphData.formatChartData(programData)
+            formatIndividualLinegraphData.formatChartData(programData),
+            formatQueueData.formatChartData(programData)
         ]);
 
         let payload = {
             teamGraphData,
-            individualGraphData
+            individualGraphData,
+            queueData
         }
+
+        console.log({queueData})
 
         return dispatch({ type: GRAPH_DATA, payload: payload });
     }
