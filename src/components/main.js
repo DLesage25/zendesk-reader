@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Generalpage              from './generalPage';
+import Generalpage          from './generalPage';
 
 class Main extends Component {
     constructor(props) {

@@ -8,11 +8,11 @@ export default class Linegraph extends Component {
     constructor(props) {
         super(props);
 
-        var chartOptions = {
-            legend: {
-                display: true
-            }
-        };
+        // var chartOptions = {
+        //     legend: {
+        //         display: true
+        //     }
+        // };
 
         var data = this.props.data;
         this.state = {

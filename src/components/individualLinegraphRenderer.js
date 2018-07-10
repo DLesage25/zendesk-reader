@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import moment from 'moment-timezone';
+import _ from 'lodash';
 
 import { filterIndividualProductivity } from '../actions';
 
 import CardComponent from './cardComponent'
 import Linegraph from './linegraph_individual'
-import dataTypes from './dataTypes'
 
 class IndividualLinegraphRenderer extends Component {
     constructor(props){
@@ -15,11 +15,10 @@ class IndividualLinegraphRenderer extends Component {
         this.state = {
         	globalDate: 'GlobalDate' in this.props ? this.props.GlobalDate : moment().format('MM_DD_YY')
         };
-    
     }
 
     componentWillMount() {
-        if (!this.props.FilteredIndividualProductivity) this.props.filterIndividualProductivity(this.props.individualProductivity, this.props.GlobalDate);	
+        if (!this.props.FilteredIndividualProductivity) this.props.filterIndividualProductivity(this.props.GraphData, this.props.GlobalDate);	
     }
 
     componentDidUpdate(){
@@ -27,11 +26,13 @@ class IndividualLinegraphRenderer extends Component {
     }
 
 	renderData() {
-        let data = this.props.data;
-        return data[data.length - 1]; //returning last record for now
+        let props = this.props;
+        let data = props.GraphData;
+        let selectedData = _.find(data, function(o) {return o.dayKey === props.globalDate})
+        return selectedData; 
 	}
 
-    renderLinegraphs ({data}) {
+    renderLinegraphs ({data}, GlobalDate) {
     	//ordering all production data in groups of 2
     	var groups = _.map(data, function(item, index){
 		    return index % 2 === 0 ? data.slice(index, index + 2) : null; 
@@ -43,10 +44,10 @@ class IndividualLinegraphRenderer extends Component {
     			return (
 		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px' }}>
 			        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" >
-			        		<Linegraph  width="500" height="280" data={ group[0].productivity } renderData={this.renderData } />
+			        		<Linegraph  width="500" height="280" GraphData={ group[0].productivity } renderData={this.renderData } globalDate={GlobalDate} />
 			        	</CardComponent>
 			        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title={group[1].email} description="Today's production" body="these are some stats" >
-			        		<Linegraph  width="500" height="280" data={ group[1].productivity } renderData={this.renderData } />
+			        		<Linegraph  width="500" height="280" GraphData={ group[1].productivity } renderData={this.renderData } globalDate={GlobalDate} />
 			        	</CardComponent>
 		        	</div>
     			)
@@ -54,7 +55,7 @@ class IndividualLinegraphRenderer extends Component {
     			return (
 		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px' }}>
 			        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" >
-			        		<Linegraph  width="500" height="280" data={ group[0].productivity } renderData={this.renderData } />
+			        		<Linegraph  width="500" height="280" GraphData={ group[0].productivity } renderData={this.renderData } globalDate={GlobalDate} />
 			        	</CardComponent>
 		        	</div>
     			)

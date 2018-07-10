@@ -5,11 +5,13 @@ import { connect }            from 'react-redux';
 import { getLinegraphData } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
+import TeamLinegraphRenderer from './teamLinegraphRenderer'
 
 import Card from './card'
 import CardComponent from './cardComponent'
 import Table from './table3'
 import Linegraph from './linegraph'
+import Linegraph2 from './linegraph_individual'
 import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
 import dataTypes from './dataTypes'
@@ -36,18 +38,9 @@ class Generalpage extends Component {
 		return (
 		    	<div className="col-large" style={{ marginTop: '100px', width: '100%' }}>
 		      		<Card title={programName}>
-					   <div className="row" style={{ marginBottom: '20px' }}>
-				        	<CardComponent marginLeft='30px' size="col-lg-12" title="Team Performance" description="The incoming volume for the last 24 hrs" body="these are some stats" >
-				        		<Linegraph width="1000" height="280" data={ this.state.dataTypes.linegraph3 } />
-				        	</CardComponent>
-			        	</div>
-					   <div className="row" style={{ marginBottom: '20px' }}>
-				        	<CardComponent marginLeft='30px' size="col-lg-12" title="Queue volume" description="The incoming volume for the last 24 hrs" body="these are some stats" >
-				        		<Linegraph  width="1000" height="280" data={ this.state.dataTypes.linegraph1 } />
-				        	</CardComponent>
-			        	</div>
 
-			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer individualProductivity={this.props.GraphData.individualGraphData}/> }
+			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData}/> }
+			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData}/> }
 			        	
 			        	<hr />
 			        	<div className="row">

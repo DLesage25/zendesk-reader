@@ -67,6 +67,7 @@ const getSeries = async(dayData, hours, dayKey, goal) => {
         let queueNames = Object.keys(index);
 
         queueNames.map((queueName) => {
+            if(queueName === 'type') return true;
             let queueLoad = index[queueName];
 
             if (queueLoad === 'NaN') queueLoad = null;
