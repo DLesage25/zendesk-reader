@@ -39,7 +39,7 @@ class TeamLinegraphRenderer extends Component {
                         </CardComponent>
                     </div>
                     <div className="row" style={{ marginBottom: '20px' }}>
-                        <CardComponent marginLeft='30px' size="col-lg-12" title="Queue volume" description="The incoming volume for the last 24 hrs" body="these are some stats" >
+                        <CardComponent marginLeft='30px' size="col-lg-12" title="Queue volume" description="Today's incoming ticket volume" body="these are some stats" >
                             <Linegraph  width="1000" height="280" data={ queueData } renderData={this.renderData } globalDate={GlobalDate} />
                         </CardComponent>
                     </div>

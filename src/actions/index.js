@@ -109,8 +109,14 @@ export function postProgramSettings(program, settings) {
 //the getprogram function should pull all users from /users in FB and filter using that
 export async function getProgramRoster(program) {
     let users = await get('/users/byUserId');
+    let userTree = {};
 
-    return _.filter(users, function(o){ return o.program.toLowerCase() === program })
+    _.filter(users, function(o){ return o.program.toLowerCase() === program }).map((user) => {
+        let userID = email2id(user.email);
+        userTree[userID] = user;
+    })
+
+    return userTree;
 }
 
 //leave this for prod, ut fixed o pull from actual bamboo api
