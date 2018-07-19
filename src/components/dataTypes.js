@@ -4,13 +4,13 @@ dataTypes.linegraph1 = {
     labels: ["8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM"],
     datasets: [{
             label: "New teacher tickets",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
+            fillColor: "rgba(144, 198, 149, 0.2)",
+            strokeColor: "rgba(144, 198, 149, 1)",
+            pointColor: "rgba(144, 198, 149, 1)",
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [65, 59, 80, 81, 56, 55, 40, 0, 14, 12]
+            pointHighlightStroke: "rgba(144, 198, 149, 1)",
+            data: [65, null, 80, null, 56, 55, 40, 0, 14, 12]
         },
         {
             label: "New instructor tickets",
