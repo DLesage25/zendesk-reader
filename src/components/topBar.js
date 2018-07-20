@@ -18,25 +18,45 @@ const secondaryOpts = [
 export default class TopBar extends Component {
     constructor(props) {
         super(props);
-        this.state       = { userType: 'univeral' };
+        this.state       = { 
+        						userType: 'univeral',
+        						scrolled: false
+        					 };
         this.onClick     = this.onClick.bind(this);
         this.renderLinks = this.renderLinks.bind(this);
+        this.getScrollClasses = this.getScrollClasses.bind(this);
     }
+
+    componentDidUpdate() {
+    	if (this.state.scrolled !== this.props.scrolled) this.setState({scrolled: this.props.scrolled})
+    }
+
+    getScrollClasses (component) {
+        switch(component) {
+            case 'top-menu':
+                if (!this.state.scrolled) {
+                    return 'top-menu'
+                } else {
+                    return 'top-menu scrolled-top-menu'   
+                }
+        }
+    }
+
 	render() {
 		return (
-				 <nav className="top-menu" style={{ height: '80px', background: '#ffffff', borderBottom: '1px solid #dfe4ed', zIndex: '110', position: 'fixed', top: '0px', left: '0px', right: '0px', backgroundColor: 'rgba(0,0,0,.03)' }}>
+				 <nav className={this.getScrollClasses('top-menu')} style={{ height: '50px', background: '#ffffff', borderBottom: '1px solid #dfe4ed', zIndex: '110', position: 'fixed', top: '0px', left: '0px', right: '0px', backgroundColor: 'rgba(0,0,0,.03)', boxShadow: '0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1)' }}>
 				    <div className="menu-icon-container hidden-md-up">
 				        <div className="animate-menu-button left-menu-toggle">
 				            <div />
 				        </div>
 				        </div>
-				        <div className="menu" style={{ height: '80px', padding: '21px 16px'}}>
+				        <div className="menu" style={{ height: '50px', padding: '21px 16px'}}>
 				            <div className="menu-info-block">
 				                <div className="header-buttons" style={{boxSizing: 'inherit'}}>
-				                    <div style={{float: 'left', width:'50%'}}>
+				                    <div style={{float: 'left', width:'50%', marginTop: '-15px'}}>
 			                            {this.renderLinks(primaryOpts,'left')}
 				                    </div>
-				                    <div style={{float: 'right', width:'23%'}}>
+				                    <div style={{float: 'right', width:'23%', marginTop: '-15px'}}>
 			                            {this.renderLinks(secondaryOpts,'right')}
 				                    </div>
 				                </div>
