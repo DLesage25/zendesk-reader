@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import Generalpage              from './generalPage';
+import Generalpage          from './generalPage';
 
 class Main extends Component {
     constructor(props) {
         super(props);
-        this.state        = { hasError: false };
+        this.state        = { 
+                hasError: false,
+                scroll: 0
+            };
         this.onGetStarted = this.onGetStarted.bind(this);
     }
     componentDidCatch(){ this.setState({ hasError : true }); }

@@ -31,7 +31,7 @@ export default class Dropdown extends Component {
 			        </div>
 			        <a className="button">
 			        	<i className= { this.state.icon } style={{marginLeft: 10, marginTop: 10}} />
-			            <span className="hidden-lg-down noselect" style={{marginLeft: 10, fontWeight: 600 }}> { this.props.text } </span>
+			            <span className="hidden-lg-down noselect top-link" style={{marginLeft: 10, fontWeight: 600 }}> { this.props.text } </span>
 			        </a>
 			    </div>
 				)
