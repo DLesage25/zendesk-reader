@@ -36,7 +36,7 @@ class Generalpage extends Component {
         const { data, GraphData } = this.props;
 		const programName = data.programData.settings.prettyName;
 		return (
-		    	<div className="col-large" style={{ marginTop: '100px', width: '100%' }}>
+		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
 		      		<Card title={programName}>
 
 			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData}/> }

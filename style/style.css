@@ -9,3 +9,7 @@
  width:100%;
  border-top:1px solid gray;
 }
+
+.top-link {
+	font-weight: 400 !important;
+}
