@@ -219,7 +219,8 @@ export function fetchAndInitialize(email) {
                 //userSettings         : userSettings,
             },
             programData: programData,
-            globalDate: moment().format('MM_DD_YY')
+            globalDate: moment().format('MM_DD_YY'),
+            selectedProgram: program
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });

@@ -5,7 +5,8 @@ export default (state = null, action) => {
                 ...state,
                 userData: action.payload.userData,
                 programData: action.payload.programData,
-                globalDate: action.payload.globalDate
+                globalDate: action.payload.globalDate,
+                selectedProgram: action.payload.selectedProgram
             }
     }
     return state;

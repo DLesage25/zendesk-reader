@@ -63,7 +63,8 @@ function mapStateToProps(state){
         startupData
     } = state;
     return { 
-        GlobalDate : startupData.globalDate
+        GlobalDate : startupData.globalDate,
+        SelectedProgram : startupData.selectedProgram,
     };
 }
 
