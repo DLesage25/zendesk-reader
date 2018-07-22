@@ -18,6 +18,12 @@
 .top-link {
 	font-weight: 400 !important;
     color: #e05130;
+	-webkit-transition: display 0.3s ease;
+
+}
+
+.scrolled-top-link {
+	display: none;
 }
 
 .scrolled-top-menu {
@@ -31,4 +37,12 @@
 
 .scrolled-top-float {
 	margin-top: -19px;
+}
+
+.card-title {
+	font-weight: 300;
+}
+
+.text-muted {
+	font-weight: 300;
 }

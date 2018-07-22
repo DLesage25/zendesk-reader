@@ -29,7 +29,7 @@ export default class CardComponent extends Component {
 
 		return (
 	            <div className={ this.state.size } style={{ maxWidth: this.state.maxWidth, marginBottom: this.state.marginBottom, marginLeft: this.state.marginLeft }}>
-	                <h5 className="text-black"><strong> { this.state.title } </strong></h5>
+	                <h5 className="text-black card-title"><strong> { this.state.title } </strong></h5>
 	                <p className="text-muted"> { this.state.description } </p>
 	                <div className="mb-5">
 	                    <div height="466" id="chart-line" style={{display: 'block', height: this.state.divHeight , width: this.state.bodyWidth }}>
