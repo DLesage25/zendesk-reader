@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux';
 import ViewLink from './viewLink.js';
 
 const primaryOpts = [
-    { text: 'Team stats', icon: 'fa fa-signal top-link'},
-    { text: 'User stats', icon: 'fa fa-user top-link'},
+    { text: 'Live stats', icon: 'fa fa-signal top-link'},
     { text: 'Forecasting', icon: 'fa fa-superscript  top-link'}
 ];
 
@@ -45,6 +44,13 @@ export default class TopBar extends Component {
                     return 'top-float'
                 } else {
                     return 'scrolled-top-float top-float'   
+                }
+                break;
+            case 'viewLink':
+                if (!this.state.scrolled) {
+                    return 'hidden-lg-down noselect top-link'
+                } else {
+                    return 'hidden-lg-down noselect scrolled-top-link top-link'   
                 }
                 break;
         }
@@ -86,7 +92,7 @@ export default class TopBar extends Component {
 	        return(
 	            <ViewLink
 	                name        = {uniqueID}
-	                spanClassname   = 'hidden-lg-down noselect top-link'
+	                spanClassname   = {this.getScrollClasses('viewLink')}
 	                id          = {uniqueID}
 	                key         = {uniqueID}
 	                text        = {text}
