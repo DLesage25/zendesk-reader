@@ -2,12 +2,12 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import colorSchemes from './colorScheme';
 
-const formatChartData = async(programData) => {
+const formatChartData = async(programData, productivityData) => {
     let teamEmails = await getTeamEmails(programData);
     let teamObjects = [];
 
     teamEmails.map(async(email) => {
-        let groupedData = await extractAgentProductivity(email, programData);
+        let groupedData = await extractAgentProductivity(email, programData, productivityData);
 
         let userPayload = {
             email: email,
@@ -27,14 +27,13 @@ const getTeamEmails = async(programData) => {
     })
 }
 
-const extractAgentProductivity = async(email, programData) => {
-    let productivity = programData.productivity;
+const extractAgentProductivity = async(email, programData, productivityData) => {
     let goal = programData.settings.goal;
-    let days = Object.keys(productivity);
+    let days = Object.keys(productivityData);
     let groupedData = [];
 
     days.map(async(dayKey) => {
-        let dayData = productivity[dayKey];
+        let dayData = productivityData[dayKey];
         let dayObjects = await buildDayObjects(dayKey, dayData, goal, email)
         groupedData.push(dayObjects)
     })

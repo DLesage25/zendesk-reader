@@ -7,14 +7,14 @@ import colorSchemes from './colorScheme';
 // }
 
 
-const formatChartData = async(programData) => {
-    let groupedData = await groupAllData(programData);
+const formatChartData = async(programData, productivityData) => {
+    let groupedData = await groupAllData(programData, productivityData);
     let formattedData = await formatAllData(groupedData);
     return formattedData;
 }
 
-const groupAllData = async(programData) => {
-    let groupedData = await processAllDays(programData);
+const groupAllData = async(programData, productivityData) => {
+    let groupedData = await processAllDays(programData, productivityData);
     return groupedData;
 }
 
@@ -41,14 +41,13 @@ const formatAllData = async(groupedData) => {
     })
 }
 
-const processAllDays = async(programData) => {
-	let productivity = programData.productivity;
+const processAllDays = async(programData, productivityData) => {
     let goal = programData.settings.goal;   
-    let days = Object.keys(productivity);
+    let days = Object.keys(productivityData);
     let groupedData = [];
 
     days.map(async(dayKey) => {
-        let dayData = productivity[dayKey];
+        let dayData = productivityData[dayKey];
         let formattedDayData = await buildDayObject(dayKey, dayData, goal)
         groupedData.push(formattedDayData)
     })
