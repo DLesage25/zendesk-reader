@@ -20,13 +20,13 @@ export default class Card extends Component {
     }
 
 	render() {
-		const array = ['01/05/1995', '03/05/1996', '08/12/1865'];
+		const {globalDate, dateList} = this.props;
 		return (
 				<section className="card">
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
 				            <a className="btn btn-sm btn-primary ml-2 dropdown-toggle" href="http://www.chartjs.org/" target="_blank"> { this.state.title } <i className="icmn-link ml-1"></i></a>
-				            <Dropdown current={array[0]} options={array} />
+				            <Dropdown current={globalDate} options={dateList} />
 				        </span>
 				    </div>
 				    <div className="card-body">

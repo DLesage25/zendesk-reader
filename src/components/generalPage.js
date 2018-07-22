@@ -25,18 +25,19 @@ class Generalpage extends Component {
         this.state.dataTypes = dataTypes;
 
         if (!this.props.GraphData) this.props.getLinegraphData(this.props.data.programData, this.props.data.productivityData)
-
     }
 
-    componentDidUpdate(){
+    getDateList(productivityData){
+        return Object.keys(productivityData);
     }
 
 	render() {
+        console.log('general props', this.props);
         const { data, GraphData } = this.props;
 		const programName = data.programData.settings.prettyName;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		<Card title={programName}>
+		      		<Card title={programName} globalDate={data.globalDate} dateList={this.getDateList(data.productivityData)}>
 
 			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData}/> }
 			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData}/> }

@@ -15,7 +15,7 @@ export default class Dropdown extends Component {
 
     renderOptions(options) {
     	return options.map((option) => {
-    		return <a key={option} className="dropdown-item" href="#"> {option} </a>
+    		return <a key={option} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
     	})
     }
 
@@ -23,7 +23,7 @@ export default class Dropdown extends Component {
 		return (
 			<div className="dropdown">
 			  <button type="button" className="btn btn-sm btn-secondary ml-2 dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    {this.state.current}
+			    {this.state.current.replace(/_/g, '/')}
 			  </button>
 			  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 			  	{this.renderOptions(this.state.options)}
