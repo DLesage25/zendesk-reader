@@ -13,7 +13,6 @@ class Signed extends Component {
 
         this.state         = { 
                                 view : 'generalPage',
-                                scroll: 0,
                                 scrolled: false
                             };
     }
