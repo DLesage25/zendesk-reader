@@ -20,7 +20,6 @@ class TeamLinegraphRenderer extends Component {
         let props = this.props;
         let data = props.data;
         let selectedData = _.find(data, function(o) {return o.dayKey === props.globalDate})
-        console.log({selectedData})
         return selectedData; 
     }
 

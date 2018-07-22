@@ -22,7 +22,6 @@ class IndividualLinegraphRenderer extends Component {
     }
 
     componentDidUpdate(){
-        console.log('componentDidUpdate IndividualLinegraphRenderer', this.props);
     }
 
 	renderData() {

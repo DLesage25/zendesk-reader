@@ -20,7 +20,6 @@ class App extends Component {
     render() {
         console.log('app props', this.props)
         const { EntryEmail, StartupData, Loaded } = this.props;
-        if(!EntryEmail) return <div style ={{maxWidth:'1400px'}}> Logging in ... </div>;
         return(
             <div>
                 { 
@@ -34,7 +33,7 @@ class App extends Component {
                                 transform:  'translate(-50%,-50%)'
                             }}
                         >
-                        <p> Loading... </p>
+                            <p> Loading... </p>
                         </div>
                     </div>
                     : <Signed data={StartupData} />

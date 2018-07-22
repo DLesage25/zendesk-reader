@@ -184,7 +184,6 @@ export function getLinegraphData(programData) {
 export function fetchAndInitialize(email) {
     return async dispatch => {
         const userID = email2id(email);
-        console.log(userID);
         const program = 'grindr'
         let [
             userData,
@@ -197,11 +196,7 @@ export function fetchAndInitialize(email) {
 
         console.log({userData}, {programData})
 
-        // let userData = await get('users/byUserId/' + userID);
-        // let programData = await get(programName + '/');
-
         //1. I need a way of determining the program(s) a user is in/ has access to
-        //2. I need to check if program has settings, and if not include them
 
         if (!programData.settings) {
             console.log('no settings')
@@ -216,7 +211,6 @@ export function fetchAndInitialize(email) {
         const prettyObject = {
             userData: {
                 ...userData
-                //userSettings         : userSettings,
             },
             programData: programData,
             globalDate: moment().format('MM_DD_YY'),

@@ -29,7 +29,6 @@ class Generalpage extends Component {
     }
 
     componentDidUpdate(){
-        console.log('componentDidUpdate general', this.props);
     }
 
 	render() {
