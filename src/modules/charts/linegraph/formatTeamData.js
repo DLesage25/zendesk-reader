@@ -2,11 +2,6 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import colorSchemes from './colorScheme';
 
-// const formatChartData = async(programData) => {
-// 	let teamLinegraphData = awaitformatTeamChartData(programData);
-// }
-
-
 const formatChartData = async(programData, productivityData) => {
     let groupedData = await groupAllData(programData, productivityData);
     let formattedData = await formatAllData(groupedData);
@@ -55,8 +50,8 @@ const processAllDays = async(programData, productivityData) => {
 }
 
 const buildDayObject = async(dayKey, dayData, goal) => {
-    let hours = Object.keys(dayData);
-    let dayObject = await getSeries(dayData, hours, dayKey, goal);
+    let hours = Object.keys(dayData.byHour);
+    let dayObject = await getSeries(dayData.byHour, hours, dayKey, goal);
     return dayObject;
 }
 

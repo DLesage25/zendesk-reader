@@ -44,8 +44,8 @@ const processAllDays = async(programData, productivityData) => {
 }
 
 const buildDayObject = async(dayKey, dayData) => {
-    let hours = Object.keys(dayData);
-    let dayObject = await getSeries(dayData, hours, dayKey);
+    let hours = Object.keys(dayData.byHour);
+    let dayObject = await getSeries(dayData.byHour, hours, dayKey);
     return dayObject;
 }
 

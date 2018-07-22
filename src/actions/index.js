@@ -198,7 +198,7 @@ export function fetchAndInitialize(email) {
             get( 'productivity/byProgram/' + program
                  + '/byYear/' + moment().year()
                  + '/byWeek/' + moment().week()
-                 + '/byDate/' + date )
+                )
         ]);
 
         console.log({userData}, {programData})

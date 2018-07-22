@@ -41,8 +41,8 @@ const extractAgentProductivity = async(email, programData, productivityData) => 
 }
 
 const buildDayObjects = async(dayKey, dayData, goal, email) => {
-    let hours = Object.keys(dayData);
-    let dayObject = await getSeries(dayData, hours, dayKey, goal, email);
+    let hours = Object.keys(dayData.byHour);
+    let dayObject = await getSeries(dayData.byHour, hours, dayKey, goal, email);
     return dayObject;
 }
 
