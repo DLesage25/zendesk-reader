@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import CardComponent from './cardComponent'
+import Dropdown from './dropdown'
 
 export default class Card extends Component {
     constructor(props){
@@ -15,14 +16,17 @@ export default class Card extends Component {
             text: 'text' in this.props ? this.props.text : '<default text>'
         };
 
+
     }
 
 	render() {
+		const array = ['01/05/1995', '03/05/1996', '08/12/1865'];
 		return (
 				<section className="card">
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
 				            <a className="btn btn-sm btn-primary ml-2 dropdown-toggle" href="http://www.chartjs.org/" target="_blank"> { this.state.title } <i className="icmn-link ml-1"></i></a>
+				            <Dropdown current={array[0]} options={array} />
 				        </span>
 				    </div>
 				    <div className="card-body">
