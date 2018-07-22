@@ -32,6 +32,34 @@ class Main extends Component {
             default:                     return <div><Generalpage onGetStarted = { this.onGetStarted } /></div>;
         };
     }
+    // renderSections() {
+    //     let {view} = this.props; 
+    //     let showCareerCalibrationOf = '';
+        
+    //     if(typeof view === 'object'){
+    //         let {ButtonText, userID} = view;
+    //         switch(ButtonText){
+    //             case 'Career Calibration':
+    //             case 'Performance Review':  
+    //                 view = ButtonText;
+    //                 showCareerCalibrationOf = userID;
+    //                 break;
+                    
+    //         }
+    //     }
+    //     switch (view) {
+    //         case 'Welcome'             : return <Welcome />;
+    //         case 'Performance Review'  : return <PerformanceReview />;
+    //         case 'Peer Insights'       : return <PeerInsights />;
+    //         case 'Feedback'            : return <Feedback />;
+    //         case 'Career Calibration'  : return <Calibration manageeID = {showCareerCalibrationOf}/>;
+    //         case 'Admin Tools'         : return <AdminTools />;
+    //         case 'Team'                : return <Team />;
+    //         case 'Settings'            : return <Settings />;
+    //         case 'Help'                : return <Help />;
+    //         default:                     return <Welcome onGetStarted = { this.onGetStarted } />;
+    //     };
+    // }
     onGetStarted(){
         if ('onGetStarted' in this.props) this.props.onGetStarted();
         else console.warn('onGetStarted event handler for main has not been defined by parent component');

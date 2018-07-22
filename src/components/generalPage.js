@@ -24,12 +24,11 @@ class Generalpage extends Component {
         this.state = {};
         this.state.dataTypes = dataTypes;
 
-        if (!this.props.GraphData) this.props.getLinegraphData(this.props.data.programData)
+        if (!this.props.GraphData) this.props.getLinegraphData(this.props.data.programData, this.props.data.productivityData)
 
     }
 
     componentDidUpdate(){
-        console.log('componentDidUpdate general', this.props);
     }
 
 	render() {

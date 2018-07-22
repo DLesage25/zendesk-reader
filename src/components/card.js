@@ -21,9 +21,8 @@ export default class Card extends Component {
 		return (
 				<section className="card">
 				    <div className="card-header">
-				        <span className="cat__core__title">
-				            <strong> { this.state.title } </strong>
-				            <a className="btn btn-sm btn-primary ml-2" href="http://www.chartjs.org/" target="_blank">Refresh <i className="icmn-link ml-1"></i></a>
+				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
+				            <a className="btn btn-sm btn-primary ml-2 dropdown-toggle" href="http://www.chartjs.org/" target="_blank"> { this.state.title } <i className="icmn-link ml-1"></i></a>
 				        </span>
 				    </div>
 				    <div className="card-body">

@@ -157,16 +157,16 @@ export function fetchUserData(email) {
     };
 };
 
-export function getLinegraphData(programData) {
+export function getLinegraphData(programData, productivityData) {
     return async dispatch => {
         let [
             teamGraphData,
             individualGraphData,
             queueData
         ] = await Promise.all([
-            formatTeamLinegraphData.formatChartData(programData),
-            formatIndividualLinegraphData.formatChartData(programData),
-            formatQueueData.formatChartData(programData)
+            formatTeamLinegraphData.formatChartData(programData, productivityData),
+            formatIndividualLinegraphData.formatChartData(programData, productivityData),
+            formatQueueData.formatChartData(programData, productivityData)
         ]);
 
         let payload = {
@@ -184,43 +184,43 @@ export function getLinegraphData(programData) {
 export function fetchAndInitialize(email) {
     return async dispatch => {
         const userID = email2id(email);
-        console.log(userID);
         const program = 'grindr'
+
+        const date = moment().format('MM_DD_YY');
+
         let [
             userData,
-            //settings,
-            programData
+            programData,
+            productivityData
         ] = await Promise.all([
             get('users/byUserId/' + userID),
-            get(program + '/')
+            get(program + '/'),
+            get( 'productivity/byProgram/' + program
+                 + '/byYear/' + moment().year()
+                 + '/byWeek/' + moment().week()
+                )
         ]);
 
         console.log({userData}, {programData})
 
-        // let userData = await get('users/byUserId/' + userID);
-        // let programData = await get(programName + '/');
-
         //1. I need a way of determining the program(s) a user is in/ has access to
-        //2. I need to check if program has settings, and if not include them
 
         if (!programData.settings) {
-            console.log('no settings')
-            //add a team then add to settings
             const team = await getProgramRoster(program);
             const settings = newSettings.program(program);
+
             settings.team = team;
             programData.settings = settings;
+
             postProgramSettings(program, settings);
         }
 
         const prettyObject = {
-            userData: {
-                ...userData
-                //userSettings         : userSettings,
-            },
+            userData: userData,
             programData: programData,
-            globalDate: moment().format('MM_DD_YY'),
-            selectedProgram: program
+            globalDate: date,
+            selectedProgram: program,
+            productivityData: productivityData
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
