@@ -10,6 +10,7 @@ class Signed extends Component {
         this.onSelectView  = this.onSelectView  .bind(this);
         this.onGetStarted  = this.onGetStarted  .bind(this);
         this.updateScroll  = this.updateScroll.bind(this);
+
         this.state         = { 
                                 view : 'generalPage',
                                 scroll: 0,
@@ -32,7 +33,7 @@ class Signed extends Component {
         return (
                 <div style = {{ maxWidth : '1400px', maxHeight : '100%' }}>
                     <TopBar onClick = {onSelectView} scrolled = {this.state.scrolled} />
-                    <Main view = {view} data={this.props.data} />
+                    <Main view = {view} data={this.props.data}  />
                     <ScrollDetector updateScroll={this.updateScroll} />
                 </div>
         );

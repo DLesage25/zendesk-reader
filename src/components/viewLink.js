@@ -13,7 +13,8 @@ export default class Dropdown extends Component {
             focused_btn    : false,
             focused_choice : false,
             icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
-            text: 'text' in this.props ? this.props.text : '<default text>'
+            text : 'text' in this.props ? this.props.text : '<default text>',
+            spanClassname : 'spanClassname' in this.props ? this.props.spanClassname : 'hidden-lg-down noselect'
         };
     }
 
@@ -31,7 +32,7 @@ export default class Dropdown extends Component {
 			        </div>
 			        <a className="button">
 			        	<i className= { this.state.icon } style={{marginLeft: 10, marginTop: 10}} />
-			            <span className="hidden-lg-down noselect top-link" style={{marginLeft: 10, fontWeight: 600 }}> { this.props.text } </span>
+			            <span className={ this.state.spanClassname } style={{marginLeft: 10, fontWeight: 600 }}> { this.props.text } </span>
 			        </a>
 			    </div>
 				)

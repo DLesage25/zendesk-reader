@@ -10,6 +10,25 @@
  border-top:1px solid gray;
 }
 
+.top-menu {
+	height: 50px;
+	-webkit-transition: height 0.3s ease;
+}
+
 .top-link {
 	font-weight: 400 !important;
+    color: #e05130;
+}
+
+.scrolled-top-menu {
+	height: 40px;
+}
+
+.top-float {
+	margin-top: -15px;
+	-webkit-transition: margin-top 0.3s ease;
+}
+
+.scrolled-top-float {
+	margin-top: -19px;
 }
