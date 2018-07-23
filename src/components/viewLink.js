@@ -32,7 +32,7 @@ export default class Dropdown extends Component {
 			        </div>
 			        <a className="button">
 			        	<i className= { this.state.icon } style={{marginLeft: 10, marginTop: 10}} />
-			            <span className={ this.state.spanClassname } style={{marginLeft: 10, fontWeight: 600 }}> { this.props.text } </span>
+			            <span className={ this.state.spanClassname } style={{marginLeft: 10 }}> { this.props.text } </span>
 			        </a>
 			    </div>
 				)
