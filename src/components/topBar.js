@@ -64,7 +64,7 @@ export default class TopBar extends Component {
 				            <div />
 				        </div>
 				        </div>
-				        <div className="menu" style={{ height: '50px', padding: '21px 16px', color: '#212529'}}>
+				        <div className="menu" style={{ height: '50px', padding: '21px 16px' }}>
 				            <div className="menu-info-block">
 				                <div className="header-buttons" style={{boxSizing: 'inherit'}}>
 				                    <div style={{float: 'left', width:'50%' }} className={this.getScrollClasses('float')} >

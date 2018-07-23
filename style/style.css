@@ -1,3 +1,7 @@
+body {
+	background-color: #ececec !important;
+}
+
 .dropdown {
 	display: inline;
 }
@@ -10,21 +14,43 @@
  border-top:1px solid gray;
 }
 
+.loader {
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #2b3f52f2;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  height: 60px;
+  width: 60px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .top-menu {
 	height: 50px;
 	-webkit-transition: height 0.3s ease;
 }
 
-.top-link {
+/*.top-link {
 	font-weight: 400 !important;
     color: #e05130;
 	-webkit-transition: display 0.3s ease;
+}*/
 
-}
+/*.top-link:hover {
+	color: #fcfcfc;
+}*/
 
-.scrolled-top-link {
+/*.scrolled-top-link {
 	display: none;
 }
+^ for removing text eventually when you scroll
+*/
 
 .scrolled-top-menu {
 	height: 40px;
@@ -35,8 +61,29 @@
 	-webkit-transition: margin-top 0.3s ease;
 }
 
+/*.top-float a, .top-float span, .top-float i {
+	-webkit-transition: margin-top 0.3s ease;
+	-webkit-transition: color 0.3s ease;
+
+	font-weight: 400;
+	color: #e05130;
+}*/
+
+.top-float a {
+	-webkit-transition: margin-top 0.3s ease;
+	-webkit-transition: color 0.3s ease;
+
+	font-weight: 400;
+	color: #e05130 !important;
+}
+
+.top-float a:hover {
+	color: #9ea9b3 !important;
+}
+
 .scrolled-top-float {
 	margin-top: -19px;
+	color: #fcfcfc;
 }
 
 .card-title {
@@ -46,3 +93,4 @@
 .text-muted {
 	font-weight: 300;
 }
+
