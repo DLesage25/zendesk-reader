@@ -18,7 +18,8 @@ const {
     FETCH_ALL_DATA,
     SET_ENTRY,
     GRAPH_DATA,
-    FILTER_INDIVIDUAL_PRODUCTIVITY
+    FILTER_INDIVIDUAL_PRODUCTIVITY,
+    CHANGE_GLOBAL_DATE
 } = Types;
 
 let AccessData = {
@@ -195,10 +196,11 @@ export function fetchAndInitialize(email) {
         ] = await Promise.all([
             get('users/byUserId/' + userID),
             get(program + '/'),
-            get( 'productivity/byProgram/' + program
-                 + '/byYear/' + moment().year()
-                 + '/byWeek/' + moment().week()
-                )
+            // get( 'productivity/byProgram/' + program
+            //      + '/byYear/' + moment().year()
+            //      + '/byWeek/' + moment().week()
+            //     )
+            get('productivity/byProgram/' + program + '/backup') //delete this, use above after testing
         ]);
 
         console.log({userData}, {programData})
@@ -220,12 +222,16 @@ export function fetchAndInitialize(email) {
             programData: programData,
             globalDate: date,
             selectedProgram: program,
-            productivityData: productivityData
+            productivityData: {byDate: productivityData} //delete inner key after testing
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
     }
 };
+
+export function changeGlobalDate(newDate) {
+    return dispatch({ type: CHANGE_GLOBAL_DATE, newDate: newDate });
+}
 
 export function filterIndividualProductivity(individualProductivity, globalDate) {
     return async dispatch => {
