@@ -41,7 +41,7 @@ class IndividualLinegraphRenderer extends Component {
     	return groups.map((group) => {
     		if (group.length > 1) {
     			return (
-		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px' }}>
+		        	<div key={group[0].email} className="row" style={{ marginBottom: '25px' }}>
 			        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" >
 			        		<Linegraph  width="500" height="280" GraphData={ group[0].productivity } renderData={this.renderData } globalDate={GlobalDate} />
 			        	</CardComponent>
