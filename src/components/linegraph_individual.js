@@ -27,11 +27,14 @@ export default class Linegraph extends Component {
 
     render() {
         const chartData = this.renderData();
-
         return (
-            <div> 
-                <LineChart data = { chartData } width = { this.state.width } height = { this.state.heigth }
-                />
+            <div>
+                {
+                    !chartData ?
+                    <p> No data to load... </p> 
+                    : <LineChart data = { chartData } width = { this.state.width } height = { this.state.heigth }
+                    />
+                }
             </div>
         )
     }
