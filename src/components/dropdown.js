@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect }            from 'react-redux';
 
-export default class Dropdown extends Component {
+import { changeGlobalDate } from '../actions';
+
+class Dropdown extends Component {
     constructor(props){
         super(props);
 
@@ -8,14 +12,12 @@ export default class Dropdown extends Component {
             current           : 'current' in this.props ? this.props.current: 'Current',
             options           : 'options' in this.props ? this.props.options : ['<default text>']
         };
-
         this.renderOptions = this.renderOptions.bind(this);
-
     }
 
     renderOptions(options) {
     	return options.map((option) => {
-    		return <a key={option} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
+    		return <a key={option} onClick={e => this.changeGlobalDate(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
     	})
     }
 
@@ -32,3 +34,12 @@ export default class Dropdown extends Component {
 		)
 	}
 }
+
+function mapDispatchToProps(dispatch){
+    return bindActionCreators({
+        changeGlobalDate : changeGlobalDate
+    }, dispatch);
+}
+
+export default connect(mapDispatchToProps)(Dropdown);
+//need to connect this to change global state based on this

@@ -7,7 +7,7 @@ import { getLinegraphData } from '../actions';
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
 
-import Card from './card'
+import ProductivityCard from './productivityCard'
 import CardComponent from './cardComponent'
 import Table from './table3'
 import Linegraph from './linegraph'
@@ -37,7 +37,7 @@ class Generalpage extends Component {
 		const programName = data.programData.settings.prettyName;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		<Card title={programName} globalDate={data.globalDate} dateList={this.getDateList(data.productivityData)}>
+		      		<ProductivityCard title={programName} globalDate={data.globalDate} dateList={this.getDateList(data.productivityData)}>
 
 			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData}/> }
 			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData}/> }

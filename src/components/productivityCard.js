@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import CardComponent from './cardComponent'
 import Dropdown from './dropdown'
 
-export default class Card extends Component {
+export default class ProductivityCard extends Component {
     constructor(props){
         super(props);
 
@@ -15,7 +15,6 @@ export default class Card extends Component {
             icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
             text: 'text' in this.props ? this.props.text : '<default text>'
         };
-
 
     }
 
@@ -36,5 +35,12 @@ export default class Card extends Component {
 		)
 	}
 
-
 }
+
+// function mapDispatchToProps(dispatch){
+//     return bindActionCreators({
+//         changeGlobalDate : changeGlobalDate
+//     }, dispatch);
+// }
+
+// export default connect(mapDispatchToProps)(ProductivityCard);
