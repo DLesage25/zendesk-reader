@@ -17,7 +17,7 @@ class Dropdown extends Component {
 
     renderOptions(options) {
     	return options.map((option) => {
-    		return <a key={option} onClick={e => this.changeGlobalDate(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
+    		return <a key={option} onClick={e => this.props.changeGlobalDate(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
     	})
     }
 
@@ -41,5 +41,12 @@ function mapDispatchToProps(dispatch){
     }, dispatch);
 }
 
-export default connect(mapDispatchToProps)(Dropdown);
+function mapStateToProps(state){
+	console.log('new staet', {state})
+    return { 
+        ...state
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdown);
 //need to connect this to change global state based on this

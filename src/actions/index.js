@@ -155,8 +155,8 @@ export function fetchUserData(email) {
         DB.ref('/users').once('value', snapshot => {
             dispatch({ type: FETCH_USER_DATA, payload: [snapshot.val(), email] });
         });
-    };
-};
+    }
+}
 
 export function getLinegraphData(programData, productivityData) {
     return async dispatch => {
@@ -227,10 +227,12 @@ export function fetchAndInitialize(email) {
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
     }
-};
+}
 
 export function changeGlobalDate(newDate) {
-    return dispatch({ type: CHANGE_GLOBAL_DATE, newDate: newDate });
+    return async dispatch => {
+        return dispatch({ type: CHANGE_GLOBAL_DATE, payload: newDate });        
+    }
 }
 
 export function filterIndividualProductivity(individualProductivity, globalDate) {

@@ -43,7 +43,7 @@ class Generalpage extends Component {
 			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData}/> }
 			        	
 			        	<hr />
-		      		</Card>
+		      		</ProductivityCard>
 		    	</div>
 				)
 	}
