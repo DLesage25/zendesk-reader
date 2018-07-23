@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 
-import { changeGlobalDate } from '../actions';
-
-class Dropdown extends Component {
+export default class Dropdown extends Component {
     constructor(props){
         super(props);
 
@@ -17,7 +15,7 @@ class Dropdown extends Component {
 
     renderOptions(options) {
     	return options.map((option) => {
-    		return <a key={option} onClick={e => this.props.changeGlobalDate(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
+    		return <a key={option} onClick={e => this.props.action(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
     	})
     }
 
@@ -34,19 +32,3 @@ class Dropdown extends Component {
 		)
 	}
 }
-
-function mapDispatchToProps(dispatch){
-    return bindActionCreators({
-        changeGlobalDate : changeGlobalDate
-    }, dispatch);
-}
-
-function mapStateToProps(state){
-	console.log('new staet', {state})
-    return { 
-        ...state
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dropdown);
-//need to connect this to change global state based on this
