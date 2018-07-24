@@ -196,11 +196,11 @@ export function fetchAndInitialize(email) {
         ] = await Promise.all([
             get('users/byUserId/' + userID),
             get(program + '/'),
-            // get( 'productivity/byProgram/' + program
-            //      + '/byYear/' + moment().year()
-            //      + '/byWeek/' + moment().week()
-            //     )
-            get('productivity/byProgram/' + program + '/backup') //delete this, use above after testing
+            get( 'productivity/byProgram/' + program
+                 + '/byYear/' + moment().year()
+                 + '/byWeek/' + moment().week()
+                )
+            //get('productivity/byProgram/' + program + '/backup') //delete this, use above after testing
         ]);
 
         console.log({userData}, {programData})
@@ -222,7 +222,7 @@ export function fetchAndInitialize(email) {
             programData: programData,
             globalDate: date,
             selectedProgram: program,
-            productivityData: {byDate: productivityData} //delete inner key after testing
+            productivityData: productivityData
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
@@ -231,6 +231,7 @@ export function fetchAndInitialize(email) {
 
 export function changeGlobalDate(newDate) {
     return async dispatch => {
+        console.log('changeGlobalDate ran', newDate)
         return dispatch({ type: CHANGE_GLOBAL_DATE, payload: newDate });        
     }
 }

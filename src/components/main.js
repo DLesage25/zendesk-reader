@@ -28,7 +28,7 @@ class Main extends Component {
     }
     renderSections(data) {
         switch (this.props.view) {
-            case 'generalPage'             : return <Generalpage data={data} />;
+            case 'generalPage'             : return <Generalpage appData={data} />;
             default:                     return <div><Generalpage onGetStarted = { this.onGetStarted } /></div>;
         };
     }
