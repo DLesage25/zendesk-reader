@@ -4,23 +4,18 @@ import { connect }            from 'react-redux';
 import moment from 'moment-timezone';
 
 import CardComponent from './cardComponent'
-import Linegraph from './linegraph_individual'
-import dataTypes from './dataTypes'
+import Linegraph from './linegraph_individual2'
 
-class TeamLinegraphRenderer extends Component {
+export default class TeamLinegraphRenderer extends Component {
     constructor(props){
         super(props);
-        this.state = {
-        	globalDate: 'GlobalDate' in this.props ? this.props.GlobalDate : moment().format('MM_DD_YY'),
-            dataTypes: dataTypes
-        };
+
+        this.renderData = this.renderData.bind(this);
     }
 
-    renderData() {
-        let props = this.props;
-        let data = props.data;
-        let selectedData = _.find(data, function(o) {return o.dayKey === props.globalDate})
-        return selectedData; 
+    renderData(data) {
+        let globalDate = this.props.globalDate;
+        return _.find(data, function(o) {return o.dayKey === globalDate});
     }
 
     //to-do: add renderdata to both team lgs and figure out if oth would require the same function
@@ -47,24 +42,25 @@ class TeamLinegraphRenderer extends Component {
     }
 
 	render() {
-		console.log('teamlinegraph', this.props)
-        const { GraphData, GlobalDate } = this.props;
+        console.log('tl state', this.state)
+        console.log('tl props', this.props)
+        const { GraphData, globalDate } = this.props;
 		return (
 				<div>
-                    { !GraphData ? <p> No graph data in TeamLinegraphRenderer </p> : this.renderLinegraphs(GraphData, GlobalDate) }
+                    { !GraphData ? <p> No graph data in TeamLinegraphRenderer </p> : this.renderLinegraphs(GraphData, globalDate) }
 				</div>	
 				)
 	}	
 }
 
-function mapStateToProps(state){
-    const {
-        startupData
-    } = state;
-    return { 
-        GlobalDate : startupData.globalDate,
-        SelectedProgram : startupData.selectedProgram,
-    };
-}
+// function mapStateToProps(state){
+//     const {
+//         startupData
+//     } = state;
+//     return { 
+//         GlobalDate : startupData.globalDate,
+//         SelectedProgram : startupData.selectedProgram,
+//     };
+// }
 
-export default connect(mapStateToProps)(TeamLinegraphRenderer);
+// export default connect(mapStateToProps)(TeamLinegraphRenderer);
