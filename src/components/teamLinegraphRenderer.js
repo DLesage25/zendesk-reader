@@ -21,9 +21,9 @@ export default class TeamLinegraphRenderer extends Component {
             teamGraphData
         } = GraphData;
         return (
-                <div>
+                <div style={{ marginBottom:'40px' }}>
                     <div className="row" style={{ marginBottom: '20px' }}>
-                        <CardComponent marginLeft='30px' size="col-lg-12" title="Team Performance" description="Actual vs expected performance" body="these are some stats" >
+                        <CardComponent marginLeft='30px' size="col-lg-12" title="Hourly throughput" description="Actual vs expected performance" body="these are some stats" >
                             <Linegraph width="1000" height="280" data={ teamGraphData } renderData={this.renderData } globalDate={globalDate} />
                         </CardComponent>
                     </div>
