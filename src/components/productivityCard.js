@@ -18,7 +18,6 @@ export default class ProductivityCard extends Component {
 
 	render() {
 		const {dateList} = this.props;
-		console.log('prod props', this.props);
 		return (
 				<section className="card">
 				    <div className="card-header">

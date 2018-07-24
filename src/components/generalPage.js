@@ -3,19 +3,16 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import moment from 'moment';
 
-import { getLinegraphData,
-        changeGlobalDate } from '../actions';
+import { getLinegraphData } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
 import ProductivityCard from './productivityCard'
 import CardComponent from './cardComponent'
+
 import Table from './table3'
-import Linegraph from './linegraph'
-import Linegraph2 from './linegraph_individual'
 import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
-import dataTypes from './dataTypes'
 
 
 
@@ -25,18 +22,15 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            globalDate: 'globalDate' in this.props.appData ? this.props.appData.globalDate : moment().format('mm/d/yyyy')
+            globalDate: 'globalDate' in this.props.appData ? this.props.appData.globalDate : moment().format('mm/dd/yyyy')
         };
 
-        this.state.dataTypes = dataTypes;
-
         if (!this.props.GraphData) this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
-        //if (!this.props.GlobalDate) this.props.changeGlobalDate(this.props.appData.globalDate)
-        this.changeGlobalDate2 = this.changeGlobalDate2.bind(this);
+
+        this.changeGlobalDate = this.changeGlobalDate.bind(this);
     }
 
-    changeGlobalDate2(newDate) {
-        console.log('changeGlobalDate2', newDate)
+    changeGlobalDate(newDate) {
         this.setState({globalDate: newDate})
     }
 
@@ -45,12 +39,10 @@ class Generalpage extends Component {
     }
 
 	render() {
-        console.log('general props', this.props);
-        console.log('general state', this.state);
         const { appData, GraphData } = this.props;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		    { !appData      ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate2}> 
+		      		    { !appData      ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate}> 
     			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData} globalDate={this.state.globalDate} /> }
     			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData} globalDate={this.state.globalDate}/> }
 			        	    <hr />
@@ -62,20 +54,16 @@ class Generalpage extends Component {
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        getLinegraphData : getLinegraphData,
-        changeGlobalDate : changeGlobalDate
+        getLinegraphData : getLinegraphData
     }, dispatch);
 }
 
 function mapStateToProps(state){
-    console.log('incoming general state', {state})
     const {
-        graphData,
-        globalDate
+        graphData
     } = state;
     return { 
-        GraphData : graphData,
-        GlobalDate: globalDate
+        GraphData : graphData
     };
 }
 

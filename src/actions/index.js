@@ -137,7 +137,6 @@ export async function syncProgramRoster(programData) {
     let userTree = {};
 
     bambooData.map((index) => {
-        console.log(index)
         let userId = email2id(index.workEmail)
         userTree[userId] = {
             email: index.workEmail,
@@ -175,8 +174,6 @@ export function getLinegraphData(programData, productivityData) {
             individualGraphData,
             queueData
         }
-
-        console.log({ queueData })
 
         return dispatch({ type: GRAPH_DATA, payload: payload });
     }
@@ -231,7 +228,6 @@ export function fetchAndInitialize(email) {
 
 export function changeGlobalDate(newDate) {
     return async dispatch => {
-        console.log('changeGlobalDate ran', newDate)
         return dispatch({ type: CHANGE_GLOBAL_DATE, payload: newDate });        
     }
 }
