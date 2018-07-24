@@ -9,8 +9,7 @@ const rootReducer = combineReducers({
 	entryEmail: entryEmail,
 	startupData: startupData,
 	graphData: graphData,
-	filteredIndividualProductivity: filterIndividualProductivity,
-	globalDate: globalDate
+	filteredIndividualProductivity: filterIndividualProductivity
 });
 
 export default rootReducer;

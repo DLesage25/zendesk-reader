@@ -18,8 +18,7 @@ const {
     FETCH_ALL_DATA,
     SET_ENTRY,
     GRAPH_DATA,
-    FILTER_INDIVIDUAL_PRODUCTIVITY,
-    CHANGE_GLOBAL_DATE
+    FILTER_INDIVIDUAL_PRODUCTIVITY
 } = Types;
 
 let AccessData = {
@@ -223,11 +222,5 @@ export function fetchAndInitialize(email) {
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
-    }
-}
-
-export function changeGlobalDate(newDate) {
-    return async dispatch => {
-        return dispatch({ type: CHANGE_GLOBAL_DATE, payload: newDate });        
     }
 }
