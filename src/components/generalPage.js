@@ -1,48 +1,52 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
+import moment from 'moment';
 
 import { getLinegraphData } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
-
-import Card from './card'
+import ProductivityCard from './productivityCard'
 import CardComponent from './cardComponent'
+
 import Table from './table3'
-import Linegraph from './linegraph'
-import Linegraph2 from './linegraph_individual'
 import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
-import dataTypes from './dataTypes'
+
+
 
 class Generalpage extends Component {
 
     constructor(props){
         super(props);
 
-        this.state = {};
-        this.state.dataTypes = dataTypes;
+        this.state = {
+            globalDate: 'globalDate' in this.props.appData ? this.props.appData.globalDate : moment().format('mm/dd/yyyy')
+        };
 
-        if (!this.props.GraphData) this.props.getLinegraphData(this.props.data.programData, this.props.data.productivityData)
+        if (!this.props.GraphData) this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
 
+        this.changeGlobalDate = this.changeGlobalDate.bind(this);
     }
 
-    componentDidUpdate(){
+    changeGlobalDate(newDate) {
+        this.setState({globalDate: newDate})
+    }
+
+    getDateList(productivityData){
+        return Object.keys(productivityData).reverse();
     }
 
 	render() {
-        const { data, GraphData } = this.props;
-		const programName = data.programData.settings.prettyName;
+        const { appData, GraphData } = this.props;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		<Card title={programName}>
-
-			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData}/> }
-			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData}/> }
-			        	
-			        	<hr />
-		      		</Card>
+		      		    { !appData      ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate}> 
+    			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData} globalDate={this.state.globalDate} /> }
+    			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData} globalDate={this.state.globalDate}/> }
+			        	    <hr />
+		      		</ProductivityCard> }
 		    	</div>
 				)
 	}

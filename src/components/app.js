@@ -33,7 +33,7 @@ class App extends Component {
                                 transform:  'translate(-50%,-50%)'
                             }}
                         >
-                            <p> Loading... </p>
+                            <div className="loader"></div>
                         </div>
                     </div>
                     : <Signed data={StartupData} />

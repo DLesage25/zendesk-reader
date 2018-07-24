@@ -136,7 +136,6 @@ export async function syncProgramRoster(programData) {
     let userTree = {};
 
     bambooData.map((index) => {
-        console.log(index)
         let userId = email2id(index.workEmail)
         userTree[userId] = {
             email: index.workEmail,
@@ -154,8 +153,8 @@ export function fetchUserData(email) {
         DB.ref('/users').once('value', snapshot => {
             dispatch({ type: FETCH_USER_DATA, payload: [snapshot.val(), email] });
         });
-    };
-};
+    }
+}
 
 export function getLinegraphData(programData, productivityData) {
     return async dispatch => {
@@ -174,8 +173,6 @@ export function getLinegraphData(programData, productivityData) {
             individualGraphData,
             queueData
         }
-
-        console.log({ queueData })
 
         return dispatch({ type: GRAPH_DATA, payload: payload });
     }
@@ -199,6 +196,7 @@ export function fetchAndInitialize(email) {
                  + '/byYear/' + moment().year()
                  + '/byWeek/' + moment().week()
                 )
+            //get('productivity/byProgram/' + program + '/backup') //delete this, use above after testing
         ]);
 
         console.log({userData}, {programData})
@@ -224,26 +222,5 @@ export function fetchAndInitialize(email) {
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
-    }
-};
-
-export function filterIndividualProductivity(individualProductivity, globalDate) {
-    return async dispatch => {
-
-        let filteredProductivity = individualProductivity.map((userIndex) => {
-            userIndex.productivity = _.filter(userIndex.productivity, function(o) { return o.series.Goal.length || o.series.Production.length })
-
-            let dayKeys = userIndex.productivity.map((index) => { return index.dayKey })
-
-            if (dayKeys.indexOf(globalDate) >= 0) {
-                return userIndex;
-            } else {
-                return null;
-            }
-        })
-
-        filteredProductivity = _.filter(filteredProductivity, function(item) { return item; });
-
-        return dispatch({ type: FILTER_INDIVIDUAL_PRODUCTIVITY, payload: filteredProductivity });
     }
 }
