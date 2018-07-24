@@ -235,24 +235,3 @@ export function changeGlobalDate(newDate) {
         return dispatch({ type: CHANGE_GLOBAL_DATE, payload: newDate });        
     }
 }
-
-export function filterIndividualProductivity(individualProductivity, globalDate) {
-    return async dispatch => {
-
-        let filteredProductivity = individualProductivity.map((userIndex) => {
-            userIndex.productivity = _.filter(userIndex.productivity, function(o) { return o.series.Goal.length || o.series.Production.length })
-
-            let dayKeys = userIndex.productivity.map((index) => { return index.dayKey })
-
-            if (dayKeys.indexOf(globalDate) >= 0) {
-                return userIndex;
-            } else {
-                return null;
-            }
-        })
-
-        filteredProductivity = _.filter(filteredProductivity, function(item) { return item; });
-
-        return dispatch({ type: FILTER_INDIVIDUAL_PRODUCTIVITY, payload: filteredProductivity });
-    }
-}

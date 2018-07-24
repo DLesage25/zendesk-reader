@@ -52,7 +52,7 @@ class Generalpage extends Component {
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
 		      		    { !appData      ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate2}> 
     			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData} globalDate={this.state.globalDate} /> }
-    			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData}/> }
+    			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData} globalDate={this.state.globalDate}/> }
 			        	    <hr />
 		      		</ProductivityCard> }
 		    	</div>

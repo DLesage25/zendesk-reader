@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { connect }            from 'react-redux';
-
-import moment from 'moment-timezone';
 
 import CardComponent from './cardComponent'
-import Linegraph from './linegraph_individual2'
+import Linegraph from './linegraph_individual'
 
 export default class TeamLinegraphRenderer extends Component {
     constructor(props){
@@ -18,9 +15,7 @@ export default class TeamLinegraphRenderer extends Component {
         return _.find(data, function(o) {return o.dayKey === globalDate});
     }
 
-    //to-do: add renderdata to both team lgs and figure out if oth would require the same function
-
-    renderLinegraphs (GraphData, GlobalDate) {
+    renderLinegraphs (GraphData, globalDate) {
         let {
             queueData,
             teamGraphData
@@ -29,12 +24,12 @@ export default class TeamLinegraphRenderer extends Component {
                 <div>
                     <div className="row" style={{ marginBottom: '20px' }}>
                         <CardComponent marginLeft='30px' size="col-lg-12" title="Team Performance" description="Actual vs expected performance" body="these are some stats" >
-                            <Linegraph width="1000" height="280" data={ teamGraphData } renderData={this.renderData } globalDate={GlobalDate} />
+                            <Linegraph width="1000" height="280" data={ teamGraphData } renderData={this.renderData } globalDate={globalDate} />
                         </CardComponent>
                     </div>
                     <div className="row" style={{ marginBottom: '20px' }}>
                         <CardComponent marginLeft='30px' size="col-lg-12" title="Queue volume" description="Today's incoming ticket volume" body="these are some stats" >
-                            <Linegraph  width="1000" height="280" data={ queueData } renderData={this.renderData } globalDate={GlobalDate} />
+                            <Linegraph  width="1000" height="280" data={ queueData } renderData={this.renderData } globalDate={globalDate} />
                         </CardComponent>
                     </div>
                 </div>
@@ -42,8 +37,6 @@ export default class TeamLinegraphRenderer extends Component {
     }
 
 	render() {
-        console.log('tl state', this.state)
-        console.log('tl props', this.props)
         const { GraphData, globalDate } = this.props;
 		return (
 				<div>
@@ -52,15 +45,3 @@ export default class TeamLinegraphRenderer extends Component {
 				)
 	}	
 }
-
-// function mapStateToProps(state){
-//     const {
-//         startupData
-//     } = state;
-//     return { 
-//         GlobalDate : startupData.globalDate,
-//         SelectedProgram : startupData.selectedProgram,
-//     };
-// }
-
-// export default connect(mapStateToProps)(TeamLinegraphRenderer);
