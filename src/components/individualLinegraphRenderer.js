@@ -31,8 +31,8 @@ export default class IndividualLinegraphRenderer extends Component {
         return _.filter(filteredProductivity, function(item) { return item; });
     }
 
-    renderLinegraphs (GraphData, globalDate) {
-        let filteredData = this.filterIndividualProductivity(GraphData, globalDate);
+    renderLinegraphs (IndividualGraphData, globalDate) {
+        let filteredData = this.filterIndividualProductivity(IndividualGraphData, globalDate);
     	//ordering all production data in groups of 2
     	var groups = _.map(filteredData, function(item, index){
 		    return index % 2 === 0 ? filteredData.slice(index, index + 2) : null; 
@@ -64,10 +64,10 @@ export default class IndividualLinegraphRenderer extends Component {
     }
 
 	render() {
-        const { GraphData, globalDate } = this.props;
+        const { IndividualGraphData, globalDate } = this.props;
 		return (
 				<div>
-                    { !GraphData ? <p> Loading </p> : this.renderLinegraphs(GraphData, globalDate) }
+                    { !IndividualGraphData ? <p> Loading </p> : this.renderLinegraphs(IndividualGraphData, globalDate) }
 				</div>	
 				)
 	}	

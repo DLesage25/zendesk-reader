@@ -12,14 +12,15 @@ export default class TeamLinegraphRenderer extends Component {
 
     renderData(data) {
         let globalDate = this.props.globalDate;
+        console.log('new data', _.find(Object.create(data), function(o) {return o.dayKey === globalDate}))
         return _.find(data, function(o) {return o.dayKey === globalDate});
     }
 
-    renderLinegraphs (GraphData, globalDate) {
+    renderLinegraphs (TeamGraphData, globalDate) {
         let {
             queueData,
             teamGraphData
-        } = GraphData;
+        } = TeamGraphData;
         return (
                 <div style={{ marginBottom:'40px' }}>
                     <div className="row" style={{ marginBottom: '20px' }}>
@@ -37,10 +38,11 @@ export default class TeamLinegraphRenderer extends Component {
     }
 
 	render() {
-        const { GraphData, globalDate } = this.props;
+        const { TeamGraphData, globalDate } = this.props;
+        console.log('latest length', TeamGraphData.teamGraphData[4].labels.length)
 		return (
 				<div>
-                    { !GraphData ? <p> No graph data in TeamLinegraphRenderer </p> : this.renderLinegraphs(GraphData, globalDate) }
+                    { !TeamGraphData ? <p> No graph data in TeamLinegraphRenderer </p> : this.renderLinegraphs(TeamGraphData, globalDate) }
 				</div>	
 				)
 	}	
