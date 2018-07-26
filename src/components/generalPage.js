@@ -25,7 +25,7 @@ class Generalpage extends Component {
             globalDate: 'globalDate' in this.props.appData ? this.props.appData.globalDate : moment().format('mm/dd/yyyy')
         };
 
-        if (!this.props.GraphData) this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
+        //if (!this.props.GraphData) this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
     }
@@ -38,16 +38,27 @@ class Generalpage extends Component {
         return Object.keys(productivityData).reverse();
     }
 
+    componentWillMount() {
+        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
+    }
+
+    //also to do: fix team LGs x-axis rendering on khan /23 data
+    //try with changeing the cariable name as it is passed down to props
+
+    //to-do: I should pass down all program keys down to drop down and populate optionsm
+    //then, I need to set a state change when a new program is selected for graphs to load
+
 	render() {
         const { appData, GraphData } = this.props;
+        console.log('outer', {GraphData}) //mutation is happening at this level
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
 		      		    { !appData      ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate}>
                             <h4 className="card-body-title"> Team </h4> 
-    			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer GraphData={this.props.GraphData} globalDate={this.state.globalDate} /> }
+    			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer TeamGraphData={Object.assign({}, GraphData, {test:true})} globalDate={this.state.globalDate} /> }
                             <hr />
                             <h4 className="card-body-title"> Individual </h4>
-    			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer GraphData={this.props.GraphData.individualGraphData} globalDate={this.state.globalDate}/> }
+    			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer IndividualGraphData={Object.assign(GraphData.individualGraphData)} globalDate={this.state.globalDate}/> }
 		      		</ProductivityCard> }
 		    	</div>
 				)
@@ -61,6 +72,7 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state){
+    console.log('state ran', {state})
     const {
         graphData
     } = state;
