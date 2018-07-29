@@ -183,7 +183,7 @@ export function fetchAndInitialize(email) {
         const userID = email2id(email);
         const program = 'khan'
 
-        const date = moment().format('MM_DD_YY');
+        const date = moment().subtract(1, 'days').format('MM_DD_YY');
 
         let [
             userData,
@@ -194,7 +194,8 @@ export function fetchAndInitialize(email) {
             get('programs/' + program + '/'),
             get('productivity/byProgram/' + program
                  + '/byYear/' + moment().year()
-                 + '/byWeek/' + moment().week())
+//                 + '/byWeek/' + moment().week())
+            + '/byWeek/30')
         ]);
 
         console.log({userData}, {programData})

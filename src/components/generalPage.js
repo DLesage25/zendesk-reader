@@ -14,8 +14,6 @@ import Table from './table3'
 import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
 
-
-
 class Generalpage extends Component {
 
     constructor(props){
@@ -25,13 +23,12 @@ class Generalpage extends Component {
             globalDate: 'globalDate' in this.props.appData ? this.props.appData.globalDate : moment().format('mm/dd/yyyy')
         };
 
-        //if (!this.props.GraphData) this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
-
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
     }
 
     changeGlobalDate(newDate) {
-        this.setState({globalDate: newDate})
+        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
+        this.setState({ globalDate: newDate })
     }
 
     getDateList(productivityData){
@@ -50,20 +47,21 @@ class Generalpage extends Component {
 
 	render() {
         const { appData, GraphData } = this.props;
-        console.log('outer', {GraphData}) //mutation is happening at this level
+        //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		    { !appData      ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate}>
+		      		    { !appData       ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate}>
                             <h4 className="card-body-title"> Team </h4> 
-    			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer TeamGraphData={Object.assign({}, GraphData, {test:true})} globalDate={this.state.globalDate} /> }
+    			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer TeamGraphData={Object.assign(GraphData)} globalDate={this.state.globalDate} /> }
                             <hr />
                             <h4 className="card-body-title"> Individual </h4>
     			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer IndividualGraphData={Object.assign(GraphData.individualGraphData)} globalDate={this.state.globalDate}/> }
-		      		</ProductivityCard> }
+		      		    </ProductivityCard> }
 		    	</div>
 				)
 	}
 }
+
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
@@ -72,7 +70,6 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state){
-    console.log('state ran', {state})
     const {
         graphData
     } = state;

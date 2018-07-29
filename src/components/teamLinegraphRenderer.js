@@ -11,7 +11,6 @@ export default class TeamLinegraphRenderer extends Component {
     }
 
     renderData(data, globalDate) {
-        console.log('new data', _.find(Object.create(data), function(o) {return o.dayKey === globalDate}))
         return _.find(data, function(o) {return o.dayKey === globalDate});
     }
 
@@ -38,7 +37,6 @@ export default class TeamLinegraphRenderer extends Component {
 
 	render() {
         const { TeamGraphData, globalDate } = this.props;
-        console.log('latest length', TeamGraphData.teamGraphData[4].labels.length)
 		return (
 				<div>
                     { !TeamGraphData ? <p> No graph data in TeamLinegraphRenderer </p> : this.renderLinegraphs(TeamGraphData, globalDate) }
