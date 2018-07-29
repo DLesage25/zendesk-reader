@@ -39,9 +39,6 @@ class Generalpage extends Component {
         this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
     }
 
-    //also to do: fix team LGs x-axis rendering on khan /23 data
-    //try with changeing the cariable name as it is passed down to props
-
     //to-do: I should pass down all program keys down to drop down and populate optionsm
     //then, I need to set a state change when a new program is selected for graphs to load
 
