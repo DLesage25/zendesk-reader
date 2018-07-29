@@ -14,16 +14,16 @@ class App extends Component {
     }
 
     componentDidUpdate(){
-        if(this.props.EntryEmail && !this.props.Loaded) this.props.fetchAndInitialize(this.props.EntryEmail);
+        if(this.props.EntryEmail && !this.props.StartupData) this.props.fetchAndInitialize(this.props.EntryEmail);
     }
 
     render() {
         console.log('app props', this.props)
-        const { EntryEmail, StartupData, Loaded } = this.props;
+        const { EntryEmail, StartupData } = this.props;
         return(
             <div>
                 { 
-                    !Loaded ?
+                    !StartupData ?
                     <div style = {{ maxWidth:'1400px' }}>
                         <div 
                             style = {{ 
@@ -57,8 +57,7 @@ function mapStateToProps(state){
     } = state;
     return { 
         EntryEmail : entryEmail,
-        StartupData : startupData,
-        Loaded    : startupData
+        StartupData : startupData
     };
 }
 

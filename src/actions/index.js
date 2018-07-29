@@ -99,7 +99,7 @@ export async function login() {
 // post settings
 
 export function postProgramSettings(program, settings) {
-    write(program + '/settings', settings);
+    write('/programs/' + program + '/settings', settings);
 }
 
 // export function getProgramBambooId(program) {
@@ -178,28 +178,31 @@ export function getLinegraphData(programData, productivityData) {
     }
 }
 
+// /settings/programs
+
 export function fetchAndInitialize(email) {
     return async dispatch => {
         const userID = email2id(email);
-        const program = 'grindr'
+        const program = 'khan'
 
-        const date = moment().format('MM_DD_YY');
+        const date = moment().subtract(1, 'days').format('MM_DD_YY');
 
         let [
             userData,
             programData,
-            productivityData
+            productivityData,
+            programSettings
         ] = await Promise.all([
             get('users/byUserId/' + userID),
-            get(program + '/'),
-            get( 'productivity/byProgram/' + program
+            get('programs/' + program + '/'),
+            get('productivity/byProgram/' + program
                  + '/byYear/' + moment().year()
-                 + '/byWeek/' + moment().week()
-                )
-            //get('productivity/byProgram/' + program + '/backup') //delete this, use above after testing
+//                 + '/byWeek/' + moment().week())
+            + '/byWeek/30'),
+            get('programs/') // /settings/programs
         ]);
 
-        console.log({userData}, {programData})
+        console.log({userData}, {programData}, {programSettings})
 
         //1. I need a way of determining the program(s) a user is in/ has access to
 
@@ -213,14 +216,18 @@ export function fetchAndInitialize(email) {
             postProgramSettings(program, settings);
         }
 
-        const prettyObject = {
+        const payload = {
             userData: userData,
             programData: programData,
             globalDate: date,
             selectedProgram: program,
-            productivityData: productivityData
+            productivityData: productivityData,
+            settings: {
+                programList: Object.keys(programSettings),
+                programSettings: programSettings[program].settings
+            }
         };
 
-        return dispatch({ type: FETCH_ALL_DATA, payload: prettyObject });
+        return dispatch({ type: FETCH_ALL_DATA, payload: payload });
     }
 }
