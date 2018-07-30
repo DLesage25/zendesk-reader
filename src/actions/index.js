@@ -216,15 +216,17 @@ export function fetchAndInitialize(email) {
             postProgramSettings(program, settings);
         }
 
+        //TO DO: I need to fix how this arrives to /app
+
         const payload = {
-            userData: userData,
             programData: programData,
-            globalDate: date,
-            selectedProgram: program,
+            userData: userData,
             productivityData: productivityData,
-            settings: {
+            appSettings: {
+                globalDate: date,
+                selectedProgram: program,
                 programList: Object.keys(programSettings),
-                programSettings: programSettings[program].settings
+                programSettings: programSettings[program].settings 
             }
         };
 
