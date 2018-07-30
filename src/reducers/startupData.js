@@ -5,7 +5,7 @@ export default (state = null, action) => {
                 ...state,
                 programData: action.payload.programData,
                 userData: action.payload.userData,
-                productivityData: action.payload.productivityData.byDate, //fix this eventually
+                productivityData: action.payload.productivityData,
                 appSettings: action.payload.appSettings
             }
     }

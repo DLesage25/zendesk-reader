@@ -19,23 +19,22 @@ class Main extends Component {
                 <div className = 'page-content-inner'>
                     <nav className = 'top-submenu top-submenu-with-background'>
                         <div className = 'row' style = {{ height:'100%'}} >
-                            {this.renderSections(this.props.data)}
+                            {this.renderSections(this.props.StartupData)}
                         </div >
                     </nav >
                 </div>
             </section >
         );
     }
-    renderSections(data) {
+    renderSections(StartupData) {
         switch (this.props.view) {
-            case 'generalPage'             : return <Generalpage appData={data} />;
+            case 'generalPage'             : return <Generalpage StartupData={StartupData} />;
             default:                     return <div><Generalpage onGetStarted = { this.onGetStarted } /></div>;
         };
     }
     // renderSections() {
     //     let {view} = this.props; 
-    //     let showCareerCalibrationOf = '';
-        
+    //     let showCareerCalibrationOf = '';       
     //     if(typeof view === 'object'){
     //         let {ButtonText, userID} = view;
     //         switch(ButtonText){
@@ -43,20 +42,12 @@ class Main extends Component {
     //             case 'Performance Review':  
     //                 view = ButtonText;
     //                 showCareerCalibrationOf = userID;
-    //                 break;
-                    
+    //                 break; 
     //         }
     //     }
     //     switch (view) {
     //         case 'Welcome'             : return <Welcome />;
     //         case 'Performance Review'  : return <PerformanceReview />;
-    //         case 'Peer Insights'       : return <PeerInsights />;
-    //         case 'Feedback'            : return <Feedback />;
-    //         case 'Career Calibration'  : return <Calibration manageeID = {showCareerCalibrationOf}/>;
-    //         case 'Admin Tools'         : return <AdminTools />;
-    //         case 'Team'                : return <Team />;
-    //         case 'Settings'            : return <Settings />;
-    //         case 'Help'                : return <Help />;
     //         default:                     return <Welcome onGetStarted = { this.onGetStarted } />;
     //     };
     // }

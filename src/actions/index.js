@@ -185,7 +185,7 @@ export function fetchAndInitialize(email) {
         const userID = email2id(email);
         const program = 'khan'
 
-        const date = moment().subtract(1, 'days').format('MM_DD_YY');
+        const date = moment().format('MM_DD_YY');
 
         let [
             userData,
@@ -197,12 +197,9 @@ export function fetchAndInitialize(email) {
             get('programs/' + program + '/'),
             get('productivity/byProgram/' + program
                  + '/byYear/' + moment().year()
-//                 + '/byWeek/' + moment().week())
-            + '/byWeek/30'),
-            get('programs/') // /settings/programs
+                 + '/byWeek/' + moment().week()),
+            get('programs/')
         ]);
-
-        console.log({userData}, {programData}, {programSettings})
 
         //1. I need a way of determining the program(s) a user is in/ has access to
 
@@ -216,12 +213,10 @@ export function fetchAndInitialize(email) {
             postProgramSettings(program, settings);
         }
 
-        //TO DO: I need to fix how this arrives to /app
-
         const payload = {
             programData: programData,
             userData: userData,
-            productivityData: productivityData,
+            productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
             appSettings: {
                 globalDate: date,
                 selectedProgram: program,

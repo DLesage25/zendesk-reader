@@ -11,10 +11,10 @@ class Signed extends Component {
         this.onGetStarted  = this.onGetStarted  .bind(this);
         this.updateScroll  = this.updateScroll.bind(this);
 
-        this.state         = { 
-                                view : 'generalPage',
-                                scrolled: false
-                            };
+        this.state = { 
+                        view : 'generalPage',
+                        scrolled: false
+                     };
     }
 
     updateScroll(scroll) {
@@ -32,13 +32,13 @@ class Signed extends Component {
         return (
                 <div style = {{ maxWidth : '1400px', maxHeight : '100%' }}>
                     <TopBar onClick = {onSelectView} scrolled = {this.state.scrolled} />
-                    <Main view = {view} data={this.props.data}  />
-                    <ScrollDetector updateScroll={this.updateScroll} />
+                    <Main view = {view} StartupData = {this.props.StartupData}  />
+                    <ScrollDetector updateScroll = {this.updateScroll} />
                 </div>
         );
     }
-    onSelectView(view){ this.setState({view : view}); }
-    onGetStarted(){ this.setState({ view : 'generalPage' }); }
+    onSelectView(view){ this.setState({ view : view }) }
+    onGetStarted(){ this.setState({ view : 'generalPage' }) }
 };
     
 export default Signed;
