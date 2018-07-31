@@ -98,8 +98,9 @@ export async function login() {
 
 // post settings
 
-export function postProgramSettings(program, settings) {
+export function postProgramSettings(program, settings, team) {
     write('/programs/' + program + '/settings', settings);
+    write('/programs/' + program + '/team', team);
 }
 
 // export function getProgramBambooId(program) {
@@ -178,50 +179,72 @@ export function getLinegraphData(programData, productivityData) {
     }
 }
 
-// /settings/programs
+//to-do: I need to refine this function to work with Pods too (udemy)
+export function fetchUserProgram(program) {
+    switch(program) {
+        case 'Grindr':
+            return 'grindr'
+            break;
+        case 'Khan Academy':
+            return 'khan'
+            break;
+        default: 
+            return 'khan';
+            //...add all other cases
+    }
+}
 
 export function fetchAndInitialize(email) {
     return async dispatch => {
         const userID = email2id(email);
-        const program = 'khan'
 
         const date = moment().format('MM_DD_YY');
 
         let [
             userData,
-            programData,
-            productivityData,
-            programSettings
+            allProgramSettings
         ] = await Promise.all([
             get('users/byUserId/' + userID),
-            get('programs/' + program + '/'),
-            get('productivity/byProgram/' + program
-                 + '/byYear/' + moment().year()
-                 + '/byWeek/' + moment().week()),
             get('programs/')
         ]);
 
-        //1. I need a way of determining the program(s) a user is in/ has access to
+        let program = fetchUserProgram(userData.program);
 
-        if (!programData.settings) {
+        let productivityData = await get('productivity/byProgram/' + program
+                     + '/byYear/' + moment().year()
+                     + '/byWeek/' + moment().week())
+
+        //1. I need a way of determining the program(s) a user is in/ has access to
+        // by using fetchUserProgram function on fetchAndInitialize
+
+        //2. I need to make sure the dropdown in productiviy card renders program names capitalized while still keeping track of the 
+        // correct option
+
+        let selectedProgram = allProgramSettings[program];
+
+        if (!selectedProgram) {
             const team = await getProgramRoster(program);
             const settings = newSettings.program(program);
 
             settings.team = team;
             programData.settings = settings;
 
-            postProgramSettings(program, settings);
+            postProgramSettings(program, settings, team);
+
+            selectedProgram.settings = settings;
+            selectedProgram.team = team;
         }
 
+        let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
+
         const payload = {
-            programData: programData,
+            programData: selectedProgram,
             userData: userData,
             productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
             appSettings: {
                 globalDate: date,
                 selectedProgram: program,
-                programList: Object.keys(programSettings),
-                programSettings: programSettings[program].settings 
+                programList: programNames
             }
         };
 

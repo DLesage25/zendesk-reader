@@ -20,7 +20,8 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            globalDate: 'globalDate' in this.props.StartupData.appSettings ? this.props.StartupData.appSettings.globalDate : moment().format('mm/dd/yyyy')
+            globalDate: 'globalDate' in this.props.StartupData.appSettings ? this.props.StartupData.appSettings.globalDate : moment().format('mm/dd/yyyy'),
+            globalProgram: 'globalProgram' in this.props.StartupData.appSettings ? this.props.StartupData.appSettings.globalProgram: 'khan'
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -28,8 +29,18 @@ class Generalpage extends Component {
 
     changeGlobalDate(newDate) {
         this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
-        this.setState({ globalDate: newDate })
+        this.setState(Object.assign(this.state, { globalDate: newDate }))
     }
+
+    // changeGlobalProgram(newProgram) {
+    //     //this will trigger a re-download of all data
+
+    //     // this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
+    //     // this.setState({
+    //     //     ...this.state,
+    //     //     globalProgram: newProgram 
+    //     // })
+    // }
 
     getDateList(productivityData){
         return Object.keys(productivityData).reverse();
@@ -47,12 +58,22 @@ class Generalpage extends Component {
         //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		    { !StartupData       ? <p> Loading </p> : <ProductivityCard title={StartupData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(StartupData.productivityData)} changeGlobalDate={this.changeGlobalDate}>
-                            <h4 className="card-body-title"> Team </h4> 
-    			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer TeamGraphData={Object.assign(GraphData)} globalDate={this.state.globalDate} /> }
-                            <hr />
-                            <h4 className="card-body-title"> Individual </h4>
-    			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer IndividualGraphData={Object.assign(GraphData.individualGraphData)} globalDate={this.state.globalDate}/> }
+		      		    { !StartupData  ? <p> Loading </p> : 
+                            <ProductivityCard 
+                                            title={StartupData.programData.settings.prettyName} 
+                                            globalDate={this.state.globalDate} 
+                                            dateList={this.getDateList(StartupData.productivityData)} 
+                                            changeGlobalDate={this.changeGlobalDate} 
+                                            programList={StartupData.appSettings.programList}>
+                                <h4 className="card-body-title"> Team </h4> 
+    			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
+                                                                    TeamGraphData={Object.assign(GraphData)} 
+                                                                    globalDate={this.state.globalDate} /> }
+                                <hr />
+                                <h4 className="card-body-title"> Individual </h4>
+    			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
+                                                                    IndividualGraphData={Object.assign(GraphData.individualGraphData)} 
+                                                                    globalDate={this.state.globalDate}/> }
 		      		    </ProductivityCard> }
 		    	</div>
 				)

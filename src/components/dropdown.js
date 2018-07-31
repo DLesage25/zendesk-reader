@@ -17,7 +17,7 @@ export default class Dropdown extends Component {
 	render() {
 		return (
 			<div className="dropdown">
-			  <button type="button" className="btn btn-sm btn-secondary ml-2 dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  <button type="button" className={this.props.buttonClassName} id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    {this.props.current.replace(/_/g, '/')}
 			  </button>
 			  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

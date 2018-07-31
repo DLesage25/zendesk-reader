@@ -7,7 +7,7 @@ newSettings.program = (program) => {
 		id: program,
 		isActive: true,
 		managerId: 'updateThis',
-		prettyName: 'PartnerHero-' + program
+		prettyName: program
 	}
 }
 
