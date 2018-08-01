@@ -27,13 +27,13 @@ class Signed extends Component {
     }
 
     render() {
-        const { onSelectView, onGetStarted } = this;
-        const { view } = this.state;
+        const { onSelectView, onGetStarted, updateScroll } = this;
+        const { view, scrolled } = this.state;
         return (
                 <div style = {{ maxWidth : '1400px', maxHeight : '100%' }}>
-                    <TopBar onClick = {onSelectView} scrolled = {this.state.scrolled} />
+                    <TopBar onClick = {onSelectView} scrolled = {scrolled} />
                     <Main view = {view} StartupData = {this.props.StartupData}  />
-                    <ScrollDetector updateScroll = {this.updateScroll} />
+                    <ScrollDetector updateScroll = {updateScroll} />
                 </div>
         );
     }
