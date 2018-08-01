@@ -17,13 +17,19 @@ export default class ProductivityCard extends Component {
     }
 
 	render() {
-		const {dateList} = this.props;
+		const {
+			dateList, 
+			programList, 
+			globalProgram, 
+			globalDate,
+			changeGlobalDate
+		} = this.props;
 		return (
 				<section className="card">
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
-				            <a className="btn btn-sm btn-primary ml-2 dropdown-toggle" href="http://www.chartjs.org/" target="_blank"> { this.state.title } <i className="icmn-link ml-1"></i></a>
-				            <Dropdown current={this.props.globalDate} options={dateList} action={this.props.changeGlobalDate} />
+				            <Dropdown current={globalProgram.settings.prettyName} options={programList} action={(option) => { console.log(option)}} buttonClassName="btn btn-sm btn-primary ml-2 dropdown-toggle" />
+				            <Dropdown current={globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-secondary ml-2 dropdown-toggle"/>
 				        </span>
 				    </div>
 				    <div className="card-body">

@@ -98,8 +98,8 @@ export async function login() {
 
 // post settings
 
-export function postProgramSettings(program, settings) {
-    write('/programs/' + program + '/settings', settings);
+export function postProgramSettings(program, programSettings) {
+    write('/programs/' + program, programSettings);
 }
 
 // export function getProgramBambooId(program) {
@@ -111,7 +111,7 @@ export async function getProgramRoster(program) {
     let users = await get('/users/byUserId');
     let userTree = {};
 
-    _.filter(users, function(o){ return o.program.toLowerCase() === program }).map((user) => {
+    _.filter(users, function(o) { return o.program.toLowerCase() === program }).map((user) => {
         let userID = email2id(user.email);
         userTree[userID] = user;
     })
@@ -178,53 +178,56 @@ export function getLinegraphData(programData, productivityData) {
     }
 }
 
-// /settings/programs
-
 export function fetchAndInitialize(email) {
     return async dispatch => {
+        //email = 'amy@partnerhero.com' test with this
         const userID = email2id(email);
-        const program = 'khan'
 
-        const date = moment().subtract(1, 'days').format('MM_DD_YY');
+        const date = moment().format('MM_DD_YY');
 
         let [
             userData,
-            programData,
-            productivityData,
-            programSettings
+            allProgramSettings
         ] = await Promise.all([
             get('users/byUserId/' + userID),
-            get('programs/' + program + '/'),
-            get('productivity/byProgram/' + program
-                 + '/byYear/' + moment().year()
-//                 + '/byWeek/' + moment().week())
-            + '/byWeek/30'),
-            get('programs/') // /settings/programs
+            get('programs/')
         ]);
 
-        console.log({userData}, {programData}, {programSettings})
+        // let programName = userData.program;
+        let programName = 'Khan Academy';
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName }) //tnis wont work with current program
+        // let programId;
 
-        //1. I need a way of determining the program(s) a user is in/ has access to
+        if (!selectedProgram) {
+            programId = programName.toLowerCase();
 
-        if (!programData.settings) {
-            const team = await getProgramRoster(program);
-            const settings = newSettings.program(program);
+            const team = await getProgramRoster(programName);
+            const settings = newSettings.program(programName, programId);
 
-            settings.team = team;
-            programData.settings = settings;
+            selectedProgram = {
+                settings: settings,
+                team: team
+            };
 
-            postProgramSettings(program, settings);
+            postProgramSettings(programId, selectedProgram);
         }
 
+        let programId = selectedProgram.settings.id;
+
+        let productivityData = await get('productivity/byProgram/' + programId +
+                                        '/byYear/' + moment().year() +
+                                        '/byWeek/' + moment().week())
+
+        let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
+
         const payload = {
+            programData: selectedProgram,
             userData: userData,
-            programData: programData,
-            globalDate: date,
-            selectedProgram: program,
-            productivityData: productivityData,
-            settings: {
-                programList: Object.keys(programSettings),
-                programSettings: programSettings[program].settings
+            productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
+            appSettings: {
+                globalDate: date,
+                globalProgram: selectedProgram,
+                programList: programNames
             }
         };
 

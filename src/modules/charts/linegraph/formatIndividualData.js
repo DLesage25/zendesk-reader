@@ -21,7 +21,7 @@ const formatChartData = async(programData, productivityData) => {
 
 //extracts email array from all team objects
 const getTeamEmails = async(programData) => {
-    let teamObjects = programData.settings.team;
+    let teamObjects = programData.team;
     return Object.keys(teamObjects).map((teamObjectKey) => {
         return teamObjects[teamObjectKey].email;
     })

@@ -34,6 +34,8 @@ body {
 .top-menu {
 	height: 50px;
 	-webkit-transition: height 0.3s ease;
+	background-color: #2b3f52e3;
+	border-bottom: 1px solid #5c6575;
 }
 
 /*.top-link {
@@ -47,12 +49,11 @@ body {
 }*/
 
 /*.scrolled-top-link {
-	display: none;
-}
-^ for removing text eventually when you scroll
-*/
+	font-size: 0;
+}*/
 
 .scrolled-top-menu {
+	background-color: #2b3f52f2;
 	height: 40px;
 }
 

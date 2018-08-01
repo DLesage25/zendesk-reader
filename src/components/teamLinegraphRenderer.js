@@ -6,7 +6,6 @@ import Linegraph from './linegraph_individual'
 export default class TeamLinegraphRenderer extends Component {
     constructor(props){
         super(props);
-
         this.renderData = this.renderData.bind(this);
     }
 

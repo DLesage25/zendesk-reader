@@ -20,39 +20,57 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            globalDate: 'globalDate' in this.props.appData ? this.props.appData.globalDate : moment().format('mm/dd/yyyy')
+            globalDate: 'globalDate' in this.props.StartupData.appSettings ? this.props.StartupData.appSettings.globalDate : moment().format('mm/dd/yyyy'),
+            globalProgram: 'globalProgram' in this.props.StartupData.appSettings ? this.props.StartupData.appSettings.globalProgram: 'khan'
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
     }
 
     changeGlobalDate(newDate) {
-        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
-        this.setState({ globalDate: newDate })
+        this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
+        this.setState(Object.assign(this.state, { globalDate: newDate }))
     }
+
+    // changeGlobalProgram(newProgram) {
+    //     //this will trigger a re-download of all data
+
+    //     // this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
+    //     // this.setState({
+    //     //     ...this.state,
+    //     //     globalProgram: newProgram 
+    //     // })
+    // }
 
     getDateList(productivityData){
         return Object.keys(productivityData).reverse();
     }
 
     componentWillMount() {
-        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
+        this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
     }
 
-    //to-do: I should pass down all program keys down to drop down and populate optionsm
-    //then, I need to set a state change when a new program is selected for graphs to load
-
 	render() {
-        const { appData, GraphData } = this.props;
+        const { StartupData, GraphData } = this.props;
         //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		    { !appData       ? <p> Loading </p> : <ProductivityCard title={appData.programData.settings.prettyName} globalDate={this.state.globalDate} dateList={this.getDateList(appData.productivityData)} changeGlobalDate={this.changeGlobalDate}>
-                            <h4 className="card-body-title"> Team </h4> 
-    			    		{ !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer TeamGraphData={Object.assign(GraphData)} globalDate={this.state.globalDate} /> }
-                            <hr />
-                            <h4 className="card-body-title"> Individual </h4>
-    			    		{ !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer IndividualGraphData={Object.assign(GraphData.individualGraphData)} globalDate={this.state.globalDate}/> }
+		      		    { !StartupData  ? <p> Loading </p> : 
+                            <ProductivityCard 
+                                            globalDate={this.state.globalDate}
+                                            globalProgram={this.state.globalProgram}
+                                            dateList={this.getDateList(StartupData.productivityData)} 
+                                            changeGlobalDate={this.changeGlobalDate} 
+                                            programList={StartupData.appSettings.programList}>
+                                <h4 className="card-body-title"> Team </h4> 
+    			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
+                                                                    TeamGraphData={Object.assign(GraphData)} 
+                                                                    globalDate={this.state.globalDate} /> }
+                                <hr />
+                                <h4 className="card-body-title"> Individual </h4>
+    			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
+                                                                    IndividualGraphData={Object.assign(GraphData.individualGraphData)} 
+                                                                    globalDate={this.state.globalDate}/> }
 		      		    </ProductivityCard> }
 		    	</div>
 				)

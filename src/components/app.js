@@ -36,7 +36,7 @@ class App extends Component {
                             <div className="loader"></div>
                         </div>
                     </div>
-                    : <Signed data={StartupData} />
+                    : <Signed StartupData={StartupData} />
                 }
             </div>
         )

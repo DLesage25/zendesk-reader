@@ -9,15 +9,15 @@ export default class Dropdown extends Component {
     }
 
     renderOptions(options) {
-    	return options.map((option) => {
-    		return <a key={option} onClick={() => this.props.action(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
+    	return options.map((option, index) => {
+    		return <a key={option + index} onClick={() => this.props.action(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
     	})
     }
 
 	render() {
 		return (
 			<div className="dropdown">
-			  <button type="button" className="btn btn-sm btn-secondary ml-2 dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  <button type="button" className={this.props.buttonClassName} id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    {this.props.current.replace(/_/g, '/')}
 			  </button>
 			  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
