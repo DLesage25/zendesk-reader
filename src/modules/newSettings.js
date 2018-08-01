@@ -1,13 +1,13 @@
 const newSettings = {};
 
-newSettings.program = (program) => {
+newSettings.program = (programName, programId) => {
 	return {
 		bambooId: 'updateThis',
 		goal: 'touches',
-		id: program,
+		id: programId,
 		isActive: true,
 		managerId: 'updateThis',
-		prettyName: program
+		prettyName: programName
 	}
 }
 

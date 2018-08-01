@@ -58,7 +58,7 @@ export default class TopBar extends Component {
 
 	render() {
 		return (
-				 <nav className={this.getScrollClasses('top-menu')} style={{ background: '#ffffff', borderBottom: '1px solid #5c6575', zIndex: '110', position: 'fixed', top: '0px', left: '0px', right: '0px', backgroundColor: '#2b3f52f2', boxShadow: '0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1)' }}>
+				 <nav className={this.getScrollClasses('top-menu')} style={{ zIndex: '110', position: 'fixed', top: '0px', left: '0px', right: '0px', boxShadow: '0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1)' }}>
 				    <div className="menu-icon-container hidden-md-up">
 				        <div className="animate-menu-button left-menu-toggle">
 				            <div />

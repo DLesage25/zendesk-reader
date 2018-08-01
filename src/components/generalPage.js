@@ -60,8 +60,8 @@ class Generalpage extends Component {
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
 		      		    { !StartupData  ? <p> Loading </p> : 
                             <ProductivityCard 
-                                            title={StartupData.programData.settings.prettyName} 
-                                            globalDate={this.state.globalDate} 
+                                            globalDate={this.state.globalDate}
+                                            globalProgram={this.state.globalProgram}
                                             dateList={this.getDateList(StartupData.productivityData)} 
                                             changeGlobalDate={this.changeGlobalDate} 
                                             programList={StartupData.appSettings.programList}>
