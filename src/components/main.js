@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import Generalpage          from './generalPage';
 import TopBar               from './topBar';
 import ScrollDetector from './ScrollDetector';
