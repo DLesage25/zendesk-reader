@@ -50,9 +50,6 @@ class Generalpage extends Component {
         this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
     }
 
-    //to-do: I should pass down all program keys down to drop down and populate optionsm
-    //then, I need to set a state change when a new program is selected for graphs to load
-
 	render() {
         const { StartupData, GraphData } = this.props;
         //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating

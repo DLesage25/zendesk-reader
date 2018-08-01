@@ -5,8 +5,7 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state        = { 
-                hasError: false,
-                scroll: 0
+                hasError: false
             };
         this.onGetStarted = this.onGetStarted.bind(this);
     }

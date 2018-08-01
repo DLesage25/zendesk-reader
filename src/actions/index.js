@@ -98,9 +98,8 @@ export async function login() {
 
 // post settings
 
-export function postProgramSettings(program, settings, team) {
-    write('/programs/' + program + '/settings', settings);
-    write('/programs/' + program + '/team', team);
+export function postProgramSettings(program, programSettings) {
+    write('/programs/' + program, programSettings);
 }
 
 // export function getProgramBambooId(program) {
@@ -112,7 +111,7 @@ export async function getProgramRoster(program) {
     let users = await get('/users/byUserId');
     let userTree = {};
 
-    _.filter(users, function(o){ return o.program.toLowerCase() === program }).map((user) => {
+    _.filter(users, function(o) { return o.program.toLowerCase() === program }).map((user) => {
         let userID = email2id(user.email);
         userTree[userID] = user;
     })
@@ -179,23 +178,9 @@ export function getLinegraphData(programData, productivityData) {
     }
 }
 
-//to-do: I need to refine this function to work with Pods too (udemy)
-export function fetchUserProgram(program) {
-    switch(program) {
-        case 'Grindr':
-            return 'grindr'
-            break;
-        case 'Khan Academy':
-            return 'khan'
-            break;
-        default: 
-            return 'khan';
-            //...add all other cases
-    }
-}
-
 export function fetchAndInitialize(email) {
     return async dispatch => {
+        //email = 'amy@partnerhero.com' test with this
         const userID = email2id(email);
 
         const date = moment().format('MM_DD_YY');
@@ -208,32 +193,30 @@ export function fetchAndInitialize(email) {
             get('programs/')
         ]);
 
-        let program = fetchUserProgram(userData.program);
-
-        let productivityData = await get('productivity/byProgram/' + program
-                     + '/byYear/' + moment().year()
-                     + '/byWeek/' + moment().week())
-
-        //1. I need a way of determining the program(s) a user is in/ has access to
-        // by using fetchUserProgram function on fetchAndInitialize
-
-        //2. I need to make sure the dropdown in productiviy card renders program names capitalized while still keeping track of the 
-        // correct option
-
-        let selectedProgram = allProgramSettings[program];
+        // let programName = userData.program;
+        let programName = 'Khan Academy';
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName }) //tnis wont work with current program
+        // let programId;
 
         if (!selectedProgram) {
-            const team = await getProgramRoster(program);
-            const settings = newSettings.program(program);
+            programId = programName.toLowerCase();
 
-            settings.team = team;
-            programData.settings = settings;
+            const team = await getProgramRoster(programName);
+            const settings = newSettings.program(programName, programId);
 
-            postProgramSettings(program, settings, team);
+            selectedProgram = {
+                settings: settings,
+                team: team
+            };
 
-            selectedProgram.settings = settings;
-            selectedProgram.team = team;
+            postProgramSettings(programId, selectedProgram);
         }
+
+        let programId = selectedProgram.settings.id;
+
+        let productivityData = await get('productivity/byProgram/' + programId +
+                                        '/byYear/' + moment().year() +
+                                        '/byWeek/' + moment().week())
 
         let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
 
@@ -243,7 +226,7 @@ export function fetchAndInitialize(email) {
             productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
             appSettings: {
                 globalDate: date,
-                selectedProgram: program,
+                globalProgram: selectedProgram,
                 programList: programNames
             }
         };
