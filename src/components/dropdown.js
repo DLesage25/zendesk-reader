@@ -9,8 +9,8 @@ export default class Dropdown extends Component {
     }
 
     renderOptions(options) {
-    	return options.map((option) => {
-    		return <a key={option} onClick={() => this.props.action(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
+    	return options.map((option, index) => {
+    		return <a key={option + index} onClick={() => this.props.action(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
     	})
     }
 
