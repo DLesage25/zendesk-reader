@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
-import TopBar               from './topBar';
 import Main                 from './main';
-import ScrollDetector from './ScrollDetector';
-
 
 class Signed extends Component {
     constructor(props) {
         super(props);
-        this.onSelectView  = this.onSelectView  .bind(this);
-        this.onGetStarted  = this.onGetStarted  .bind(this);
-        this.updateScroll  = this.updateScroll.bind(this);
 
         this.state = { 
                         view : 'generalPage',
@@ -17,28 +11,11 @@ class Signed extends Component {
                      };
     }
 
-    updateScroll(scroll) {
-        this.setState({ scroll })
-        if (!scroll || scroll < 50) {
-            this.setState({scrolled: false})  
-        } else {
-            this.setState({scrolled: true})  
-        }
+    render() {
+        const { view } = this.state;
+        return <Main view = {view} StartupData = {this.props.StartupData}  />
     }
 
-    render() {
-        const { onSelectView, onGetStarted, updateScroll } = this;
-        const { view, scrolled } = this.state;
-        return (
-                <div style = {{ maxWidth : '1400px', maxHeight : '100%' }}>
-                    <TopBar onClick = {onSelectView} scrolled = {scrolled} />
-                    <Main view = {view} StartupData = {this.props.StartupData}  />
-                    <ScrollDetector updateScroll = {updateScroll} />
-                </div>
-        );
-    }
-    onSelectView(view){ this.setState({ view : view }) }
-    onGetStarted(){ this.setState({ view : 'generalPage' }) }
 };
     
 export default Signed;
