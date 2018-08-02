@@ -62,7 +62,7 @@ class Main extends Component {
     //         }
     //     }
         switch (this.props.view) {
-            case 'generalPage'             : return <Generalpage StartupData={StartupData} />;
+            case 'generalPage'             : return <Generalpage appData={StartupData} />;
             default:                     return <div><Generalpage onGetStarted = { this.onGetStarted } /></div>;
         };
     }

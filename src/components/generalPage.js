@@ -3,7 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import moment from 'moment';
 
-import { getLinegraphData } from '../actions';
+import { 
+        getLinegraphData,
+        fetchProgram
+        } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
@@ -20,34 +23,30 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            globalDate: 'globalDate' in this.props.StartupData.appSettings ? this.props.StartupData.appSettings.globalDate : moment().format('mm/dd/yyyy'),
-            globalProgram: 'globalProgram' in this.props.StartupData.appSettings ? this.props.StartupData.appSettings.globalProgram: 'khan'
+            globalDate: 'globalDate' in this.props.appData.appSettings ? this.props.appData.appSettings.globalDate : moment().format('mm/dd/yyyy'),
+            globalProgram: 'globalProgram' in this.props.appData.appSettings ? this.props.appData.appSettings.globalProgram: 'khan'
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
+        this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
     }
 
     changeGlobalDate(newDate) {
-        this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
+        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
         this.setState(Object.assign(this.state, { globalDate: newDate }))
     }
 
-    // changeGlobalProgram(newProgram) {
-    //     //this will trigger a re-download of all data
-
-    //     // this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
-    //     // this.setState({
-    //     //     ...this.state,
-    //     //     globalProgram: newProgram 
-    //     // })
-    // }
+    changeGlobalProgram(newProgram) {
+        this.props.fetchProgram(newProgram, this.props.appData)
+        //this.setState(Object.assign(this.state, { globalProgram: newProgram }))
+    }
 
     getDateList(productivityData){
         return Object.keys(productivityData).reverse();
     }
 
     componentWillMount() {
-        this.props.getLinegraphData(this.props.StartupData.programData, this.props.StartupData.productivityData)
+        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
     }
 
 	render() {
@@ -59,8 +58,9 @@ class Generalpage extends Component {
                             <ProductivityCard 
                                             globalDate={this.state.globalDate}
                                             globalProgram={this.state.globalProgram}
-                                            dateList={this.getDateList(StartupData.productivityData)} 
                                             changeGlobalDate={this.changeGlobalDate} 
+                                            changeGlobalProgram={this.changeGlobalProgram}
+                                            dateList={this.getDateList(StartupData.productivityData)} 
                                             programList={StartupData.appSettings.programList}>
                                 <h4 className="card-body-title"> Team </h4> 
     			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
@@ -80,16 +80,19 @@ class Generalpage extends Component {
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        getLinegraphData : getLinegraphData
+        getLinegraphData : getLinegraphData,
+        fetchProgram : fetchProgram
     }, dispatch);
 }
 
 function mapStateToProps(state){
     const {
+        fetchProgram,
         graphData
     } = state;
     return { 
-        GraphData : graphData
+        GraphData : graphData,
+        appData : fetchProgram
     };
 }
 
