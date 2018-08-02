@@ -17,18 +17,20 @@ export default class ProductivityCard extends Component {
     }
 
 	render() {
+		console.log('prod props', this.props)
 		const {
-			dateList, 
-			programList, 
-			globalProgram, 
 			globalDate,
-			changeGlobalDate
+			globalProgram,
+			changeGlobalDate,
+			changeGlobalProgram,
+			dateList, 
+			programList
 		} = this.props;
 		return (
 				<section className="card">
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
-				            <Dropdown current={globalProgram.settings.prettyName} options={programList} action={(option) => { console.log(option)}} buttonClassName="btn btn-sm btn-primary ml-2 dropdown-toggle" />
+				            <Dropdown current={globalProgram.settings.prettyName} options={programList} action={changeGlobalProgram} buttonClassName="btn btn-sm btn-primary ml-2 dropdown-toggle" />
 				            <Dropdown current={globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-secondary ml-2 dropdown-toggle"/>
 				        </span>
 				    </div>

@@ -18,7 +18,8 @@ const {
     FETCH_ALL_DATA,
     SET_ENTRY,
     GRAPH_DATA,
-    FILTER_INDIVIDUAL_PRODUCTIVITY
+    FILTER_INDIVIDUAL_PRODUCTIVITY,
+    FETCH_PROGRAM
 } = Types;
 
 let AccessData = {
@@ -215,8 +216,8 @@ export function fetchAndInitialize(email) {
         let programId = selectedProgram.settings.id;
 
         let productivityData = await get('productivity/byProgram/' + programId +
-                                        '/byYear/' + moment().year() +
-                                        '/byWeek/' + moment().week())
+            '/byYear/' + moment().year() +
+            '/byWeek/' + moment().week())
 
         let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
 
@@ -232,5 +233,33 @@ export function fetchAndInitialize(email) {
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: payload });
+    }
+}
+
+export function fetchProgram(programName, appData) {
+    return async dispatch => {
+        let allProgramSettings = await get('programs/');
+
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName }) 
+        let programId = selectedProgram.settings.id;
+
+        let productivityData = await get('productivity/byProgram/' + programId +
+                                         '/byYear/' + moment().year() +
+                                         '/byWeek/' + moment().week());
+
+        console.log('fetchProgram ran', {productivityData}, programId)
+
+        const payload = {
+            appData: {
+                appSettings: {
+                    globalProgram: selectedProgram,
+                    ...appData.appSettings
+                },
+                productivityData: productivityData.byDate,
+                ...appData
+            } 
+        };
+
+        return dispatch({ type: FETCH_PROGRAM, payload: payload });
     }
 }
