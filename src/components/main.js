@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Generalpage          from './generalPage';
+import GeneralSettings         from './generalSettings';
 
 class Main extends Component {
     constructor(props) {
@@ -28,6 +29,7 @@ class Main extends Component {
     renderSections(StartupData) {
         switch (this.props.view) {
             case 'generalPage'             : return <Generalpage StartupData={StartupData} />;
+            case 'generalSettings'            : return <GeneralSettings />;
             default:                     return <div><Generalpage onGetStarted = { this.onGetStarted } /></div>;
         };
     }

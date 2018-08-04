@@ -12,7 +12,7 @@ class Signed extends Component {
         this.updateScroll  = this.updateScroll.bind(this);
 
         this.state = { 
-                        view : 'generalPage',
+                        view : 'generalSettings',
                         scrolled: false
                      };
     }
