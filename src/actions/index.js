@@ -184,7 +184,7 @@ export function fetchAndInitialize(email) {
         //email = 'amy@partnerhero.com' test with this
         const userID = email2id(email);
 
-        const date = moment().format('MM_DD_YY');
+        const date = moment().subtract(1, 'days');
 
         let [
             userData,
@@ -216,18 +216,18 @@ export function fetchAndInitialize(email) {
         let programId = selectedProgram.settings.id;
 
         let productivityData = await get('productivity/byProgram/' + programId +
-            '/byYear/' + moment().year() +
-            '/byWeek/' + moment().week())
+            '/byYear/' + date.year() +
+            '/byWeek/' + date.week())
 
         let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
 
         const payload = {
+            globalDate: date.format('MM_DD_YY'),
+            globalProgram: selectedProgram,
             programData: selectedProgram,
             userData: userData,
             productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
             appSettings: {
-                globalDate: date,
-                globalProgram: selectedProgram,
                 programList: programNames
             }
         };
@@ -240,24 +240,22 @@ export function fetchProgram(programName, appData) {
     return async dispatch => {
         let allProgramSettings = await get('programs/');
 
-        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName }) 
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName })
         let programId = selectedProgram.settings.id;
 
         let productivityData = await get('productivity/byProgram/' + programId +
-                                         '/byYear/' + moment().year() +
-                                         '/byWeek/' + moment().week());
+            '/byYear/' + moment().year() +
+            '/byWeek/' + moment().week());
 
-        console.log('fetchProgram ran', {productivityData}, programId)
+        console.log('fetchProgram ran', { productivityData }, programId)
 
         const payload = {
-            appData: {
-                appSettings: {
-                    globalProgram: selectedProgram,
-                    ...appData.appSettings
-                },
-                productivityData: productivityData.byDate,
-                ...appData
-            } 
+            appSettings: {
+                globalProgram: selectedProgram,
+                ...appData.appSettings
+            },
+            productivityData: productivityData.byDate,
+            ...appData
         };
 
         return dispatch({ type: FETCH_PROGRAM, payload: payload });
