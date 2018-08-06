@@ -3,6 +3,8 @@ export default (state = null, action) => {
         case 'FETCH_ALL_DATA':
             return {
                 ...state,
+                globalDate: action.payload.globalDate,
+                globalProgram: action.payload.globalProgram,
                 programData: action.payload.programData,
                 userData: action.payload.userData,
                 productivityData: action.payload.productivityData,
