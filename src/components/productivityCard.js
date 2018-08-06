@@ -18,7 +18,6 @@ export default class ProductivityCard extends Component {
     }
 
 	render() {
-		console.log('prod props', this.props)
 		const {
 			globalDate,
 			globalProgram,

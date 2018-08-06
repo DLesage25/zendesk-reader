@@ -157,16 +157,17 @@ export function fetchUserData(email) {
     }
 }
 
-export function getLinegraphData(programData, productivityData) {
+export function getLinegraphData(globalProgram, productivityData) {
     return async dispatch => {
+        console.log({globalProgram})
         let [
             teamGraphData,
             individualGraphData,
             queueData
         ] = await Promise.all([
-            formatTeamLinegraphData.formatChartData(programData, productivityData),
-            formatIndividualLinegraphData.formatChartData(programData, productivityData),
-            formatQueueData.formatChartData(programData, productivityData)
+            formatTeamLinegraphData.formatChartData(globalProgram, productivityData),
+            formatIndividualLinegraphData.formatChartData(globalProgram, productivityData),
+            formatQueueData.formatChartData(globalProgram, productivityData)
         ]);
 
         let payload = {
@@ -224,7 +225,6 @@ export function fetchAndInitialize(email) {
         const payload = {
             globalDate: date.format('MM_DD_YY'),
             globalProgram: selectedProgram,
-            programData: selectedProgram,
             userData: userData,
             productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
             appSettings: {
@@ -248,11 +248,8 @@ export function fetchProgram(programName, appData) {
             '/byWeek/' + moment().week());
 
         const payload = {
-            ...appData,
-            appSettings: {
-                ...appData.appSettings,
-                globalProgram: selectedProgram,
-            },
+            appSettings: appData.appSettings,
+            globalProgram: selectedProgram,
             productivityData: productivityData.byDate
         };
 

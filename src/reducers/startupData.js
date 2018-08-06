@@ -5,7 +5,6 @@ export default (state = null, action) => {
                 ...state,
                 globalDate: action.payload.globalDate,
                 globalProgram: action.payload.globalProgram,
-                programData: action.payload.programData,
                 userData: action.payload.userData,
                 productivityData: action.payload.productivityData,
                 appSettings: action.payload.appSettings
