@@ -247,15 +247,13 @@ export function fetchProgram(programName, appData) {
             '/byYear/' + moment().year() +
             '/byWeek/' + moment().week());
 
-        console.log('fetchProgram ran', { productivityData }, programId)
-
         const payload = {
+            ...appData,
             appSettings: {
+                ...appData.appSettings,
                 globalProgram: selectedProgram,
-                ...appData.appSettings
             },
-            productivityData: productivityData.byDate,
-            ...appData
+            productivityData: productivityData.byDate
         };
 
         return dispatch({ type: FETCH_PROGRAM, payload: payload });
