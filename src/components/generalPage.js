@@ -23,8 +23,7 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            globalDate: 'globalDate' in this.props.appData.appSettings ? this.props.appData.appSettings.globalDate : moment().format('mm/dd/yyyy'),
-            globalProgram: 'globalProgram' in this.props.appData.appSettings ? this.props.appData.appSettings.globalProgram: 'khan'
+            appData: 'appData' in this.props     ? this.props.appData: {}
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -32,11 +31,23 @@ class Generalpage extends Component {
     }
 
     changeGlobalDate(newDate) {
-        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
-        this.setState(Object.assign(this.state, { globalDate: newDate }))
+        this.props.getLinegraphData(this.state.appData.globalProgram, this.state.appData.productivityData);
+
+        const currentState = this.state;
+        const { appData } = currentState;
+
+        const newState = {
+            ...currentState,
+            appData: {
+                ...appData,
+                globalDate: newDate,
+            }
+        };
+        this.setState(newState)
     }
 
     changeGlobalProgram(newProgram) {
+        console.log({newProgram})
         this.props.fetchProgram(newProgram, this.props.appData)
         //this.setState(Object.assign(this.state, { globalProgram: newProgram }))
     }
@@ -46,31 +57,61 @@ class Generalpage extends Component {
     }
 
     componentWillMount() {
-        this.props.getLinegraphData(this.props.appData.programData, this.props.appData.productivityData)
+        this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
+    }
+
+    componentDidUpdate() {
+        const { FetchProgram } = this.props;
+
+        if (!FetchProgram) return true;
+
+        const newProgramName = FetchProgram.globalProgram.settings.id;
+        const currentProgramName = this.state.appData.globalProgram.settings.id;
+
+        if(newProgramName !== currentProgramName) {
+            let newAppData = {
+                ...this.props.appData,
+                appSettings: FetchProgram.appSettings,
+                globalProgram: FetchProgram.globalProgram,
+                productivityData: FetchProgram.productivityData
+            }
+            this.setState(
+                {
+                    appData: newAppData
+                }, 
+                () => { this.props.getLinegraphData(this.state.appData.globalProgram, this.state.appData.productivityData) }
+                )
+        }
     }
 
 	render() {
-        const { StartupData, GraphData } = this.props;
-        //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
+        const { FetchProgram, GraphData } = this.props;
+        const { appData } = this.state;
+        const { changeGlobalProgram, changeGlobalDate, getDateList } = this;
+
+        console.log({GraphData})
+
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		    { !StartupData  ? <p> Loading </p> : 
+		      		    { !GraphData  ? <p> Loading </p> : 
                             <ProductivityCard 
-                                            globalDate={this.state.globalDate}
-                                            globalProgram={this.state.globalProgram}
-                                            changeGlobalDate={this.changeGlobalDate} 
-                                            changeGlobalProgram={this.changeGlobalProgram}
-                                            dateList={this.getDateList(StartupData.productivityData)} 
-                                            programList={StartupData.appSettings.programList}>
+                                globalDate          = {appData.globalDate}
+                                globalProgram       = {appData.globalProgram}
+                                changeGlobalDate    = {changeGlobalDate} 
+                                changeGlobalProgram = {changeGlobalProgram}
+                                dateList            = {getDateList(appData.productivityData)} 
+                                programList         = {appData.appSettings.programList} >
+
                                 <h4 className="card-body-title"> Team </h4> 
     			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
-                                                                    TeamGraphData={Object.assign(GraphData)} 
-                                                                    globalDate={this.state.globalDate} /> }
+                                                                    TeamGraphData = {GraphData} 
+                                                                    globalDate    = {appData.globalDate} /> }
                                 <hr />
                                 <h4 className="card-body-title"> Individual </h4>
     			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
-                                                                    IndividualGraphData={Object.assign(GraphData.individualGraphData)} 
-                                                                    globalDate={this.state.globalDate}/> }
+                                                                    IndividualGraphData = {GraphData.individualGraphData} 
+                                                                    globalDate         = {appData.globalDate}/> }
+
 		      		    </ProductivityCard> }
 		    	</div>
 				)
@@ -92,7 +133,7 @@ function mapStateToProps(state){
     } = state;
     return { 
         GraphData : graphData,
-        appData : fetchProgram
+        FetchProgram : fetchProgram
     };
 }
 
