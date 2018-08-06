@@ -159,7 +159,6 @@ export function fetchUserData(email) {
 
 export function getLinegraphData(globalProgram, productivityData) {
     return async dispatch => {
-        console.log({globalProgram})
         let [
             teamGraphData,
             individualGraphData,

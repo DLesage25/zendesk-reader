@@ -23,7 +23,7 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            appData: 'appData' in this.props     ? this.props.appData: {}
+            appData: 'appData' in this.props ? this.props.appData: {}
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -47,9 +47,7 @@ class Generalpage extends Component {
     }
 
     changeGlobalProgram(newProgram) {
-        console.log({newProgram})
-        this.props.fetchProgram(newProgram, this.props.appData)
-        //this.setState(Object.assign(this.state, { globalProgram: newProgram }))
+        this.props.fetchProgram(newProgram, this.state.appData);
     }
 
     getDateList(productivityData){
@@ -75,12 +73,11 @@ class Generalpage extends Component {
                 globalProgram: FetchProgram.globalProgram,
                 productivityData: FetchProgram.productivityData
             }
+
             this.setState(
-                {
-                    appData: newAppData
-                }, 
+                { appData: newAppData }, 
                 () => { this.props.getLinegraphData(this.state.appData.globalProgram, this.state.appData.productivityData) }
-                )
+            )
         }
     }
 
@@ -88,8 +85,6 @@ class Generalpage extends Component {
         const { FetchProgram, GraphData } = this.props;
         const { appData } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList } = this;
-
-        console.log({GraphData})
 
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
@@ -111,13 +106,12 @@ class Generalpage extends Component {
     			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
                                                                     IndividualGraphData = {GraphData.individualGraphData} 
                                                                     globalDate         = {appData.globalDate}/> }
-
-		      		    </ProductivityCard> }
+		      		        </ProductivityCard> 
+                        }
 		    	</div>
 				)
 	}
 }
-
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
@@ -128,8 +122,8 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state){
     const {
-        fetchProgram,
-        graphData
+        graphData,
+        fetchProgram
     } = state;
     return { 
         GraphData : graphData,

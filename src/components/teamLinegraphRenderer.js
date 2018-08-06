@@ -18,6 +18,7 @@ export default class TeamLinegraphRenderer extends Component {
             queueData,
             teamGraphData
         } = TeamGraphData;
+        console.log({queueData})
         return (
                 <div style={{ marginBottom:'40px' }}>
                     <div className="row" style={{ marginBottom: '30px' }}>
