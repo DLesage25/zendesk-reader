@@ -1,3 +1,13 @@
+/*
+    General Page
+    Main component for the live stats view. Receives productivity data
+    and render team/individual linegraphs with it.
+
+    Bugs:
+    - When changing programs, queue data is mutated and ends up aggregating 
+    non-existent labels
+*/
+
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
@@ -16,18 +26,6 @@ import CardComponent from './cardComponent'
 import Table from './table3'
 import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
-
-
-/*
-    General Page
-    Main component for the live stats view. Receives productivity data
-    and render team/individual linegraphs with it.
-
-    Bugs:
-    - When changing programs, queue data is mutated and ends up aggregating 
-    non-existent labels
-*/
-
 
 class Generalpage extends Component {
 
