@@ -1,37 +1,54 @@
 import React, { Component } from 'react';
+
 import Generalpage          from './generalPage';
+import TopBar               from './topBar';
+import ScrollDetector from './ScrollDetector';
 
 class Main extends Component {
     constructor(props) {
         super(props);
         this.state        = { 
-                hasError: false
+                hasError: false,
+                view : 'generalPage'
             };
         this.onGetStarted = this.onGetStarted.bind(this);
+        this.updateScroll  = this.updateScroll.bind(this);
+        this.onSelectView  = this.onSelectView  .bind(this);
     }
+
     componentDidCatch(){ this.setState({ hasError : true }); }
+    onSelectView(view){ this.setState({ view : view }) }
+    onGetStarted(){ this.setState({ view : 'generalPage' }) }
+
+    updateScroll(scroll) {
+        if (!scroll || scroll < 50) {
+            this.setState({scrolled: false})  
+        } else {
+            this.setState({scrolled: true})  
+        }
+    }
 
     render() {
-        const { hasError } = this.state;
+        const { onSelectView, onGetStarted, updateScroll } = this;
+        const { hasError, scrolled, view } = this.state;
         return (
-            <section className = 'page-content' >
-                <div className = 'page-content-inner'>
-                    <nav className = 'top-submenu top-submenu-with-background'>
-                        <div className = 'row' style = {{ height:'100%'}} >
-                            {this.renderSections(this.props.StartupData)}
-                        </div >
-                    </nav >
+                <div style = {{ maxWidth : '1400px', maxHeight : '100%' }}>
+                    <TopBar onClick = {onSelectView} scrolled = {scrolled} />
+                    <section className = 'page-content' >
+                        <div className = 'page-content-inner'>
+                            <nav className = 'top-submenu top-submenu-with-background'>
+                                <div className = 'row' style = {{ height:'100%'}} >
+                                    {this.renderSections(this.props.StartupData)}
+                                </div >
+                            </nav >
+                        </div>
+                    </section>
+                    <ScrollDetector updateScroll = {updateScroll} />
                 </div>
-            </section >
         );
     }
+
     renderSections(StartupData) {
-        switch (this.props.view) {
-            case 'generalPage'             : return <Generalpage StartupData={StartupData} />;
-            default:                     return <div><Generalpage onGetStarted = { this.onGetStarted } /></div>;
-        };
-    }
-    // renderSections() {
     //     let {view} = this.props; 
     //     let showCareerCalibrationOf = '';       
     //     if(typeof view === 'object'){
@@ -44,12 +61,12 @@ class Main extends Component {
     //                 break; 
     //         }
     //     }
-    //     switch (view) {
-    //         case 'Welcome'             : return <Welcome />;
-    //         case 'Performance Review'  : return <PerformanceReview />;
-    //         default:                     return <Welcome onGetStarted = { this.onGetStarted } />;
-    //     };
-    // }
+        switch (this.props.view) {
+            case 'generalPage'             : return <Generalpage appData={StartupData} />;
+            default:                     return <div><Generalpage appData={StartupData} onGetStarted = { this.onGetStarted } /></div>;
+        };
+    }
+
     onGetStarted(){
         if ('onGetStarted' in this.props) this.props.onGetStarted();
         else console.warn('onGetStarted event handler for main has not been defined by parent component');

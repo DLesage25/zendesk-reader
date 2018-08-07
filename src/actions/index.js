@@ -18,7 +18,8 @@ const {
     FETCH_ALL_DATA,
     SET_ENTRY,
     GRAPH_DATA,
-    FILTER_INDIVIDUAL_PRODUCTIVITY
+    FILTER_INDIVIDUAL_PRODUCTIVITY,
+    FETCH_PROGRAM
 } = Types;
 
 let AccessData = {
@@ -156,16 +157,16 @@ export function fetchUserData(email) {
     }
 }
 
-export function getLinegraphData(programData, productivityData) {
+export function getLinegraphData(globalProgram, productivityData) {
     return async dispatch => {
         let [
             teamGraphData,
             individualGraphData,
             queueData
         ] = await Promise.all([
-            formatTeamLinegraphData.formatChartData(programData, productivityData),
-            formatIndividualLinegraphData.formatChartData(programData, productivityData),
-            formatQueueData.formatChartData(programData, productivityData)
+            formatTeamLinegraphData.formatChartData(globalProgram, productivityData),
+            formatIndividualLinegraphData.formatChartData(globalProgram, productivityData),
+            formatQueueData.formatChartData(globalProgram, productivityData)
         ]);
 
         let payload = {
@@ -183,7 +184,7 @@ export function fetchAndInitialize(email) {
         //email = 'amy@partnerhero.com' test with this
         const userID = email2id(email);
 
-        const date = moment().format('MM_DD_YY');
+        const date = moment().subtract(1, 'days');
 
         let [
             userData,
@@ -215,22 +216,42 @@ export function fetchAndInitialize(email) {
         let programId = selectedProgram.settings.id;
 
         let productivityData = await get('productivity/byProgram/' + programId +
-                                        '/byYear/' + moment().year() +
-                                        '/byWeek/' + moment().week())
+            '/byYear/' + date.year() +
+            '/byWeek/' + date.week())
 
         let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
 
         const payload = {
-            programData: selectedProgram,
+            globalDate: date.format('MM_DD_YY'),
+            globalProgram: selectedProgram,
             userData: userData,
             productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
             appSettings: {
-                globalDate: date,
-                globalProgram: selectedProgram,
                 programList: programNames
             }
         };
 
         return dispatch({ type: FETCH_ALL_DATA, payload: payload });
+    }
+}
+
+export function fetchProgram(programName, appData) {
+    return async dispatch => {
+        let allProgramSettings = await get('programs/');
+
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName })
+        let programId = selectedProgram.settings.id;
+
+        let productivityData = await get('productivity/byProgram/' + programId +
+            '/byYear/' + moment().year() +
+            '/byWeek/' + moment().week());
+
+        const payload = {
+            appSettings: appData.appSettings,
+            globalProgram: selectedProgram,
+            productivityData: productivityData.byDate
+        };
+
+        return dispatch({ type: FETCH_PROGRAM, payload: payload });
     }
 }
