@@ -9,7 +9,8 @@ export default class TeamLinegraphRenderer extends Component {
         this.renderData = this.renderData.bind(this);
     }
 
-    renderData(data, globalDate) {
+    renderData(data, globalDate, log) {
+        if(log) console.log({data})
         return _.find(data, function(o) {return o.dayKey === globalDate});
     }
 
@@ -18,7 +19,6 @@ export default class TeamLinegraphRenderer extends Component {
             queueData,
             teamGraphData
         } = TeamGraphData;
-        console.log({queueData})
         return (
                 <div style={{ marginBottom:'40px' }}>
                     <div className="row" style={{ marginBottom: '30px' }}>
@@ -28,7 +28,7 @@ export default class TeamLinegraphRenderer extends Component {
                     </div>
                     <div className="row" style={{ marginBottom: '20px' }}>
                         <CardComponent marginLeft='30px' size="col-lg-12" title="Queue volume" description="Today's incoming ticket volume" body="these are some stats" >
-                            <Linegraph  width="1000" height="280" renderData={ this.renderData(queueData, globalDate) } />
+                            <Linegraph  width="1000" height="280" renderData={ this.renderData(queueData, globalDate, true) } />
                         </CardComponent>
                     </div>
                 </div>

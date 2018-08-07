@@ -17,6 +17,18 @@ import Table from './table3'
 import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
 
+
+/*
+    General Page
+    Main component for the live stats view. Receives productivity data
+    and render team/individual linegraphs with it.
+
+    Bugs:
+    - When changing programs, queue data is mutated and ends up aggregating 
+    non-existent labels
+*/
+
+
 class Generalpage extends Component {
 
     constructor(props){
@@ -28,6 +40,31 @@ class Generalpage extends Component {
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
+    }
+
+    componentDidUpdate() {
+        const { FetchProgram } = this.props;
+
+        if (!FetchProgram) return true;
+
+        const newProgramName = FetchProgram.globalProgram.settings.id;
+        const currentProgramName = this.state.appData.globalProgram.settings.id;
+
+        if(newProgramName !== currentProgramName) {
+            let newAppData = {
+                ...this.props.appData,
+                appSettings: FetchProgram.appSettings,
+                globalProgram: FetchProgram.globalProgram,
+                productivityData: FetchProgram.productivityData
+            }
+            
+            this.props.getLinegraphData(newAppData.globalProgram, newAppData.productivityData)
+            this.setState({ appData: newAppData })
+        }
     }
 
     changeGlobalDate(newDate) {
@@ -52,33 +89,6 @@ class Generalpage extends Component {
 
     getDateList(productivityData){
         return Object.keys(productivityData).reverse();
-    }
-
-    componentWillMount() {
-        this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
-    }
-
-    componentDidUpdate() {
-        const { FetchProgram } = this.props;
-
-        if (!FetchProgram) return true;
-
-        const newProgramName = FetchProgram.globalProgram.settings.id;
-        const currentProgramName = this.state.appData.globalProgram.settings.id;
-
-        if(newProgramName !== currentProgramName) {
-            let newAppData = {
-                ...this.props.appData,
-                appSettings: FetchProgram.appSettings,
-                globalProgram: FetchProgram.globalProgram,
-                productivityData: FetchProgram.productivityData
-            }
-
-            this.setState(
-                { appData: newAppData }, 
-                () => { this.props.getLinegraphData(this.state.appData.globalProgram, this.state.appData.productivityData) }
-            )
-        }
     }
 
 	render() {
