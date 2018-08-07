@@ -32,10 +32,11 @@ export default class ProductivityCard extends Component {
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
 				        	<div style={{ float: 'left'}}>
 					            <Dropdown current={globalProgram.settings.prettyName} options={programList} action={changeGlobalProgram} buttonClassName="btn btn-sm btn-primary ml-2 dropdown-toggle" />
-					            <Dropdown current={globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-secondary ml-2 dropdown-toggle"/>
+					            <Dropdown current={globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-secondary ml-2 dropdown-toggle btn-secondary-light"/>
 				            </div>
-				            <div style={{ float: 'right', marginRight: '100px'}}>
+				            <div style={{ float: 'right', marginRight: '10px'}}>
 				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { moment().format('MM/DD @ hh:00a')} </span>
+							<a className="btn btn-sm ml-2 btn-primary" > <i className="fa fa-sync-alt" style={{ color:'white' }}/> </a>
 				            </div>
 				        </span>
 				    </div>
