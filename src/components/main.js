@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 import Generalpage          from './generalPage';
+
 import TopBar               from './topBar';
 import ScrollDetector from './ScrollDetector';
+import GeneralSettings         from './generalSettings';
 
 class Main extends Component {
     constructor(props) {
@@ -49,6 +51,8 @@ class Main extends Component {
     }
 
     renderSections(StartupData) {
+    // renderSections() {
+
     //     let {view} = this.props; 
     //     let showCareerCalibrationOf = '';       
     //     if(typeof view === 'object'){
@@ -63,6 +67,7 @@ class Main extends Component {
     //     }
         switch (this.props.view) {
             case 'generalPage'             : return <Generalpage appData={StartupData} />;
+            case 'generalSettings'            : return <GeneralSettings />;
             default:                     return <div><Generalpage appData={StartupData} onGetStarted = { this.onGetStarted } /></div>;
         };
     }
