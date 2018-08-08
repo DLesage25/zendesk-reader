@@ -48,6 +48,10 @@ class Generalpage extends Component {
         this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
     }
 
+    componentDidUpdate() {
+        this.checkIfFetch();
+    }
+
     checkIfFetch() {
         const { FetchProgram } = this.props;
 
@@ -70,10 +74,6 @@ class Generalpage extends Component {
             this.props.getLinegraphData(newAppData.globalProgram, newAppData.productivityData)
             this.setState({ appData: newAppData, lastFetch: moment().format('X') })
         }
-    }
-
-    componentDidUpdate() {
-        this.checkIfFetch();
     }
 
     changeGlobalDate(newDate) {
@@ -106,7 +106,7 @@ class Generalpage extends Component {
 
 	render() {
         const { GraphData } = this.props;
-        const { appData } = this.state;
+        const { appData, lastFetch } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
 
 		return (
@@ -119,7 +119,8 @@ class Generalpage extends Component {
                                 changeGlobalProgram = {changeGlobalProgram}
                                 dateList            = {getDateList(appData.productivityData)} 
                                 programList         = {appData.appSettings.programList}
-                                refreshData         = {refreshData} >
+                                refreshData         = {refreshData}
+                                lastFetch           = {lastFetch} >
 
                                 <h4 className="card-body-title"> Team </h4> 
     			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 

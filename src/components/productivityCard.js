@@ -25,7 +25,8 @@ export default class ProductivityCard extends Component {
 			changeGlobalProgram,
 			dateList, 
 			programList,
-			refreshData
+			refreshData,
+			lastFetch
 		} = this.props;
 		return (
 				<section className="card">
@@ -36,7 +37,7 @@ export default class ProductivityCard extends Component {
 					            <Dropdown current={globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-secondary ml-2 dropdown-toggle btn-secondary-light"/>
 				            </div>
 				            <div style={{ float: 'right', marginRight: '10px'}}>
-				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { moment().format('MM/DD @ hh:00a')} </span>
+				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { (lastFetch) ? moment(lastFetch, 'X').format('MM/DD @ hh:mma') : moment().format('MM/DD @ hh:00a') } </span>
 							<a className="btn btn-sm ml-2 btn-primary" onClick={() => this.props.refreshData()} > <i className="fa fa-sync-alt" style={{ color:'white' }}/> </a>
 				            </div>
 				        </span>
