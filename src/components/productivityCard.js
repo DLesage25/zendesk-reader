@@ -24,7 +24,8 @@ export default class ProductivityCard extends Component {
 			changeGlobalDate,
 			changeGlobalProgram,
 			dateList, 
-			programList
+			programList,
+			refreshData
 		} = this.props;
 		return (
 				<section className="card">
@@ -36,7 +37,7 @@ export default class ProductivityCard extends Component {
 				            </div>
 				            <div style={{ float: 'right', marginRight: '10px'}}>
 				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { moment().format('MM/DD @ hh:00a')} </span>
-							<a className="btn btn-sm ml-2 btn-primary" > <i className="fa fa-sync-alt" style={{ color:'white' }}/> </a>
+							<a className="btn btn-sm ml-2 btn-primary" onClick={() => this.props.refreshData()} > <i className="fa fa-sync-alt" style={{ color:'white' }}/> </a>
 				            </div>
 				        </span>
 				    </div>

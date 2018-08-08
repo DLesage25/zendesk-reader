@@ -235,7 +235,7 @@ export function fetchAndInitialize(email) {
     }
 }
 
-export function fetchProgram(programName, appData) {
+export function fetchProgram(programName, appData, isRefresh) {
     return async dispatch => {
         let allProgramSettings = await get('programs/');
 
@@ -249,7 +249,8 @@ export function fetchProgram(programName, appData) {
         const payload = {
             appSettings: appData.appSettings,
             globalProgram: selectedProgram,
-            productivityData: productivityData.byDate
+            productivityData: productivityData.byDate,
+            isRefresh: isRefresh
         };
 
         return dispatch({ type: FETCH_PROGRAM, payload: payload });

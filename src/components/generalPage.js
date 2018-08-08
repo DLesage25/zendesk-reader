@@ -15,7 +15,8 @@ import moment from 'moment';
 
 import { 
         getLinegraphData,
-        fetchProgram
+        fetchProgram,
+        fetch
         } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
@@ -33,18 +34,21 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            appData: 'appData' in this.props ? this.props.appData: {}
+            appData: 'appData' in this.props ? this.props.appData: {},
+            lastFetch: null
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
+        this.refreshData = this.refreshData.bind(this);
+        this.checkIfFetch = this.checkIfFetch.bind(this);
     }
 
     componentWillMount() {
         this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
     }
 
-    componentDidUpdate() {
+    checkIfFetch() {
         const { FetchProgram } = this.props;
 
         if (!FetchProgram) return true;
@@ -52,7 +56,10 @@ class Generalpage extends Component {
         const newProgramName = FetchProgram.globalProgram.settings.id;
         const currentProgramName = this.state.appData.globalProgram.settings.id;
 
-        if(newProgramName !== currentProgramName) {
+        const isRefresh = FetchProgram.isRefresh;
+        const timeSinceLastFetch = moment().format('X') - this.state.lastFetch;
+
+        if((isRefresh || newProgramName !== currentProgramName) && timeSinceLastFetch > 5) {
             let newAppData = {
                 ...this.props.appData,
                 appSettings: FetchProgram.appSettings,
@@ -61,8 +68,12 @@ class Generalpage extends Component {
             }
             
             this.props.getLinegraphData(newAppData.globalProgram, newAppData.productivityData)
-            this.setState({ appData: newAppData })
+            this.setState({ appData: newAppData, lastFetch: moment().format('X') })
         }
+    }
+
+    componentDidUpdate() {
+        this.checkIfFetch();
     }
 
     changeGlobalDate(newDate) {
@@ -82,7 +93,11 @@ class Generalpage extends Component {
     }
 
     changeGlobalProgram(newProgram) {
-        this.props.fetchProgram(newProgram, this.state.appData);
+        this.props.fetchProgram(newProgram, this.state.appData, false);
+    }
+
+    refreshData() {
+        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true);
     }
 
     getDateList(productivityData){
@@ -90,9 +105,9 @@ class Generalpage extends Component {
     }
 
 	render() {
-        const { FetchProgram, GraphData } = this.props;
+        const { GraphData } = this.props;
         const { appData } = this.state;
-        const { changeGlobalProgram, changeGlobalDate, getDateList } = this;
+        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
 
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
@@ -103,7 +118,8 @@ class Generalpage extends Component {
                                 changeGlobalDate    = {changeGlobalDate} 
                                 changeGlobalProgram = {changeGlobalProgram}
                                 dateList            = {getDateList(appData.productivityData)} 
-                                programList         = {appData.appSettings.programList} >
+                                programList         = {appData.appSettings.programList}
+                                refreshData         = {refreshData} >
 
                                 <h4 className="card-body-title"> Team </h4> 
     			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
