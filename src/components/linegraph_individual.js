@@ -6,11 +6,13 @@ export default class Linegraph extends Component {
     constructor(props) {
         super(props);
 
-        // var chartOptions = {
-        //     legend: {
-        //         display: true
-        //     }
-        // };
+        var chartOptions = {
+            legend: {
+                display: true
+            },
+            //String - A legend template
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></span></li><%}%></ul>"
+        };
         
         this.state = {
             width: 'width' in this.props ? this.props.width : '466',
@@ -25,8 +27,7 @@ export default class Linegraph extends Component {
                 {
                     !this.props.renderData ?
                     <p> No data to load... </p> 
-                    : <LineChart data = { this.props.renderData } width = { this.state.width } height = { this.state.heigth }
-                    />
+                    : <LineChart data = { this.props.renderData } width = { this.state.width } height = { this.state.heigth } options={this.chartOptions} />
                 }
             </div>
         )

@@ -2,14 +2,14 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import colorSchemes from './colorScheme';
 
-const formatChartData = async(programData, productivityData) => {
-    let groupedData = await groupAllData(programData, productivityData);
+const formatChartData = async(globalProgram, productivityData) => {
+    let groupedData = await groupAllData(globalProgram, productivityData);
     let formattedData = await formatAllData(groupedData);
     return formattedData;
 }
 
-const groupAllData = async(programData, productivityData) => {
-    let groupedData = await processAllDays(programData, productivityData);
+const groupAllData = async(globalProgram, productivityData) => {
+    let groupedData = await processAllDays(globalProgram, productivityData);
     return groupedData;
 }
 
@@ -36,8 +36,8 @@ const formatAllData = async(groupedData) => {
     })
 }
 
-const processAllDays = async(programData, productivityData) => {
-    let goal = programData.settings.goal;   
+const processAllDays = async(globalProgram, productivityData) => {
+    let goal = globalProgram.settings.goal;   
     let days = Object.keys(productivityData);
     let groupedData = [];
 

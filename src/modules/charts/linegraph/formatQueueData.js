@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import colorSchemes from './colorScheme';
 
-const formatChartData = async(programData, productivityData) => {
-    let groupedData = await groupAllData(programData, productivityData);
+const formatChartData = async(globalProgram, productivityData) => {
+    let groupedData = await groupAllData(globalProgram, productivityData);
     let formattedData = await formatAllData(groupedData);
     return formattedData;
 }
 
-const groupAllData = async(programData, productivityData) => {
-    let groupedData = await processAllDays(programData, productivityData);
+const groupAllData = async(globalProgram, productivityData) => {
+    let groupedData = await processAllDays(productivityData);
     return groupedData;
 }
 
@@ -31,7 +31,7 @@ const formatAllData = async(groupedData) => {
     })
 }
 
-const processAllDays = async(programData, productivityData) => {
+const processAllDays = async(productivityData) => {
     let days = Object.keys(productivityData);
     let groupedData = [];
 
