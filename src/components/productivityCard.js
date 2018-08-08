@@ -38,7 +38,7 @@ export default class ProductivityCard extends Component {
 				            </div>
 				            <div style={{ float: 'right', marginRight: '10px'}}>
 				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { (lastFetch) ? moment(lastFetch, 'X').format('MM/DD @ hh:mma') : moment().format('MM/DD @ hh:00a') } </span>
-							<button type="button" className="btn btn-sm ml-2 btn-outline-primary" onClick={() => this.props.refreshData()} > <i className="fa fa-sync-alt" style={{ color:"#007bff" }}/> </button>
+							<button type="button" className="btn btn-sm ml-2 btn-outline-primary" onClick={() => this.props.refreshData()} > <i className="fa fa-sync-alt" /> </button>
 				            </div>
 				        </span>
 				    </div>
