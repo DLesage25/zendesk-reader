@@ -120,14 +120,15 @@ class Generalpage extends Component {
                                 dateList            = {getDateList(appData.productivityData)} 
                                 programList         = {appData.appSettings.programList}
                                 refreshData         = {refreshData}
-                                lastFetch           = {lastFetch} >
+                                lastFetch           = {lastFetch} 
+                            >
 
-                                <h4 className="card-body-title"> Team </h4> 
+                                <h4 className="card-body-title"> TEAM </h4> 
     			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
                                                                     TeamGraphData = {GraphData} 
                                                                     globalDate    = {appData.globalDate} /> }
                                 <hr />
-                                <h4 className="card-body-title"> Individual </h4>
+                                <h4 className="card-body-title"> INDIVIDUAL </h4>
     			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
                                                                     IndividualGraphData = {GraphData.individualGraphData} 
                                                                     globalDate         = {appData.globalDate}/> }

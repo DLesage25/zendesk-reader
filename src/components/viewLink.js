@@ -19,8 +19,8 @@ export default class Dropdown extends Component {
     }
 
 	render() {
-		const { onClick, onMouseEnter, onMouseLeave, style } = this;
-        const { orientation, id, text } = this.props;
+		const { onMouseEnter, onMouseLeave, style } = this;
+        const { orientation, id, text, onClick } = this.props;
 		return (
 			    <div className="dropdown" style={{
 						                    marginLeft  : orientation ? '0px' : '25px',
@@ -30,9 +30,9 @@ export default class Dropdown extends Component {
 			        <div name="strip-container" style={{position: 'absolute', margin: 0, padding: 0, width: 0, height: 0, zIndex: 100}}>
 			            <span name="strip" style={{margin: 0, padding: 0, width: 0, height: 0}} />
 			        </div>
-			        <a className="button">
+			        <a className="button" onClick={() => {onClick(text)}} href="#">
 			        	<i className= { this.state.icon } style={{marginLeft: 10, marginTop: 10}} />
-			            <span className={ this.state.spanClassname } style={{marginLeft: 10 }}> { this.props.text } </span>
+			            <span className={ this.state.spanClassname } style={{marginLeft: 10 }}> { text } </span>
 			        </a>
 			    </div>
 				)

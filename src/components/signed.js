@@ -6,7 +6,7 @@ class Signed extends Component {
         super(props);
 
         this.state = { 
-                        view : 'generalPage',
+                        view : 'generalSettings',
                         scrolled: false
                      };
     }
