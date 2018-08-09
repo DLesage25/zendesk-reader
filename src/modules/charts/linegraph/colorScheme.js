@@ -6,12 +6,12 @@ const colorSchemes = [{
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(220,220,220,1)"
     }, {
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
+        fillColor: "rgba(0,167,187,0.2)",
+        strokeColor: "rgba(0,167,187,1)",
+        pointColor: "rgba(0,167,187,1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,1)"
+        pointHighlightStroke: "rgba(0,167,187,1)"
     }, {
         fillColor: "rgb(106,168,148, 0.2)",
         strokeColor: "#05583e",
@@ -20,45 +20,41 @@ const colorSchemes = [{
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(151,187,205,1)"
     }, {
-        fillColor: "rgba(217, 30, 24,0.2)",
-        strokeColor: "rgba(217, 30, 24,1)",
-        pointColor: "rgba(217, 30, 24,1)",
+        fillColor: "rgba(244, 125, 84,0.2)", 
+        strokeColor: "rgba(244, 125, 84,1)",
+        pointColor: "rgba(244, 125, 84,1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(217, 30, 24,1)"
+        pointHighlightStroke: "rgba(244, 125, 84,1)"
     }, {
-        fillColor: "rgba(249, 191, 59,0.2)",
-        strokeColor: "rgba(249, 191, 59,1)",
-        pointColor: "rgba(249, 191, 59,1)",
+        fillColor: "rgba(125, 108, 183, 0.2)",
+        strokeColor: "rgba(125, 108, 183, 1)",
+        pointColor: "rgba(125, 108, 183, 1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(249, 191, 59,1)"
-    },
-    {
-        fillColor: "rgba(1, 50, 67, 0.2)",
-        strokeColor: "rgba(1, 50, 67, 1)",
-        pointColor: "rgba(1, 50, 67, 1)",
+        pointHighlightStroke: "rgba(125, 108, 183, 1)"
+    }, {
+        fillColor: "rgba(16, 76, 109,0.2)",
+        strokeColor: "rgba(16, 76, 109,1)",
+        pointColor: "rgba(16, 76, 109,1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(1, 50, 67, 1)"
-    },
-    {
+        pointHighlightStroke: "rgba(16, 76, 109,1)"
+    }, {
         fillColor: "rgba(224, 130, 131, 0.2)",
         strokeColor: "rgba(224, 130, 131, 1)",
         pointColor: "rgba(224, 130, 131, 1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(224, 130, 131, 1)"
-    },
-    {
-        fillColor: "rgba(102, 51, 153, 0.2)",
-        strokeColor: "rgba(102, 51, 153, 1)",
-        pointColor: "rgba(102, 51, 153, 1)",
+    }, {
+        fillColor: "rgba(251, 169, 105, 0.2)",
+        strokeColor: "rgba(251, 169, 105, 1)",
+        pointColor: "rgba(251, 169, 105, 1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(102, 51, 153, 1)" 
-    },
-    {
+        pointHighlightStroke: "rgba(251, 169, 105, 1)" 
+    }, {
         fillColor: "rgba(144, 198, 149, 0.2)",
         strokeColor: "rgba(144, 198, 149, 1)",
         pointColor: "rgba(144, 198, 149, 1)",

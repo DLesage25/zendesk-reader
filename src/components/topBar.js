@@ -6,12 +6,12 @@ import ViewLink from './viewLink.js';
 
 const primaryOpts = [
     { text: 'Live stats', icon: 'fa fa-signal top-link'},
-    { text: 'Forecasting', icon: 'fa fa-superscript  top-link'}
+    { text: 'Forecasting', icon: 'fa fa-superscript  top-link top-link-inactive'}
 ];
 
 const secondaryOpts = [
     { text: 'Settings', icon: 'fa fa-cogs  top-link'},
-    { text: 'Help', icon: 'fa fa-question  top-link'},
+    { text: 'Help', icon: 'fa fa-question  top-link top-link-inactive'},
 ];
 
 export default class TopBar extends Component {
