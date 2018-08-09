@@ -34,8 +34,8 @@ body {
 .top-menu {
 	height: 50px;
 	-webkit-transition: height 0.3s ease, background-color 0.3s ease;
-	background-color: #2b3f52e3;
-	border-bottom: 1px solid #5c6575;
+	background-color: #f15861;
+	border-bottom: 1px solid #f97aa3;
 }
 
 /*.top-link {
@@ -53,7 +53,6 @@ body {
 }*/
 
 .scrolled-top-menu {
-	background-color: #2b3f52e3;
 	height: 40px;
 }
 
@@ -79,8 +78,9 @@ body {
 	text-decoration: none;
 }
 
-.top-float a:active {
-	color: red;
+.top-float a:focus {
+	text-decoration: none;
+	color: #f15861;
 }
 
 .scrolled-top-float {
@@ -110,3 +110,15 @@ body {
 .settings-link {
 	font-size: 16px;
 }
+
+.main-card-dropdown {
+	color: #00799C !important;
+	border-color: #00799C !important;
+}
+
+.main-card-dropdown:hover, .main-card-dropdown:focus {
+	color: white !important;
+	background-color: #00799C !important;
+	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+}
+
