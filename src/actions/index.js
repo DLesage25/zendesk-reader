@@ -184,7 +184,7 @@ export function fetchAndInitialize(email) {
         //email = 'amy@partnerhero.com' test with this
         const userID = email2id(email);
 
-        const date = moment().subtract(1, 'days');
+        const date = moment();
 
         let [
             userData,

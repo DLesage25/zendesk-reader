@@ -70,12 +70,17 @@ body {
 	-webkit-transition: margin-top 0.3s ease;
 	-webkit-transition: color 0.3s ease;
 
-	font-weight: 400;
-	color: #f3f2f2 !important;
+	font-weight: 300;
+	color: #f3f2f2;
 }
 
 .top-float a:hover {
 	color: #9ea9b3 !important;
+	text-decoration: none;
+}
+
+.top-float a:active {
+	color: red;
 }
 
 .scrolled-top-float {
@@ -100,4 +105,8 @@ body {
 .btn-secondary-light {
     background-color: #999da0 !important;
     border-color: #969696 !important;
+}
+
+.settings-link {
+	font-size: 16px;
 }

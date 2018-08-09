@@ -4,14 +4,13 @@ import Generalpage          from './generalPage';
 
 import TopBar               from './topBar';
 import ScrollDetector from './ScrollDetector';
-import GeneralSettings         from './generalSettings';
+import SettingsPage         from './settingsPage';
 
 class Main extends Component {
     constructor(props) {
         super(props);
         this.state        = { 
-                hasError: false,
-                view : 'generalPage'
+                view : 'Live stats'
             };
         this.onGetStarted = this.onGetStarted.bind(this);
         this.updateScroll  = this.updateScroll.bind(this);
@@ -19,8 +18,8 @@ class Main extends Component {
     }
 
     componentDidCatch(){ this.setState({ hasError : true }); }
-    onSelectView(view){ this.setState({ view : view }) }
-    onGetStarted(){ this.setState({ view : 'generalPage' }) }
+    onSelectView(view){ console.log(view); if(view !== this.state.view) this.setState({ view:view }) }
+    onGetStarted(){ this.setState({ view : 'Live stats' }) }
 
     updateScroll(scroll) {
         if (!scroll || scroll < 50) {
@@ -50,8 +49,12 @@ class Main extends Component {
         );
     }
 
+    changeView() {
+
+    }
+
     renderSections(StartupData) {
-    // renderSections() {
+    // // renderSections() {
 
     //     let {view} = this.props; 
     //     let showCareerCalibrationOf = '';       
@@ -65,9 +68,9 @@ class Main extends Component {
     //                 break; 
     //         }
     //     }
-        switch (this.props.view) {
-            case 'generalPage'             : return <Generalpage appData={StartupData} />;
-            case 'generalSettings'            : return <GeneralSettings />;
+        switch (this.state.view) {
+            case 'Live stats'             : return <Generalpage appData={StartupData} />;
+            case 'Settings'            : return <SettingsPage />;
             default:                     return <div><Generalpage appData={StartupData} onGetStarted = { this.onGetStarted } /></div>;
         };
     }

@@ -120,7 +120,8 @@ class Generalpage extends Component {
                                 dateList            = {getDateList(appData.productivityData)} 
                                 programList         = {appData.appSettings.programList}
                                 refreshData         = {refreshData}
-                                lastFetch           = {lastFetch} >
+                                lastFetch           = {lastFetch} 
+                            >
 
                                 <h4 className="card-body-title"> Team </h4> 
     			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 

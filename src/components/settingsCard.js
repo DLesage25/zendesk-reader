@@ -22,7 +22,20 @@ export default class SettingsCard extends Component {
 				<section className="card">
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
-				            <Dropdown current={"test"} options={["programList"]} action={(option) => { console.log(option)}} buttonClassName="btn btn-sm btn-primary ml-2 dropdown-toggle" />
+							<nav className="navbar navbar-expand-lg navbar-light bg-light">
+							  <a className="navbar-brand dropdown-toggle" href="#" style={{color:'gray'}}>Khan Academy</a>
+							  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+							    <span className="navbar-toggler-icon"></span>
+							  </button>
+							  <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+							    <div className="navbar-nav">
+							      <a className="nav-item nav-link settings-link" href="#">Home <span className="sr-only">(current)</span></a>
+							      <a className="nav-item nav-link settings-link" href="#">Features</a>
+							      <a className="nav-item nav-link settings-link" href="#">Pricing</a>
+							      <a className="nav-item nav-link settings-link" href="#">Disabled</a>
+							    </div>
+							  </div>
+							</nav>
 				        </span>
 				    </div>
 				    <div className="card-body">
