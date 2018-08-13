@@ -73,6 +73,8 @@ class Generalpage extends Component {
             
             this.props.getLinegraphData(newAppData.globalProgram, newAppData.productivityData)
             this.setState({ appData: newAppData, lastFetch: moment().format('X') })
+        } else {
+            return true;
         }
     }
 
