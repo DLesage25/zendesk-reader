@@ -108,11 +108,11 @@ export function postProgramSettings(program, programSettings) {
 // }
 
 //the getprogram function should pull all users from /users in FB and filter using that
-export async function getProgramRoster(program) {
+export async function getProgramRoster(programId) {
     let users = await get('/users/byUserId');
     let userTree = {};
 
-    _.filter(users, function(o) { return o.program.toLowerCase() === program }).map((user) => {
+    _.filter(users, function(o) { return o.program.toLowerCase() === programId.replace('_', ' ') }).map((user) => {
         let userID = email2id(user.email);
         userTree[userID] = user;
     })
@@ -179,9 +179,19 @@ export function getLinegraphData(globalProgram, productivityData) {
     }
 }
 
+export function programToId(program) {
+    switch(program) {
+        case 'Khan Academy':
+            return 'khan'
+            break;
+        default:
+            return program.replace(' ', '_').toLowerCase();
+    }
+}
+
 export function fetchAndInitialize(email) {
     return async dispatch => {
-        //email = 'amy@partnerhero.com' test with this
+        email = 'bradley.mccalla@partnerhero.com' //test with this
         const userID = email2id(email);
 
         const date = moment();
@@ -195,25 +205,22 @@ export function fetchAndInitialize(email) {
         ]);
 
         // let programName = userData.program;
-        let programName = 'Khan Academy';
-        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName }) //tnis wont work with current program
-        // let programId;
+        let programId = programToId(userData.program);
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.id === programId }) //tnis wont work with current program
 
         if (!selectedProgram) {
-            programId = programName.toLowerCase();
-
-            const team = await getProgramRoster(programName);
-            const settings = newSettings.program(programName, programId);
+            const team = await getProgramRoster(programId);
+            const settings = newSettings.program(programId);
 
             selectedProgram = {
                 settings: settings,
                 team: team
             };
 
+            allProgramSettings[programId] = selectedProgram;
+
             postProgramSettings(programId, selectedProgram);
         }
-
-        let programId = selectedProgram.settings.id;
 
         let productivityData = await get('productivity/byProgram/' + programId +
             '/byYear/' + date.year() +

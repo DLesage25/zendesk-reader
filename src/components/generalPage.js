@@ -124,10 +124,11 @@ class Generalpage extends Component {
                             >
 
                                 <h4 className="card-body-title"> TEAM </h4> 
+
     			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
                                                                     TeamGraphData = {GraphData} 
                                                                     globalDate    = {appData.globalDate} /> }
-                                <hr />
+                                <hr /> <br />
                                 <h4 className="card-body-title"> INDIVIDUAL </h4>
     			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
                                                                     IndividualGraphData = {GraphData.individualGraphData} 
