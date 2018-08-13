@@ -4,7 +4,7 @@ import { connect }            from 'react-redux';
 import moment from 'moment';
 
 import SettingsCard from './settingsCard'
-import SettingsProgram from './settingsProgram'
+import SettingsForm from './SettingsForm'
 import SettingsButtonsGroup from './settingsButtonsGroup'
 
 class GeneralSettings extends Component {
@@ -25,7 +25,7 @@ class GeneralSettings extends Component {
             <SettingsCard>
                 <div className="container">
                     <div className="row">
-                        <SettingsProgram/>
+                        <SettingsForm/>
                         <div className="col-sm">
                           <SettingsButtonsGroup title="Goal Type"/>
                           <SettingsButtonsGroup title="Olark Chats"/>  

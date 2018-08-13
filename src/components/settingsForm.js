@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextInput from './textInput';
 
-export default class SettingsProgram extends Component {
+export default class SettingsForm extends Component {
     constructor(props){
         super(props);
 
