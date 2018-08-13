@@ -5,8 +5,8 @@ export default class TextInput extends Component {
         super(props);
 
         const prepend = (<div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon3">{this.props.prepend}</span>
-                    </div>);
+                          <span className="input-group-text" id="basic-addon3">{this.props.prepend}</span>
+                        </div>);
 
         const append = (<div className="input-group-append">
                           <span className="input-group-text" id="basic-addon2">{this.props.append}</span>
