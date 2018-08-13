@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import SettingsCard from './settingsCard'
 import SettingsForm from './SettingsForm'
-import SettingsButtonsGroup from './settingsButtonsGroup'
 
 class GeneralSettings extends Component {
 
@@ -22,17 +21,11 @@ class GeneralSettings extends Component {
         //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-            <SettingsCard>
-                <div className="container">
-                    <div className="row">
-                        <SettingsForm/>
-                        <div className="col-sm">
-                          <SettingsButtonsGroup title="Goal Type"/>
-                          <SettingsButtonsGroup title="Olark Chats"/>  
+                    <SettingsCard>
+                        <div className="container">
+                            <SettingsForm/>
                         </div>
-                    </div>
-                </div>
-            </SettingsCard>
+                    </SettingsCard>
 		    	</div>
 				)
 	}
