@@ -34,7 +34,7 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            appData: 'appData' in this.props ? this.props.appData: {},
+            appData: 'appData' in this.props ? this.props.appData: null,
             lastFetch: null
         };
 
@@ -107,36 +107,43 @@ class Generalpage extends Component {
     }
 
 	render() {
-        const { GraphData } = this.props;
+        const { productivityData, GraphData } = this.props;
         const { appData, lastFetch } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
 
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-		      		    { !GraphData  ? <p> Loading </p> : 
-                            <ProductivityCard 
-                                globalDate          = {appData.globalDate}
-                                globalProgram       = {appData.globalProgram}
-                                changeGlobalDate    = {changeGlobalDate} 
-                                changeGlobalProgram = {changeGlobalProgram}
-                                dateList            = {getDateList(appData.productivityData)} 
-                                programList         = {appData.appSettings.programList}
-                                refreshData         = {refreshData}
-                                lastFetch           = {lastFetch} 
-                            >
+                    <div>
+                        {
+                            !productivityData  ?  <p> Whoops! Looks like there's no data for your program. :( </p> :
+                                        <div>
+                                            { !GraphData  ?  <p> Loading </p> : 
+                                                <ProductivityCard 
+                                                    globalDate          = {appData.globalDate}
+                                                    globalProgram       = {appData.globalProgram}
+                                                    changeGlobalDate    = {changeGlobalDate} 
+                                                    changeGlobalProgram = {changeGlobalProgram}
+                                                    dateList            = {getDateList(appData.productivityData)} 
+                                                    programList         = {appData.appSettings.programList}
+                                                    refreshData         = {refreshData}
+                                                    lastFetch           = {lastFetch} 
+                                                >
 
-                                <h4 className="card-body-title"> TEAM </h4> 
+                                                    <h4 className="card-body-title"> TEAM </h4> 
 
-    			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
-                                                                    TeamGraphData = {GraphData} 
-                                                                    globalDate    = {appData.globalDate} /> }
-                                <hr /> <br />
-                                <h4 className="card-body-title"> INDIVIDUAL </h4>
-    			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
-                                                                    IndividualGraphData = {GraphData.individualGraphData} 
-                                                                    globalDate         = {appData.globalDate}/> }
-		      		        </ProductivityCard> 
-                        }
+                                                   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
+                                                                                        TeamGraphData = {GraphData} 
+                                                                                        globalDate    = {appData.globalDate} /> }
+                                                    <hr /> <br />
+                                                    <h4 className="card-body-title"> INDIVIDUAL </h4>
+                                                   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
+                                                                                        IndividualGraphData = {GraphData.individualGraphData} 
+                                                                                        globalDate         = {appData.globalDate}/> }
+                                                </ProductivityCard> 
+                                            }
+                                        </div>
+                        }               
+                    </div>
 		    	</div>
 				)
 	}
