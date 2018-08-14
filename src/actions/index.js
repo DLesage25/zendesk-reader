@@ -97,8 +97,6 @@ export async function login() {
     }
 };
 
-// post settings
-
 export function postProgramSettings(program, programSettings) {
     write('/programs/' + program, programSettings);
 }
@@ -180,8 +178,8 @@ export function getLinegraphData(globalProgram, productivityData) {
 }
 
 export function programToId(program) {
-    switch(program) {
-        case 'Operations': 
+    switch (program) {
+        case 'Operations':
         case 'Khan Academy':
             return 'khan'
             break;
@@ -212,7 +210,7 @@ export function fetchAndInitialize(email) {
             '/byYear/' + date.year() +
             '/byWeek/' + date.week())
 
-        if (!selectedProgram) {
+        if (!selectedProgram && productivityData) {
             const team = await getProgramRoster(programId);
             const settings = newSettings.program(programId);
 

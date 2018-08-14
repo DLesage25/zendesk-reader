@@ -31,7 +31,6 @@ class Main extends Component {
     }
 
     render() {
-        console.log('startupdata', this.props.StartupData)
         const { onSelectView, onGetStarted, updateScroll } = this;
         const { hasError, scrolled, view } = this.state;
         return (
