@@ -181,7 +181,7 @@ export function getLinegraphData(globalProgram, productivityData) {
 
 export function programToId(program) {
     switch(program) {
-        case 'Operations': 
+        // case 'Operations': 
         case 'Khan Academy':
             return 'khan'
             break;
@@ -209,6 +209,12 @@ export function fetchAndInitialize(email) {
         let programId = programToId(userData.program);
         let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.id === programId }) //tnis wont work with current program
 
+        let productivityData = await get('productivity/byProgram/' + programId +
+            '/byYear/' + date.year() +
+            '/byWeek/' + date.week())
+
+        //if (!productivityData) return dispatch({ type: FETCH_ALL_DATA, payload:  })
+
         if (!selectedProgram) {
             const team = await getProgramRoster(programId);
             const settings = newSettings.program(programId);
@@ -223,17 +229,13 @@ export function fetchAndInitialize(email) {
             postProgramSettings(programId, selectedProgram);
         }
 
-        let productivityData = await get('productivity/byProgram/' + programId +
-            '/byYear/' + date.year() +
-            '/byWeek/' + date.week())
-
         let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
 
         const payload = {
             globalDate: date.format('MM_DD_YY'),
             globalProgram: selectedProgram,
             userData: userData,
-            productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
+            productivityData: productivityData ? productivityData.byDate : null, //fix this, /byDate should not exist as a branch
             appSettings: {
                 programList: programNames
             }

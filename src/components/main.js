@@ -56,20 +56,6 @@ class Main extends Component {
     }
 
     renderSections(StartupData) {
-    // // renderSections() {
-
-    //     let {view} = this.props; 
-    //     let showCareerCalibrationOf = '';       
-    //     if(typeof view === 'object'){
-    //         let {ButtonText, userID} = view;
-    //         switch(ButtonText){
-    //             case 'Career Calibration':
-    //             case 'Performance Review':  
-    //                 view = ButtonText;
-    //                 showCareerCalibrationOf = userID;
-    //                 break; 
-    //         }
-    //     }
         switch (this.state.view) {
             case 'Live stats'             : return <Generalpage appData={StartupData} />;
             case 'Settings'            : return <SettingsPage appData={StartupData} />;
