@@ -181,7 +181,7 @@ export function getLinegraphData(globalProgram, productivityData) {
 
 export function programToId(program) {
     switch(program) {
-        // case 'Operations': 
+        case 'Operations': 
         case 'Khan Academy':
             return 'khan'
             break;

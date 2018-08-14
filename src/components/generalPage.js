@@ -107,7 +107,7 @@ class Generalpage extends Component {
     }
 
 	render() {
-        const { productivityData, GraphData } = this.props;
+        const { GraphData } = this.props;
         const { appData, lastFetch } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
 
@@ -115,7 +115,7 @@ class Generalpage extends Component {
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <div>
                         {
-                            !productivityData  ?  <p> Man! Looks like there's no data for your program. <br /> If you think this is a mistake, hit up @dan. :-) </p> :
+                            !appData.productivityData  ?  <p> Man! Looks like there's no data for your program. <br /> If you think this is a mistake, hit up @dan. :-) </p> :
                                         <div>
                                             { !GraphData  ?  <p> Loading </p> : 
                                                 <ProductivityCard 
