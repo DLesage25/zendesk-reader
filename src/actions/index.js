@@ -205,15 +205,12 @@ export function fetchAndInitialize(email) {
             get('programs/')
         ]);
 
-        // let programName = userData.program;
         let programId = programToId(userData.program);
-        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.id === programId }) //tnis wont work with current program
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.id === programId })
 
         let productivityData = await get('productivity/byProgram/' + programId +
             '/byYear/' + date.year() +
             '/byWeek/' + date.week())
-
-        //if (!productivityData) return dispatch({ type: FETCH_ALL_DATA, payload:  })
 
         if (!selectedProgram) {
             const team = await getProgramRoster(programId);
