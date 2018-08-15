@@ -12,8 +12,19 @@ export default class SettingsCard extends Component {
             focused_btn    : false,
             focused_choice : false,
             icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
-            text: 'text' in this.props ? this.props.text : '<default text>'
+            text: 'text' in this.props ? this.props.text : '<default text>',
+            current: 'Khan Academy'
         };
+
+        this.updateData = this.updateData.bind(this);
+
+    }
+
+    updateData (programName) {
+    	console.log("Update Data ProgramName: " + programName)
+    	this.setState({ 
+	      current: programName
+	    }, this.props.action(programName));  
     }
 
 	render() {
@@ -23,7 +34,7 @@ export default class SettingsCard extends Component {
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
 							<nav className="navbar navbar-expand-lg navbar-light bg-light">
-					          <Dropdown style={{}} current={"Khan Academy"} options={["Grindr", "Khan Academy"]} action={() => {console.log('clicked')}} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
+					          <Dropdown style={{}} current={this.state.current} options={["Grindr", "Khan Academy"]} action={(programName) => this.updateData(programName)} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
 							  <div style={{marginLeft:'10px'}} className="collapse navbar-collapse" id="navbarNavAltMarkup">
 							    <div className="navbar-nav">
 							      <a className="nav-item nav-link settings-link" href="#">Home <span className="sr-only">(current)</span></a>
