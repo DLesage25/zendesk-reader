@@ -54,9 +54,9 @@ export default class SettingsForm extends Component {
 		return (
       <div className="row">
   			<div className="col-md">
-            <TextInput title="Program Name" placeholder={this.state.programName} aria-label="Username" aria-describedby="basic-addon1"/>
-            <TextInput title="Zendesk URL" placeholder={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com"/>
-            <TextInput title="Manager Email" placeholder={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com"/>
+            <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1"/>
+            <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com"/>
+            <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com"/>
   			</div>
         <div className="col-sm">
           <SettingsButtonsGroup title="Goal Type" goal={this.state.goal}/>
