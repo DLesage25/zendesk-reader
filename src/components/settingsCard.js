@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import CardComponent from './cardComponent'
 import Dropdown from './dropdown'
@@ -13,10 +14,13 @@ export default class SettingsCard extends Component {
             focused_choice : false,
             icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
             text: 'text' in this.props ? this.props.text : '<default text>',
-            current: 'Khan Academy'
+            current: 'Khan Academy',
+            lastFetch: moment().format('MM/DD @ hh:mma'),
         };
 
         this.updateData = this.updateData.bind(this);
+        this.updateLastFetch = this.updateLastFetch.bind(this);
+
 
     }
 
@@ -27,7 +31,17 @@ export default class SettingsCard extends Component {
 	    }, this.props.action(programName));  
     }
 
+    updateLastFetch (timestamp) {
+    	this.setState({ 
+	      lastFetch: timestamp
+	    }); 
+    }
+
 	render() {
+
+		const childWithProp = React.Children.map(this.props.children, (child) => {
+		    return React.cloneElement(child, {updateLastFetch: (timestamp) => this.updateLastFetch(timestamp)});
+		});
 
 		return (
 				<section className="card">
@@ -44,10 +58,13 @@ export default class SettingsCard extends Component {
 							    </div>
 							  </div>
 							</nav>
+						    <div style={{ float: 'right', marginRight: '10px'}}>
+				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { this.state.lastFetch } </span>
+				            </div>
 				        </span>
 				    </div>
 				    <div className="card-body">
-				    	{this.props.children}
+				    	{childWithProp}
 				    </div>
 				</section>
 		)

@@ -33,9 +33,7 @@ class GeneralSettings extends Component {
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <SettingsCard action={(programName) => this.updateSettingsForm(programName)}>
-                        <div className="container">
-                            <SettingsForm programName={this.state.programName}/>
-                        </div>
+                        <SettingsForm programName={this.state.programName}/>
                     </SettingsCard>
 		    	</div>
 				)
