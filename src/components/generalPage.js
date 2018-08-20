@@ -16,7 +16,7 @@ import moment from 'moment';
 import { 
         getLinegraphData,
         fetchProgram
-        } from '../actions';
+    } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
@@ -123,12 +123,12 @@ class Generalpage extends Component {
                             >
 
                                 <h4 className="card-body-title"> TEAM </h4> 
-    			    		   { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
+    			    		    { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
                                                                     TeamGraphData = {GraphData} 
                                                                     globalDate    = {appData.globalDate} /> }
                                 <hr />
                                 <h4 className="card-body-title"> INDIVIDUAL </h4>
-    			    		   { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
+    			    		    { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
                                                                     IndividualGraphData = {GraphData.individualGraphData} 
                                                                     globalDate         = {appData.globalDate}/> }
 		      		        </ProductivityCard> 

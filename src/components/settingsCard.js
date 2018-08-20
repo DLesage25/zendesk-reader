@@ -21,11 +21,9 @@ export default class SettingsCard extends Component {
         this.updateData = this.updateData.bind(this);
         this.updateLastFetch = this.updateLastFetch.bind(this);
 
-
     }
 
     updateData (programName) {
-    	console.log("Update Data ProgramName: " + programName)
     	this.setState({ 
 	      current: programName
 	    }, this.props.action(programName));  
@@ -43,12 +41,14 @@ export default class SettingsCard extends Component {
 		    return React.cloneElement(child, {updateLastFetch: (timestamp) => this.updateLastFetch(timestamp)});
 		});
 
+		const { globalProgram, programList } = this.props;
+
 		return (
 				<section className="card">
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
 							<nav className="navbar navbar-expand-lg navbar-light bg-light">
-					          <Dropdown style={{}} current={this.state.current} options={["Grindr", "Khan Academy"]} action={(programName) => this.updateData(programName)} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
+					          <Dropdown style={{}} current={globalProgram.settings.prettyName} options={programList.map((o) => { return o.prettyName })} action={(programName) => this.updateData(programName)} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
 							  <div style={{marginLeft:'10px'}} className="collapse navbar-collapse" id="navbarNavAltMarkup">
 							    <div className="navbar-nav">
 							      <a className="nav-item nav-link settings-link" href="#">Home <span className="sr-only">(current)</span></a>
