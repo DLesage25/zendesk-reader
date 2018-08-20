@@ -29,7 +29,7 @@ class GeneralSettings extends Component {
     // }
 
     changeGlobalProgram(newProgram) {
-        console.log("Enters")
+        console.log("Enters " + newProgram)
         this.props.fetchProgram(newProgram, this.state.appData, false);
     }
 
@@ -46,7 +46,7 @@ class GeneralSettings extends Component {
                     <SettingsCard 
                         globalProgram={this.state.appData.globalProgram}
                         programList={this.state.appData.appSettings.programList} 
-                        action={changeGlobalProgram}
+                        changeGlobalProgram = {changeGlobalProgram}
                     >
                         <SettingsForm programName={this.state.appData.globalProgram.settings.prettyName}/>
                     </SettingsCard>

@@ -92,6 +92,7 @@ class Generalpage extends Component {
     }
 
     changeGlobalProgram(newProgram) {
+        console.log("Enters " + newProgram)
         this.props.fetchProgram(newProgram, this.state.appData, false);
     }
 
