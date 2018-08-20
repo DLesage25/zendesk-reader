@@ -9,12 +9,15 @@ export default class Dropdown extends Component {
     }
 
     renderOptions(options) {
+    	const { changeGlobalProgram } = this.props;
+
     	return options.map((option, index) => {
-    		return <a key={option + index} onClick={() => this.props.action(option)} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
+    		return <a key={option + index} onClick={changeGlobalProgram} className="dropdown-item" href="#" style={{ fontSize: '15px' }}> {option.replace(/_/g, '/')} </a>
     	})
     }
 
 	render() {
+
 		return (
 			<div className="dropdown">
 			  <button type="button" className={this.props.buttonClassName} id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
