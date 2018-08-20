@@ -15,8 +15,7 @@ import moment from 'moment';
 
 import { 
         getLinegraphData,
-        fetchProgram,
-        fetch
+        fetchProgram
         } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
