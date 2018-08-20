@@ -34,7 +34,7 @@ export default class ProductivityCard extends Component {
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
 				        	<div style={{ float: 'left'}}>
-					            <Dropdown current={globalProgram.settings.prettyName} options={programList} action={changeGlobalProgram} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
+					            <Dropdown current={globalProgram.settings.prettyName} options={programList.map((o) => { return o.prettyName })} action={changeGlobalProgram} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
 					            <Dropdown current={(globalDate === moment().format('MM/DD/YY')) ? 'Today' : globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-outline-secondary ml-2 dropdown-toggle"/>
 				            </div>
 				            <div style={{ float: 'right', marginRight: '10px'}}>
