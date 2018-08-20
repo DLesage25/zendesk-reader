@@ -16,11 +16,14 @@ class GeneralSettings extends Component {
         super(props);
 
         this.state = {
-            appData: 'appData' in this.props ? this.props.appData: {}
+            appData: 'appData' in this.props ? this.props.appData: {},
+            lastFetch: null
         };
 
-        this.updateSettingsForm = this.updateSettingsForm.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
+
+        this.checkIfFetch = this.checkIfFetch.bind(this);
+
 
 
     }
@@ -29,12 +32,35 @@ class GeneralSettings extends Component {
     // }
 
     changeGlobalProgram(newProgram) {
-        console.log("Enters " + newProgram)
         this.props.fetchProgram(newProgram, this.state.appData, false);
     }
 
-    updateSettingsForm (programName) {
-        
+    componentDidUpdate () {
+        this.checkIfFetch();
+    }
+
+
+    checkIfFetch() {
+        const { FetchProgram } = this.props;
+
+        if (!FetchProgram) return true;
+
+        const newProgramName = FetchProgram.globalProgram.settings.id;
+        const currentProgramName = this.state.appData.globalProgram.settings.id;
+
+        const isRefresh = FetchProgram.isRefresh;
+        const timeSinceLastFetch = moment().format('X') - this.state.lastFetch;
+
+        if((isRefresh || newProgramName !== currentProgramName) && timeSinceLastFetch > 5) {
+            let newAppData = {
+                ...this.props.appData,
+                appSettings: FetchProgram.appSettings,
+                globalProgram: FetchProgram.globalProgram,
+                productivityData: FetchProgram.productivityData
+            }
+            
+            this.setState({ appData: newAppData, lastFetch: moment().format('X') })
+        }
     }
 
 	render() {
@@ -63,6 +89,7 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state){
+
     const {
         fetchProgram
     } = state;
