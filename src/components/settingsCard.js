@@ -15,31 +15,12 @@ export default class SettingsCard extends Component {
             icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
             text: 'text' in this.props ? this.props.text : '<default text>',
             current: 'Khan Academy',
-            lastFetch: moment().format('MM/DD @ hh:mma'),
+            lastFetch: this.props.lastFetch,
         };
 
-        this.updateData = this.updateData.bind(this);
-        this.updateLastFetch = this.updateLastFetch.bind(this);
-
-    }
-
-    updateData (programName) {
-    	this.setState({ 
-	      current: programName
-	    }, this.props.changeGlobalProgram(programName));  
-    }
-
-    updateLastFetch (timestamp) {
-    	this.setState({ 
-	      lastFetch: timestamp
-	    }); 
     }
 
 	render() {
-
-		const childWithProp = React.Children.map(this.props.children, (child) => {
-		    return React.cloneElement(child, {updateLastFetch: (timestamp) => this.updateLastFetch(timestamp)});
-		});
 
 		const { globalProgram, programList, changeGlobalProgram } = this.props;
 
@@ -66,7 +47,7 @@ export default class SettingsCard extends Component {
 				        </span>
 				    </div>
 				    <div className="card-body">
-				    	{childWithProp}
+				    	{this.props.children}
 				    </div>
 				</section>
 		)
