@@ -22,19 +22,10 @@ class GeneralSettings extends Component {
         };
 
         this.updateLastFetch = this.updateLastFetch.bind(this);
-
-
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
-
         this.updateProgramSettings = this.updateProgramSettings.bind(this);
-
-
         this.checkIfFetch = this.checkIfFetch.bind(this);
-
     }
-    // componentWillMount() {
-    //     this.props.getSettings(this.props.StartupData.programData, this.props.StartupData.productivityData)
-    // }
 
     updateLastFetch (timestamp) {
         this.setState({ 
@@ -47,7 +38,6 @@ class GeneralSettings extends Component {
     }
 
     updateProgramSettings (payload) {
-        console.log("data to update " + JSON.stringify(payload))
         let fields = {
             'Program Name': 'prettyName',
             'Zendesk URL': 'zendeskURL',
@@ -57,6 +47,7 @@ class GeneralSettings extends Component {
         };
         let path = this.state.appData.appSettings.programList.filter((o) => { return o.prettyName ===  this.state.appData.globalProgram.settings.prettyName })[0].id + '/settings/' + fields[payload.field] + '/';
         postProgramSettings(path, payload.value);
+
         let timestamp = new moment().format('MM/DD @ hh:mma');
         this.updateLastFetch(timestamp);
 

@@ -21,7 +21,7 @@ export default class SettingsForm extends Component {
     }
 
     updateLocalAppData (newState) {
-      let newData = (newState ? newState.globalProgram.settings : this.props.globalProgram.settings);
+      let newData = newState ? newState.globalProgram.settings : this.props.globalProgram.settings;
 
       this.setState({ 
         programName: newData.prettyName,
