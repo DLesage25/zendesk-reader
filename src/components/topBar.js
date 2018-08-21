@@ -10,7 +10,7 @@ const primaryOpts = [
 ];
 
 const secondaryOpts = [
-    { text: 'Settings', icon: 'fa fa-cogs', active: true},
+    { text: 'Settings', icon: 'fa fa-cogs', active: false},
     { text: 'Help', icon: 'fa fa-question', active: false},
 ];
 
