@@ -123,15 +123,15 @@ class Generalpage extends Component {
                             !appData.productivityData  ?  <p> Man! Looks like there's no data for your program. <br /> If you think this is a mistake, hit up @dan. :-) </p> :
                                         <div>
                                             { !GraphData  ?  <p> Loading </p> : 
-                                                    <ProductivityCard 
-                                                        globalDate          = {appData.globalDate}
-                                                        globalProgram       = {appData.globalProgram}
-                                                        changeGlobalDate    = {changeGlobalDate} 
-                                                        changeGlobalProgram = {changeGlobalProgram}
-                                                        dateList            = {getDateList(appData.productivityData)} 
-                                                        programList         = {appData.appSettings.programList}
-                                                        refreshData         = {refreshData}
-                                                        lastFetch           = {lastFetch} >
+                                                <ProductivityCard 
+                                                    globalDate          = {appData.globalDate}
+                                                    globalProgram       = {appData.globalProgram}
+                                                    changeGlobalDate    = {changeGlobalDate} 
+                                                    changeGlobalProgram = {changeGlobalProgram}
+                                                    dateList            = {getDateList(appData.productivityData)} 
+                                                    programList         = {appData.appSettings.programList}
+                                                    refreshData         = {refreshData}
+                                                    lastFetch           = {lastFetch} >
 
                                                     <h4 className="card-body-title"> TEAM </h4> 
                                                     { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
