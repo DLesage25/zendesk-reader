@@ -70,7 +70,7 @@ class Main extends Component {
     //     }
         switch (this.state.view) {
             case 'Live stats'             : return <Generalpage appData={StartupData} />;
-            case 'Settings'            : return <SettingsPage />;
+            case 'Settings'            : return <SettingsPage appData={StartupData} />;
             default:                     return <div><Generalpage appData={StartupData} onGetStarted = { this.onGetStarted } /></div>;
         };
     }
