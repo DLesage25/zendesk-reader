@@ -15,15 +15,13 @@ export default class SettingsCard extends Component {
             icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
             text: 'text' in this.props ? this.props.text : '<default text>',
             current: 'Khan Academy',
-            lastFetch: this.props.lastFetch,
+            lastFetch: 'lastFetch' in this.props ? this.props.lastFetch: moment().format('MM/DD @ hh:mma'),
         };
 
     }
 
 	render() {
-
 		const { globalProgram, programList, changeGlobalProgram } = this.props;
-
 
 		return (
 

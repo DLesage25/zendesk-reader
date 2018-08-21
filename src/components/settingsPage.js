@@ -11,7 +11,7 @@ import {
         postProgramSettings
     } from '../actions';
 
-class GeneralSettings extends Component {
+class SettingsPage extends Component {
 
     constructor(props){
         super(props);
@@ -46,6 +46,7 @@ class GeneralSettings extends Component {
             'Olark Chats': 'olark',
         };
         let path = this.state.appData.appSettings.programList.filter((o) => { return o.prettyName ===  this.state.appData.globalProgram.settings.prettyName })[0].id + '/settings/' + fields[payload.field] + '/';
+        //let path = this.state.appData.globalProgram.settings.id
         postProgramSettings(path, payload.value);
 
         let timestamp = new moment().format('MM/DD @ hh:mma');
@@ -84,7 +85,6 @@ class GeneralSettings extends Component {
 	render() {
         const { appData } = this.props;
         const { changeGlobalProgram, updateProgramSettings } = this;
-        //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <SettingsCard 
@@ -99,7 +99,6 @@ class GeneralSettings extends Component {
 				)
 	}
 }
-
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
@@ -117,4 +116,4 @@ function mapStateToProps(state){
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GeneralSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
