@@ -82,7 +82,7 @@ body {
 	text-decoration: none;
 	color: #f15861;
 }
-
+/*TopBar Help Button*/
 div[data-reactid='.0.0.0.1.0.0.1.$view-link-1'] {
 	margin-right: 25px !important;
 }
@@ -101,7 +101,7 @@ div[data-reactid='.0.0.0.1.0.0.1.$view-link-1'] {
 }
 
 .card-body-title {
-	margin-left: 30px;
+	margin-left: 3%;
     margin-bottom: 30px;
     font-weight: 400;
 }
@@ -126,15 +126,16 @@ div[data-reactid='.0.0.0.1.0.0.1.$view-link-1'] {
 	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
 }
 
-canvas[data-reactid=".0.0.1.0.0.0.0.0.1.1.0.0.0.2.0.0.0"], canvas[data-reactid=".0.0.1.0.0.0.0.0.1.1.0.1.0.2.0.0.0"] {
+div[id="hourlyThroughputChart"], div[id="queueVolumeChart"] {
+	margin-left: 1.8% !important;
 	width: 91% !important;
+}
+
+div[id="individualLineGraph"] {
+	margin-left: 2.8% !important;
 }
 
 canvas {
 	width: 103% !important;
-}
-
-.col-lg-12, .col-lg-6 {
-	margin-left: 2.8% !important;
 }
 

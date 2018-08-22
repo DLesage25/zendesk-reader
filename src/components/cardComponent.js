@@ -20,7 +20,8 @@ export default class CardComponent extends Component {
             marginBottom: 'marginBottom' in this.props ? this.props.marginBottom: '0px',
             divHeight: 'divHeight' in this.props ? this.props.divHeight: '233px',
             marginLeft: 'marginLeft' in this.props ? this.props.marginLeft: '0px',
-            maxWidth: 'maxWidth' in this.props ? this.props.maxWidth: ''
+            maxWidth: 'maxWidth' in this.props ? this.props.maxWidth: '',
+            id: 'id' in this.props ? this.props.id : 'defaultCardComponent'
         };
 
     }
@@ -28,7 +29,7 @@ export default class CardComponent extends Component {
 	render() {
 
 		return (
-	            <div className={ this.state.size } style={{ maxWidth: this.state.maxWidth, marginBottom: this.state.marginBottom, marginLeft: this.state.marginLeft }}>
+	            <div className={ this.state.size } style={{ maxWidth: this.state.maxWidth, marginBottom: this.state.marginBottom, marginLeft: this.state.marginLeft }} id={this.state.id}>
 	                <h5 className="text-black card-title"><strong> { this.state.title } </strong></h5>
 	                <p className="text-muted"> { this.state.description } </p>
 	                <div className="mb-5">

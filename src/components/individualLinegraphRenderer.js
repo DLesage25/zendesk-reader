@@ -41,20 +41,20 @@ export default class IndividualLinegraphRenderer extends Component {
     	return groups.map((group) => {
     		if (group.length > 1) {
     			return (
-		        	<div key={group[0].email} className="row" style={{ marginBottom: '25px' }}>
-			        	<CardComponent maxWidth="45%" size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" >
+		        	<div key={group[0].email} className="row" style={{ marginBottom: '25px'}}>
+			        	<CardComponent maxWidth="45%" size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" id="individualLineGraph">
 			        		<Linegraph  width="500" height="280" renderData={ this.renderData(group[0].productivity, globalDate) } />
 			        	</CardComponent>
-			        	<CardComponent maxWidth="45%" size="col-lg-6" title={group[1].email} description="Today's production" body="these are some stats" >
+			        	<CardComponent maxWidth="45%" size="col-lg-6" title={group[1].email} description="Today's production" body="these are some stats" id="individualLineGraph">
 			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[1].productivity, globalDate) } />
 			        	</CardComponent>
 		        	</div>
     			)
     		} else {
     			return (
-		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px' }}>
-			        	<CardComponent maxWidth="45%" size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" >
-			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[0].productivity, globalDate) } />
+		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px'}}>
+			        	<CardComponent maxWidth="45%" size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" id="individualLineGraph">
+			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[0].productivity, globalDate) }/>
 			        	</CardComponent>
 		        	</div>
     			)
