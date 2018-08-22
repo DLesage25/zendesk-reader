@@ -10,7 +10,8 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state        = { 
-                view : 'Live stats'
+                view : 'Live stats',
+                scrolled: false
             };
         this.onGetStarted = this.onGetStarted.bind(this);
         this.updateScroll  = this.updateScroll.bind(this);
@@ -18,14 +19,14 @@ class Main extends Component {
     }
 
     componentDidCatch(){ this.setState({ hasError : true }); }
-    onSelectView(view){ console.log(view); if(view !== this.state.view) this.setState({ view:view }) }
-    onGetStarted(){ this.setState({ view : 'Live stats' }) }
+    onSelectView(view){ if(view !== this.state.view) this.setState({ view:view }) }
+    onGetStarted(){ this.setState({ ...this.state, view : 'Live stats' }) }
 
     updateScroll(scroll) {
         if (!scroll || scroll < 50) {
-            this.setState({scrolled: false})  
+            if(this.state.scrolled === true) this.setState({scrolled: false})  
         } else {
-            this.setState({scrolled: true})  
+            if(this.state.scrolled === false) this.setState({scrolled: true})  
         }
     }
 
@@ -54,23 +55,9 @@ class Main extends Component {
     }
 
     renderSections(StartupData) {
-    // // renderSections() {
-
-    //     let {view} = this.props; 
-    //     let showCareerCalibrationOf = '';       
-    //     if(typeof view === 'object'){
-    //         let {ButtonText, userID} = view;
-    //         switch(ButtonText){
-    //             case 'Career Calibration':
-    //             case 'Performance Review':  
-    //                 view = ButtonText;
-    //                 showCareerCalibrationOf = userID;
-    //                 break; 
-    //         }
-    //     }
         switch (this.state.view) {
             case 'Live stats'             : return <Generalpage appData={StartupData} />;
-            case 'Settings'            : return <SettingsPage />;
+            case 'Settings'            : return <SettingsPage appData={StartupData} />;
             default:                     return <div><Generalpage appData={StartupData} onGetStarted = { this.onGetStarted } /></div>;
         };
     }

@@ -18,6 +18,7 @@ class GeneralSettings extends Component {
     // }
 
 	render() {
+        console.log('settings props', this.props)
         //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>

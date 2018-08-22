@@ -30,7 +30,7 @@ export default class IndividualLinegraphRenderer extends Component {
         return _.filter(filteredProductivity, function(item) { return item; });
     }
 
-    renderLinegraphs (IndividualGraphData, globalDate) {
+    renderLinegraphs (IndividualGraphData, globalDate, key) {
         let filteredData = this.filterIndividualProductivity(IndividualGraphData, globalDate);
     	//ordering all production data in groups of 2
     	var groups = _.map(filteredData, function(item, index){
@@ -38,7 +38,7 @@ export default class IndividualLinegraphRenderer extends Component {
 		    })
 		    .filter(function(item){ return item; })
 
-    	return groups.map((group) => {
+    	return groups.map((group, index) => {
     		if (group.length > 1) {
     			return (
 		        	<div key={group[0].email} className="row" style={{ marginBottom: '25px'}}>
@@ -63,10 +63,10 @@ export default class IndividualLinegraphRenderer extends Component {
     }
 
 	render() {
-        const { IndividualGraphData, globalDate } = this.props;
+        const { IndividualGraphData, globalDate, key } = this.props;
 		return (
 				<div>
-                    { !IndividualGraphData ? <p> Loading </p> : this.renderLinegraphs(IndividualGraphData, globalDate) }
+                    { !IndividualGraphData ? <p> Loading </p> : this.renderLinegraphs(IndividualGraphData, globalDate, key) }
 				</div>	
 				)
 	}	
