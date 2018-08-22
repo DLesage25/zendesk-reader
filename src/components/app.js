@@ -18,6 +18,7 @@ class App extends Component {
     }
 
     render() {
+        console.log('app props', this.props)
         const { EntryEmail, StartupData } = this.props;
         return(
             <div>

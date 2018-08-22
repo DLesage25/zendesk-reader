@@ -38,7 +38,7 @@ export default class ProductivityCard extends Component {
 					            <Dropdown current={(globalDate === moment().format('MM/DD/YY')) ? 'Today' : globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-outline-secondary ml-2 dropdown-toggle"/>
 				            </div>
 				            <div style={{ float: 'right', marginRight: '10px'}}>
-				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { (lastFetch) ? moment(lastFetch, 'X').format('MM/DD @ hh:mma') : moment().format('MM/DD @ hh:mma') } </span>
+				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { (lastFetch) ? moment(lastFetch, 'X').format('MM/DD @ hh:mma') : moment().format('MM/DD @ hh:00a') } </span>
 							<button type="button" className="main-card-dropdown btn btn-sm ml-2 btn-outline-primary" onClick={() => this.props.refreshData()} > <i className="fa fa-sync-alt" /> </button>
 				            </div>
 				        </span>

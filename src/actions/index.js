@@ -97,6 +97,8 @@ export async function login() {
     }
 };
 
+// post settings
+
 export function postProgramSettings(program, programSettings) {
     write('/programs/' + program, programSettings);
 }
@@ -106,11 +108,11 @@ export function postProgramSettings(program, programSettings) {
 // }
 
 //the getprogram function should pull all users from /users in FB and filter using that
-export async function getProgramRoster(programId) {
+export async function getProgramRoster(program) {
     let users = await get('/users/byUserId');
     let userTree = {};
 
-    _.filter(users, function(o) { return o.program.toLowerCase() === programId.replace('_', ' ') }).map((user) => {
+    _.filter(users, function(o) { return o.program.toLowerCase() === program }).map((user) => {
         let userID = email2id(user.email);
         userTree[userID] = user;
     })
@@ -177,20 +179,9 @@ export function getLinegraphData(globalProgram, productivityData) {
     }
 }
 
-export function programToId(program) {
-    switch (program) {
-        case 'Operations':
-        case 'Khan Academy':
-            return 'khan'
-            break;
-        default:
-            return program.replace(' ', '_').toLowerCase();
-    }
-}
-
 export function fetchAndInitialize(email) {
     return async dispatch => {
-        //email = 'bradley.mccalla@partnerhero.com' //test with this
+        //email = 'amy@partnerhero.com' test with this
         const userID = email2id(email);
 
         const date = moment();
@@ -203,26 +194,30 @@ export function fetchAndInitialize(email) {
             get('programs/')
         ]);
 
-        let programId = programToId(userData.program);
-        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.id === programId })
+        // let programName = userData.program;
+        let programName = 'Khan Academy';
+        let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName }) //tnis wont work with current program
+        // let programId;
 
-        let productivityData = await get('productivity/byProgram/' + programId +
-            '/byYear/' + date.year() +
-            '/byWeek/' + date.week())
+        if (!selectedProgram) {
+            programId = programName.toLowerCase();
 
-        if (!selectedProgram && productivityData) {
-            const team = await getProgramRoster(programId);
-            const settings = newSettings.program(programId);
+            const team = await getProgramRoster(programName);
+            const settings = newSettings.program(programName, programId);
 
             selectedProgram = {
                 settings: settings,
                 team: team
             };
 
-            allProgramSettings[programId] = selectedProgram;
-
             postProgramSettings(programId, selectedProgram);
         }
+
+        let programId = selectedProgram.settings.id;
+
+        let productivityData = await get('productivity/byProgram/' + programId +
+            '/byYear/' + date.year() +
+            '/byWeek/' + date.week())
 
         let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
 
@@ -230,7 +225,7 @@ export function fetchAndInitialize(email) {
             globalDate: date.format('MM_DD_YY'),
             globalProgram: selectedProgram,
             userData: userData,
-            productivityData: productivityData ? productivityData.byDate : null, //fix this, /byDate should not exist as a branch
+            productivityData: productivityData.byDate, //fix this, /byDate should not exist as a branch
             appSettings: {
                 programList: programNames
             }
