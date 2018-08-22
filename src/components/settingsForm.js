@@ -9,28 +9,55 @@ export default class SettingsForm extends Component {
         super(props);
 
         this.state = {
-            programName: '',
-            zendeskURL: "",
-            managerEmail: "",
-            goal: '',
-            olark: false
+            programName  : '',
+            zendeskURL   : "",
+            managerEmail : "",
+            goal         : '',
+            olark        : false
         };
 
-        this.updateLocalAppData = this.updateLocalAppData.bind(this);
+        this.updateLocalAppData   = this.updateLocalAppData.bind(this);
+        this.onChange             = this.onChange.bind(this);
+        this.timerHandler         = this.timerHandler.bind(this);
+        this.doneInterval         = this.doneInterval.bind(this);
+
+        this.timer;                        //timer identifier
+        this.timerInterval        = 5000;  //5s
+
 
     }
 
     updateLocalAppData (newState) {
       let newData = newState ? newState.globalProgram.settings : this.props.globalProgram.settings;
 
-      this.setState({ 
-        programName: newData.prettyName,
-        zendeskURL: newData.zendeskURL,
-        managerEmail: newData.managerEmail,
-        goal: newData.goal,
-        olark: newData.olark 
-      }); 
+      if (newData.prettyName !== this.state.programName) {
+        this.setState({ 
+          programName: newData.prettyName,
+          zendeskURL: newData.zendeskURL,
+          managerEmail: newData.managerEmail,
+          goal: newData.goal,
+          olark: newData.olark 
+        });
+      } 
     }
+
+    //click timer handler-----------------------------------------------
+
+    doneInterval (value, field) {
+      this.props.updateProgramSettings({value: value, field: field});
+    }
+
+    timerHandler (value, field) {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => this.doneInterval(value, field), this.timerInterval);
+    }
+    //----------------------------------------------------------
+
+    onChange (value, field) {
+      if(field === 'Goal Type' || field === 'Olark Chats') ((typeof(value) === "boolean") ? this.setState({ olark: value}) : this.setState({ goal: value}))
+      this.timerHandler(value, field);
+    }
+    
 
     componentDidMount() {
       this.updateLocalAppData();
@@ -45,17 +72,30 @@ export default class SettingsForm extends Component {
 
     const { updateProgramSettings } = this.props;
 
+    const { onChange } = this;
+
+    const olarkChats = [
+          { value: true, className: ((this.state.olark) ? 'btn btn-secondary active' : 'btn btn-secondary')},
+          { value: false, className: ((!this.state.olark) ? 'btn btn-secondary active' : 'btn btn-secondary')},
+        ];
+
+    const goalType = [
+          { value: 'touches', className: ((this.state.goal === 'touches') ? 'btn btn-secondary active' : 'btn btn-secondary')},
+          { value: 'solved', className: ((this.state.goal === 'solved') ? 'btn btn-secondary active' : 'btn btn-secondary')},
+          { value: 'chats', className: ((this.state.goal === 'chats') ? 'btn btn-secondary active' : 'btn btn-secondary')}
+        ];    
+
 		return (
       <div className="container">
         <div className="row">
     			<div className="col-md">
-              <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" updateFBData={updateProgramSettings}/>
-              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" updateFBData={updateProgramSettings}/>
-              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" updateFBData={updateProgramSettings}/>
+              <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onChange}/>
+              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange}/>
+              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange}/>
     			</div>
           <div className="col-sm">
-            <SettingsButtonsGroup title="Goal Type" goal={this.state.goal} updateFBData={updateProgramSettings}/>
-            <SettingsButtonsGroup title="Olark Chats" olark={this.state.olark} updateFBData={updateProgramSettings}/>  
+            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange}/>
+            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onChange}/>
           </div>
         </div>
       </div>

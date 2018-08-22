@@ -17,8 +17,8 @@ class SettingsPage extends Component {
         super(props);
 
         this.state = {
-            appData: 'appData' in this.props ? this.props.appData: {},
-            lastFetch: moment().format('MM/DD @ hh:mma')
+            appData   : 'appData' in this.props ? this.props.appData: {},
+            lastFetch : moment().format('MM/DD @ hh:mma')
         };
 
         this.updateLastFetch = this.updateLastFetch.bind(this);
@@ -27,9 +27,9 @@ class SettingsPage extends Component {
         this.checkIfFetch = this.checkIfFetch.bind(this);
     }
 
-    updateLastFetch (timestamp) {
+    updateLastFetch () {
         this.setState({ 
-          lastFetch: timestamp
+          lastFetch: new moment().format('MM/DD @ hh:mma')
         }); 
     }
 
@@ -45,12 +45,9 @@ class SettingsPage extends Component {
             'Goal Type': 'goal',
             'Olark Chats': 'olark',
         };
-        let path = this.state.appData.appSettings.programList.filter((o) => { return o.prettyName ===  this.state.appData.globalProgram.settings.prettyName })[0].id + '/settings/' + fields[payload.field] + '/';
-        //let path = this.state.appData.globalProgram.settings.id
+        let path = this.state.appData.globalProgram.settings.id + '/settings/' + fields[payload.field] + '/';
         postProgramSettings(path, payload.value);
-
-        let timestamp = new moment().format('MM/DD @ hh:mma');
-        this.updateLastFetch(timestamp);
+        this.updateLastFetch();
 
     }
 
@@ -60,6 +57,7 @@ class SettingsPage extends Component {
 
 
     checkIfFetch() {
+
         const { FetchProgram } = this.props;
 
         if (!FetchProgram) return true;
@@ -68,9 +66,8 @@ class SettingsPage extends Component {
         const currentProgramName = this.state.appData.globalProgram.settings.id;
 
         const isRefresh = FetchProgram.isRefresh;
-        const timeSinceLastFetch = moment().format('X') - this.state.lastFetch;
 
-        if((isRefresh || newProgramName !== currentProgramName) && timeSinceLastFetch > 5) {
+        if((newProgramName !== currentProgramName)) {
             let newAppData = {
                 ...this.props.appData,
                 appSettings: FetchProgram.appSettings,
@@ -78,7 +75,7 @@ class SettingsPage extends Component {
                 productivityData: FetchProgram.productivityData
             }
             
-            this.setState({ appData: newAppData, lastFetch: moment().format('X') })
+            this.setState({ appData: newAppData}, () => this.updateLastFetch())
         }
     }
 

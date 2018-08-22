@@ -9,15 +9,22 @@ export default class SettingsCard extends Component {
         super(props);
 
         this.state = {
-            title           : 'title' in this.props ? this.props.title: 'Card title',
+            title          : 'title' in this.props ? this.props.title: 'Card title',
             focused_btn    : false,
             focused_choice : false,
-            icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
-            text: 'text' in this.props ? this.props.text : '<default text>',
-            current: 'Khan Academy',
-            lastFetch: 'lastFetch' in this.props ? this.props.lastFetch: moment().format('MM/DD @ hh:mma'),
+            icon 	   	   : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
+            text		   : 'text' in this.props ? this.props.text  : '<default text>',
+            current        : this.props.globalProgram.settings.prettyName,
+            lastFetch	   : this.props.lastFetch,
         };
 
+    }
+
+    componentWillReceiveProps(nextProps) {
+		this.setState({
+			current: nextProps.globalProgram.settings.prettyName,
+			lastFetch: nextProps.lastFetch
+		}) 
     }
 
 	render() {

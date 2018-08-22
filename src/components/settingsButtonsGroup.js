@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FB from '../modules/firebaseDAO';
 
 
 export default class SettingsButtonsGroup extends Component {
@@ -7,84 +6,68 @@ export default class SettingsButtonsGroup extends Component {
         super(props);
 
         this.state = {
-            goal: null,
-            olark: null
+
         };
 
-        this.onClick = this.onClick.bind(this);
-        this.timerHandler = this.timerHandler.bind(this);
-        this.doneClicking = this.doneClicking.bind(this);
-
-        //variables
-        this.typingTimer;                //timer identifier
-        this.doneClickingInterval = 5000;  //5s
+        this.renderButtons        = this.renderButtons.bind(this);
+        this.onClick              = this.onClick.bind(this);
+        this.upperCaseFirstLetter = this.upperCaseFirstLetter.bind(this);
 
 
     }
 
-    onClick (field, value) {
-      this.setState({ field: value }, () => {console.log("onClick update: " + JSON.stringify(this.state))});
+    onClick(value) {
+        if ('onClick' in this.props) this.props.onClick(value, this.props.title);
+        else console.warn('onClick event handler for controller has not been defined by parent component');
     }
 
-    //click timer handler-----------------------------------------------
+    upperCaseFirstLetter (value) {
 
-    timerHandler (event) {
-      console.log("timerhandler fired")
-      clearTimeout(this.typingTimer);
-      this.typingTimer = setTimeout(this.doneClicking, this.doneClickingInterval);
+      let convert = ((typeof(value) === "boolean") ? value.toString() : value)
+      let result = convert.charAt(0).toUpperCase() + convert.substr(1);
+      return result;
     }
 
-    doneClicking () {
-      let value = {
-        "Olark Chats": this.state.olark,
-        "Goal Type": this.state.goal
-      }
-      this.props.updateFBData({value: value[this.props.title], field: this.props.title});
+    renderButtons (options){
+
+      return options.map((item, i) => {
+          const { value, className, id } = item;
+          const uniqueID = id || 'settings-button-' + i;
+          return(
+              <button
+                  name        = {uniqueID}
+                  className   = {className}
+                  id          = {uniqueID}
+                  key         = {uniqueID}
+                  type        = "button"
+                  value       = {value}
+                  onClick     = {() => this.onClick(value)}
+              >{this.upperCaseFirstLetter(value)}</button>
+          );
+      });
     }
-    //----------------------------------------------------------
 
     componentDidMount() {
       this.setState({ 
-        goal: this.props.goal,
-        olark: this.props.olark
-      }, () => {console.log("setting button mounted: " + JSON.stringify(this.state))}); 
+        value: this.props.value
+      }); 
     }
 
     componentWillReceiveProps(nextProps) {
       this.setState({ 
-        goal: nextProps.goal,
-        olark: nextProps.olark
-      }, () => {console.log(this.state)});  
+        value: nextProps.value
+      });  
     }
 
   render() {
-    console.log("Rendered" + JSON.stringify(this.state))
-    
-    const goalType = (
-      <div className="btn-group" role="group" aria-label="Basic example">
-        <button type="button" className={((this.state.goal === 'touches') ? 'btn btn-secondary active' : 'btn btn-secondary')} onClick={() => this.setState({ goal: 'touches' }, () => this.timerHandler())}>Touches</button>
-        <button type="button" className={((this.state.goal === 'solved') ? 'btn btn-secondary active' : 'btn btn-secondary')} onClick={() => this.setState({ goal: 'solved' }, () => this.timerHandler())}>Solved</button>
-        <button type="button" className={((this.state.goal === 'chats') ? 'btn btn-secondary active' : 'btn btn-secondary')} onClick={() => this.setState({ goal: 'chats' }, () => this.timerHandler())}>Chats</button>
-      </div>
-    );
-
-    const olarkChats = (
-      <div className="btn-group" role="group" aria-label="Basic example">
-        <button type="button" className={((this.state.olark) ? 'btn btn-secondary active' : 'btn btn-secondary')} onClick={() => this.setState({ olark: true }, () => this.timerHandler())}>True</button>
-        <button type="button" className={((this.state.olark) ? 'btn btn-secondary' : 'btn btn-secondary active')} onClick={() => this.setState({ olark: false }, () => this.timerHandler())}>False</button>
-      </div>
-    );
-
-    var children = {
-      "Goal Type": goalType,
-      "Olark Chats": olarkChats
-    };
 
     return (
           <div style={{marginBottom: '1rem'}}> 
               <label htmlFor="basic-url">{this.props.title}</label>
               <br />
-              {children[this.props.title]}
+              <div className="btn-group" role="group" aria-label="Basic example">
+                {this.renderButtons(this.props.options)}
+              </div>
           </div>
     )
   }

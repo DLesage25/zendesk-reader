@@ -17,37 +17,15 @@ export default class TextInput extends Component {
             append,
             prepend,
             value: '',
-            lastModified: ''
         };
-        //functions
         this.onChange = this.onChange.bind(this);
-        this.timerHandler = this.timerHandler.bind(this);
-        this.doneTyping = this.doneTyping.bind(this);
-
-        //variables
-        this.typingTimer;                //timer identifier
-        this.doneTypingInterval = 5000;  //5s
 
 
     }
 
     onChange (event) {
-      console.log("fired " + event.target.value)
-      this.setState({ value: event.target.value }, (event) => this.timerHandler(event)); 
+      this.setState({ value: event.target.value }, () => this.props.onChange(this.state.value, this.props.title)); 
     }
-
-    //typing timer handler-----------------------------------------------
-
-    timerHandler (event) {
-      console.log("timerhandler fired")
-      clearTimeout(this.typingTimer);
-      this.typingTimer = setTimeout(this.doneTyping, this.doneTypingInterval);
-    }
-
-    doneTyping () {
-      this.props.updateFBData({value: this.state.value, field: this.props.title});
-    }
-    //----------------------------------------------------------
 
 
     componentDidMount() {
