@@ -83,6 +83,10 @@ body {
 	color: #f15861;
 }
 
+div[data-reactid='.0.0.0.1.0.0.1.$view-link-1'] {
+	margin-right: 25px !important;
+}
+
 .scrolled-top-float {
 	margin-top: -19px;
 	color: #fcfcfc;
