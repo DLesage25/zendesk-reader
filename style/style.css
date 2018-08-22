@@ -122,8 +122,12 @@ body {
 	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
 }
 
+canvas[data-reactid=".0.0.1.0.0.0.0.0.1.1.0.0.0.2.0.0.0"], canvas[data-reactid=".0.0.1.0.0.0.0.0.1.1.0.1.0.2.0.0.0"] {
+	width: 91% !important;
+}
+
 canvas {
-	width: 90% !important;
+	width: 103% !important;
 }
 
 .col-lg-12, .col-lg-6 {
