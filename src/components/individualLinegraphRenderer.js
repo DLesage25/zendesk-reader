@@ -45,7 +45,7 @@ export default class IndividualLinegraphRenderer extends Component {
 			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[0].email} description="Today's production" body="these are some stats" id="individualLineGraph">
 			        		<Linegraph  width="500" height="280" renderData={ this.renderData(group[0].productivity, globalDate) } />
 			        	</CardComponent>
-			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6" title={group[1].email} description="Today's production" body="these are some stats" id="individualLineGraph">
+			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[1].email} description="Today's production" body="these are some stats" id="individualLineGraph">
 			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[1].productivity, globalDate) } />
 			        	</CardComponent>
 		        	</div>

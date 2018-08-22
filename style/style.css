@@ -131,7 +131,7 @@ div[id="hourlyThroughputChart"], div[id="queueVolumeChart"] {
 	width: 91% !important;
 }
 
-div[id="individualLineGraph"] {
+.individualLineGraph {
 	margin-left: 2.8% !important;
 }
 
