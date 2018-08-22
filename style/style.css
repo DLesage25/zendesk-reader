@@ -122,3 +122,11 @@ body {
 	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
 }
 
+canvas {
+	width: 90% !important;
+}
+
+.col-lg-12, .col-lg-6 {
+	margin-left: 2.8% !important;
+}
+
