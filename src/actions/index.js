@@ -224,7 +224,18 @@ export function fetchAndInitialize(email) {
             postProgramSettings(programId, selectedProgram);
         }
 
-        let programNames = _.map(allProgramSettings, (o) => { return o.settings.prettyName })
+        let programId = selectedProgram.settings.id;
+
+        let productivityData = await get('productivity/byProgram/' + programId +
+            '/byYear/' + date.year() +
+            '/byWeek/' + date.week())
+
+        let programList = _.map(allProgramSettings, (o) => {
+            return {
+                prettyName: o.settings.prettyName,
+                id: o.settings.id
+            }
+        })
 
         const payload = {
             globalDate: date.format('MM_DD_YY'),
@@ -232,7 +243,7 @@ export function fetchAndInitialize(email) {
             userData: userData,
             productivityData: productivityData ? productivityData.byDate : null, //fix this, /byDate should not exist as a branch
             appSettings: {
-                programList: programNames
+                programList: programList
             }
         };
 
