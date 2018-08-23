@@ -224,12 +224,6 @@ export function fetchAndInitialize(email) {
             postProgramSettings(programId, selectedProgram);
         }
 
-        let programId = selectedProgram.settings.id;
-
-        let productivityData = await get('productivity/byProgram/' + programId +
-            '/byYear/' + date.year() +
-            '/byWeek/' + date.week())
-
         let programList = _.map(allProgramSettings, (o) => {
             return {
                 prettyName: o.settings.prettyName,
