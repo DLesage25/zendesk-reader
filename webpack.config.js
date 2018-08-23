@@ -1,10 +1,13 @@
+const path = require('path')
+CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
     entry: [
         'babel-polyfill',
         './src/index.js'
     ],
     output: {
-        path: __dirname,
+        path: path.resolve(__dirname, 'public'),
         publicPath: '/',
         filename: 'bundle.js'
     },
@@ -28,8 +31,7 @@ module.exports = {
             },
             {
                 test: /\.json$/,
-                // loader: 'json'
-                loader: 'json-loader' // Change this
+                loader: 'json-loader'
             }
         ]
     },
@@ -44,5 +46,12 @@ module.exports = {
         fs: 'empty',
         net: 'empty',
         tls: 'empty'
-    }
+    },
+    plugins : [ 
+        new CopyWebpackPlugin([
+            { from: './index.html', to: '../public/index.html' },
+            { from: './src/assets', to: '../public/assets' },
+            { from: './style', to: '../public/style' }
+          ]),
+    ]
 };
