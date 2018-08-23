@@ -10,8 +10,8 @@ export default class SettingsForm extends Component {
 
         this.state = {
             programName  : '',
-            zendeskURL   : "",
-            managerEmail : "",
+            zendeskURL   : '',
+            managerEmail : '',
             goal         : '',
             olark        : false
         };
@@ -55,6 +55,7 @@ export default class SettingsForm extends Component {
 
     onChange (value, field) {
       if(field === 'Goal Type' || field === 'Olark Chats') ((typeof(value) === "boolean") ? this.setState({ olark: value}) : this.setState({ goal: value}))
+        else { ((field === 'Program Name') ? this.setState({ programName: value}) : ((field === 'Zendesk URL') ? this.setState({ zendeskURL: value}) : this.setState({ managerEmail: value}))) }
       this.timerHandler(value, field);
     }
     
