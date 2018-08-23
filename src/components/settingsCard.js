@@ -16,6 +16,7 @@ export default class SettingsCard extends Component {
             text		   : 'text' in this.props ? this.props.text  : '<default text>',
             current        : this.props.globalProgram.settings.prettyName,
             lastFetch	   : this.props.lastFetch,
+            changeLoaderDisplay  : this.props.changeLoaderDisplay
         };
 
     }
@@ -29,7 +30,7 @@ export default class SettingsCard extends Component {
 
 	render() {
 		const { globalProgram, programList, changeGlobalProgram } = this.props;
-
+		if(this.state.changeLoaderDisplay) console.log('loader changed')
 		return (
 
 				<section className="card">

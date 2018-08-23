@@ -17,14 +17,17 @@ class SettingsPage extends Component {
         super(props);
 
         this.state = {
-            appData   : 'appData' in this.props ? this.props.appData: {},
-            lastFetch : moment().format('MM/DD @ hh:mma')
+            appData             : 'appData' in this.props ? this.props.appData: {},
+            lastFetch           : moment().format('MM/DD @ hh:mma'),
+            changeLoaderDisplay : false
         };
 
         this.updateLastFetch = this.updateLastFetch.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
         this.updateProgramSettings = this.updateProgramSettings.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
+        this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
+
     }
 
     updateLastFetch () {
@@ -79,6 +82,12 @@ class SettingsPage extends Component {
         }
     }
 
+    changeLoaderDisplay() {
+        this.setState({
+            changeLoaderDisplay: !this.state.changeLoaderDisplay
+        })
+    }
+
 	render() {
     const { appData } = this.props;
     const { changeGlobalProgram, updateProgramSettings } = this;
@@ -89,8 +98,9 @@ class SettingsPage extends Component {
                         programList={this.state.appData.appSettings.programList} 
                         changeGlobalProgram = {changeGlobalProgram}
                         lastFetch = {this.state.lastFetch}
+                        changeLoaderDisplay = {this.state.changeLoaderDisplay}
                     >
-                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings}/>
+                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} changeLoaderDisplay={() => changeLoaderDisplay}/>
                     </SettingsCard>
 		    	</div>
 				)
