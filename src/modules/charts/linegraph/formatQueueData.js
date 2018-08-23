@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import colorSchemes from './colorScheme';
 
+const ColorSchemes = colorSchemes.splice(2); //removing first two colors
+
 const formatChartData = async(globalProgram, productivityData) => {
     let groupedData = await groupAllData(globalProgram, productivityData);
     let formattedData = await formatAllData(groupedData);
@@ -20,8 +22,9 @@ const formatAllData = async(groupedData) => {
             dayKey: dayIndex.dayKey,
             labels: dayIndex.hourLine,
             datasets: seriesKeys.map((seriesKey, arrayKey) => {
+                let colorScheme = ColorSchemes[arrayKey] || ColorSchemes[arrayKey - ColorSchemes.length]
                 return {
-                    ...colorSchemes[arrayKey],
+                    ...colorScheme,
                     label: seriesKey,
                     data: series[seriesKey]
                 }

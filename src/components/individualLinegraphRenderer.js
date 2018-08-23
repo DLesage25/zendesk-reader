@@ -30,7 +30,7 @@ export default class IndividualLinegraphRenderer extends Component {
         return _.filter(filteredProductivity, function(item) { return item; });
     }
 
-    renderLinegraphs (IndividualGraphData, globalDate) {
+    renderLinegraphs (IndividualGraphData, globalDate, key) {
         let filteredData = this.filterIndividualProductivity(IndividualGraphData, globalDate);
     	//ordering all production data in groups of 2
     	var groups = _.map(filteredData, function(item, index){
@@ -38,23 +38,23 @@ export default class IndividualLinegraphRenderer extends Component {
 		    })
 		    .filter(function(item){ return item; })
 
-    	return groups.map((group) => {
+    	return groups.map((group, index) => {
     		if (group.length > 1) {
     			return (
-		        	<div key={group[0].email} className="row" style={{ marginBottom: '25px' }}>
-			        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" >
+		        	<div key={group[0].email} className="row" style={{ marginBottom: '25px'}}>
+			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[0].email} description="Today's production" body="these are some stats">
 			        		<Linegraph  width="500" height="280" renderData={ this.renderData(group[0].productivity, globalDate) } />
 			        	</CardComponent>
-			        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title={group[1].email} description="Today's production" body="these are some stats" >
+			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[1].email} description="Today's production" body="these are some stats">
 			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[1].productivity, globalDate) } />
 			        	</CardComponent>
 		        	</div>
     			)
     		} else {
     			return (
-		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px' }}>
-			        	<CardComponent maxWidth="45%" marginLeft='30px' size="col-lg-6" title={group[0].email} description="Today's production" body="these are some stats" >
-			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[0].productivity, globalDate) } />
+		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px'}}>
+			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[0].email} description="Today's production" body="these are some stats">
+			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[0].productivity, globalDate) }/>
 			        	</CardComponent>
 		        	</div>
     			)
@@ -63,10 +63,10 @@ export default class IndividualLinegraphRenderer extends Component {
     }
 
 	render() {
-        const { IndividualGraphData, globalDate } = this.props;
+        const { IndividualGraphData, globalDate, key } = this.props;
 		return (
 				<div>
-                    { !IndividualGraphData ? <p> Loading </p> : this.renderLinegraphs(IndividualGraphData, globalDate) }
+                    { !IndividualGraphData ? <p> Loading </p> : this.renderLinegraphs(IndividualGraphData, globalDate, key) }
 				</div>	
 				)
 	}	

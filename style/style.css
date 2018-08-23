@@ -82,6 +82,10 @@ body {
 	text-decoration: none;
 	color: #f15861;
 }
+/*TopBar Help Button*/
+div[data-reactid='.0.0.0.1.0.0.1.$view-link-1'] {
+	margin-right: 25px !important;
+}
 
 .scrolled-top-float {
 	margin-top: -19px;
@@ -97,7 +101,7 @@ body {
 }
 
 .card-body-title {
-	margin-left: 30px;
+	margin-left: 3%;
     margin-bottom: 30px;
     font-weight: 400;
 }
@@ -122,3 +126,19 @@ body {
 	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
 }
 
+div[id="hourlyThroughputChart"], div[id="queueVolumeChart"] {
+	margin-left: 1.8% !important;
+	width: 91% !important;
+}
+
+.individualLineGraph {
+	margin-left: 2.8% !important;
+}
+
+canvas {
+	width: 103% !important;
+}
+
+.disabled-top-link {
+	color: #6d7175 !important;
+}

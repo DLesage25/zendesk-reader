@@ -5,13 +5,13 @@ import { bindActionCreators } from 'redux';
 import ViewLink from './viewLink.js';
 
 const primaryOpts = [
-    { text: 'Live stats', icon: 'fa fa-signal top-link'},
-    { text: 'Forecasting', icon: 'fa fa-superscript  top-link top-link-inactive'}
+    { text: 'Live stats', icon: 'fa fa-signal', active: true},
+    { text: 'Forecasting', icon: 'fa fa-superscript', active: false}
 ];
 
 const secondaryOpts = [
-    { text: 'Settings', icon: 'fa fa-cogs  top-link'},
-    { text: 'Help', icon: 'fa fa-question  top-link top-link-inactive'},
+    { text: 'Settings', icon: 'fa fa-cogs', active: false},
+    { text: 'Help', icon: 'fa fa-question', active: false},
 ];
 
 export default class TopBar extends Component {
@@ -70,7 +70,7 @@ export default class TopBar extends Component {
 				                    <div style={{float: 'left', width:'50%' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(primaryOpts,'left')}
 				                    </div>
-				                    <div style={{float: 'right', width:'23%' }} className={this.getScrollClasses('float')} >
+				                    <div style={{float: 'right', width:'23%', textAlign:'right' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(secondaryOpts,'right')}
 				                    </div>
 				                </div>
@@ -87,17 +87,22 @@ export default class TopBar extends Component {
 	    const { UserData } = this.props;
 
 	    return options.map((item, i) => {
-            const { text, icon, id } = item;
-	        const uniqueID = id || 'view-link-' + i;
+            const { text, icon, active } = item;
+	        const uniqueID = 'view-link-' + i;
+            
+            var linkClass = '';
+
+            if (!active) linkClass = 'disabled-top-link'; 
 	        return(
 	            <ViewLink
-	                name        = {uniqueID}
+	                name            = {uniqueID}
 	                spanClassname   = {this.getScrollClasses('viewLink')}
-	                id          = {uniqueID}
-	                key         = {uniqueID}
-	                text        = {text}
-	                icon        = {icon}
-	                onClick     = {this.onClick}
+	                id              = {uniqueID}
+	                key             = {uniqueID}
+	                text            = {text}
+	                icon            = {icon}
+	                onClick         = {this.onClick}
+                    linkClass       = {linkClass}
 	            />
 	        );
 	    });

@@ -14,20 +14,21 @@ export default class TeamLinegraphRenderer extends Component {
         return _.find(data, function(o) {return o.dayKey === globalDate});
     }
 
-    renderLinegraphs (TeamGraphData, globalDate) {
+    renderLinegraphs (TeamGraphData, globalDate, Key) {
         let {
             queueData,
             teamGraphData
         } = TeamGraphData;
+        console.log({queueData})
         return (
                 <div style={{ marginBottom:'40px' }}>
-                    <div className="row" style={{ marginBottom: '30px' }}>
-                        <CardComponent marginLeft='30px' size="col-lg-12" title="Hourly throughput" description="Actual vs expected performance" body="these are some stats" >
+                    <div className="row" style={{ marginBottom: '30px' }} id="hourlyThroughputChart">
+                        <CardComponent columnClassname="col-lg-12" title="Hourly throughput" description="Actual vs expected performance" body="these are some stats">
                             <Linegraph width="1000" height="280" renderData={ this.renderData(teamGraphData, globalDate) } />
                         </CardComponent>
                     </div>
-                    <div className="row" style={{ marginBottom: '20px' }}>
-                        <CardComponent marginLeft='30px' size="col-lg-12" title="Queue volume" description="Today's incoming ticket volume" body="these are some stats" >
+                    <div className="row" style={{ marginBottom: '20px' }} id="queueVolumeChart">
+                        <CardComponent columnClassname="col-lg-12" title="Queue volume" description="Today's incoming ticket volume" body="these are some stats">
                             <Linegraph  width="1000" height="280" renderData={ this.renderData(queueData, globalDate, true) } />
                         </CardComponent>
                     </div>
@@ -36,10 +37,10 @@ export default class TeamLinegraphRenderer extends Component {
     }
 
 	render() {
-        const { TeamGraphData, globalDate } = this.props;
+        const { TeamGraphData, globalDate, Key } = this.props;
 		return (
 				<div>
-                    { !TeamGraphData ? <p> No graph data in TeamLinegraphRenderer </p> : this.renderLinegraphs(TeamGraphData, globalDate) }
+                    { !TeamGraphData ? <p> No graph data in TeamLinegraphRenderer </p> : this.renderLinegraphs(TeamGraphData, globalDate, Key) }
 				</div>	
 				)
 	}	

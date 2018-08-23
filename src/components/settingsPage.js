@@ -80,8 +80,8 @@ class SettingsPage extends Component {
     }
 
 	render() {
-        const { appData } = this.props;
-        const { changeGlobalProgram, updateProgramSettings } = this;
+    const { appData } = this.props;
+    const { changeGlobalProgram, updateProgramSettings } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <SettingsCard 
