@@ -190,7 +190,7 @@ export function programToId(program) {
 
 export function fetchAndInitialize(email) {
     return async dispatch => {
-        email = 'bradley.mccalla@partnerhero.com' //test with this
+        //email = 'bradley.mccalla@partnerhero.com' //test with this
         const userID = email2id(email);
 
         const date = moment();
