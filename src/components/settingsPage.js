@@ -19,7 +19,7 @@ class SettingsPage extends Component {
         this.state = {
             appData             : 'appData' in this.props ? this.props.appData: {},
             lastFetch           : moment().format('MM/DD @ hh:mma'),
-            changeLoaderDisplay : false
+            displayLoader       : false
         };
 
         this.updateLastFetch = this.updateLastFetch.bind(this);
@@ -84,13 +84,13 @@ class SettingsPage extends Component {
 
     changeLoaderDisplay() {
         this.setState({
-            changeLoaderDisplay: !this.state.changeLoaderDisplay
-        })
+            displayLoader: !this.state.displayLoader
+        }, () => {console.log(this.state.displayLoader)})
     }
 
 	render() {
     const { appData } = this.props;
-    const { changeGlobalProgram, updateProgramSettings } = this;
+    const { changeGlobalProgram, updateProgramSettings,  changeLoaderDisplay} = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <SettingsCard 
@@ -98,9 +98,9 @@ class SettingsPage extends Component {
                         programList={this.state.appData.appSettings.programList} 
                         changeGlobalProgram = {changeGlobalProgram}
                         lastFetch = {this.state.lastFetch}
-                        changeLoaderDisplay = {this.state.changeLoaderDisplay}
+                        displayLoader = {this.state.displayLoader}
                     >
-                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} changeLoaderDisplay={() => changeLoaderDisplay}/>
+                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} changeLoaderDisplay={changeLoaderDisplay}/>
                     </SettingsCard>
 		    	</div>
 				)

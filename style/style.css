@@ -26,6 +26,16 @@ body {
   width: 60px;
 }
 
+.lastUpdatedLoader {
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #2b3f52f2;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  height: 15px;
+  width: 15px;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
