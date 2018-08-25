@@ -20,11 +20,11 @@ import {
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
+import RadargraphRenderer from './radargraphRenderer'
+
 import ProductivityCard from './productivityCard'
-import CardComponent from './cardComponent'
 
 import Table from './table3'
-import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
 
 class Generalpage extends Component {
@@ -135,6 +135,10 @@ class Generalpage extends Component {
 
                                             <h4 className="card-body-title"> TEAM </h4> 
                                             { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
+                                                                                TeamGraphData = {GraphData} 
+                                                                                globalDate    = {appData.globalDate}
+                                                                                Key           = {Key + 'team'} /> }
+                                            { !GraphData ? <p> Loading </p> : <RadargraphRenderer 
                                                                                 TeamGraphData = {GraphData} 
                                                                                 globalDate    = {appData.globalDate}
                                                                                 Key           = {Key + 'team'} /> }
