@@ -4,88 +4,113 @@ import { connect }            from 'react-redux';
 import moment from 'moment';
 
 import SettingsCard from './settingsCard'
+import SettingsForm from './SettingsForm'
 
-class GeneralSettings extends Component {
+import { 
+        fetchProgram,
+        postProgramSettings
+    } from '../actions';
+
+class SettingsPage extends Component {
 
     constructor(props){
         super(props);
 
-        this.state = {};
+        this.state = {
+            appData   : 'appData' in this.props ? this.props.appData: {},
+            lastFetch : moment().format('MM/DD @ hh:mma')
+        };
+
+        this.updateLastFetch = this.updateLastFetch.bind(this);
+        this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
+        this.updateProgramSettings = this.updateProgramSettings.bind(this);
+        this.checkIfFetch = this.checkIfFetch.bind(this);
     }
-    // componentWillMount() {
-    //     this.props.getSettings(this.props.StartupData.programData, this.props.StartupData.productivityData)
-    // }
+
+    updateLastFetch () {
+        this.setState({ 
+          lastFetch: new moment().format('MM/DD @ hh:mma')
+        }); 
+    }
+
+    changeGlobalProgram(newProgram) {
+        this.props.fetchProgram(newProgram, this.state.appData, false);
+    }
+
+    updateProgramSettings (payload) {
+        let fields = {
+            'Program Name': 'prettyName',
+            'Zendesk URL': 'zendeskURL',
+            'Manager Email': 'managerEmail',
+            'Goal Type': 'goal',
+            'Olark Chats': 'olark',
+        };
+        let path = this.state.appData.globalProgram.settings.id + '/settings/' + fields[payload.field] + '/';
+        postProgramSettings(path, payload.value);
+        this.updateLastFetch();
+
+    }
+
+    componentDidUpdate () {
+        this.checkIfFetch();
+    }
+
+
+    checkIfFetch() {
+
+        const { FetchProgram } = this.props;
+
+        if (!FetchProgram) return true;
+
+        const newProgramName = FetchProgram.globalProgram.settings.id;
+        const currentProgramName = this.state.appData.globalProgram.settings.id;
+
+        const isRefresh = FetchProgram.isRefresh;
+
+        if((newProgramName !== currentProgramName)) {
+            let newAppData = {
+                ...this.props.appData,
+                appSettings: FetchProgram.appSettings,
+                globalProgram: FetchProgram.globalProgram,
+                productivityData: FetchProgram.productivityData
+            }
+            
+            this.setState({ appData: newAppData}, () => this.updateLastFetch())
+        }
+    }
 
 	render() {
-        console.log('settings props', this.props)
-        //to-do: remove getlinegraphdata from getdatelist function and prevent it from mutating
+    const { appData } = this.props;
+    const { changeGlobalProgram, updateProgramSettings } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
-                    <SettingsCard >
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-md">
-                                    <label htmlFor="basic-url">Program Name</label>
-                                    <div className="input-group mb-3">
-                                      <input type="text" className="form-control" placeholder="Acme corp" aria-label="Username" aria-describedby="basic-addon1" />
-                                    </div>
-                                    <label htmlFor="basic-url">Zendesk URL</label>
-                                    <div className="input-group mb-3">
-                                      <div className="input-group-prepend">
-                                        <span className="input-group-text" id="basic-addon3">https://</span>
-                                      </div>
-                                      <input type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                      <div className="input-group-append">
-                                        <span className="input-group-text" id="basic-addon2">.zendesk.com</span>
-                                      </div>
-                                    </div>
-
-                                    <label htmlFor="basic-url">Manager Email</label>
-                                    <div className="input-group mb-3">
-                                      <input type="text" className="form-control" placeholder="someone" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                      <div className="input-group-append">
-                                        <span className="input-group-text" id="basic-addon2">@partnerhero.com</span>
-                                      </div>
-                                    </div>
-                                </div>
-
-                                <div className="col-sm">
-                                    <div style={{marginBottom: '1rem'}}> 
-                                        <label htmlFor="basic-url">Goal Type</label>
-                                        <br />
-                                        <div className="btn-group" role="group" aria-label="Basic example">
-                                          <button type="button" className="btn btn-secondary active">Touches</button>
-                                          <button type="button" className="btn btn-secondary">Solved</button>
-                                          <button type="button" className="btn btn-secondary">Chats</button>
-                                        </div>
-                                    </div>
-                                    <div> 
-                                        <label htmlFor="basic-url">Olark Chats</label>
-                                        <br />
-                                        <div className="btn-group" role="group" aria-label="Basic example">
-                                          <button type="button" className="btn btn-secondary">True</button>
-                                          <button type="button" className="btn btn-secondary active">False</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </SettingsCard >
+                    <SettingsCard 
+                        globalProgram={this.state.appData.globalProgram}
+                        programList={this.state.appData.appSettings.programList} 
+                        changeGlobalProgram = {changeGlobalProgram}
+                        lastFetch = {this.state.lastFetch}
+                    >
+                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings}/>
+                    </SettingsCard>
 		    	</div>
 				)
 	}
 }
 
-
 function mapDispatchToProps(dispatch){
-    return bindActionCreators({}, dispatch);
+    return bindActionCreators({
+        fetchProgram : fetchProgram
+    }, dispatch);
 }
 
 function mapStateToProps(state){
+
     const {
+        fetchProgram
     } = state;
     return { 
+        FetchProgram : fetchProgram
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GeneralSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

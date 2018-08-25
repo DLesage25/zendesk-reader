@@ -20,7 +20,7 @@ export default class Linegraph extends Component {
                 {
                     !this.props.renderData ?
                     <p> No data to load... </p> 
-                    : <LineChart data = { this.props.renderData } width = { this.state.width } height = { this.state.heigth } />
+                    : <LineChart data = { this.props.renderData } width = { this.state.width } height = { this.state.heigth } redraw/>
                 }
             </div>
         )

@@ -70,7 +70,7 @@ export default class TopBar extends Component {
 				                    <div style={{float: 'left', width:'50%' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(primaryOpts,'left')}
 				                    </div>
-				                    <div style={{float: 'right', width:'23%' }} className={this.getScrollClasses('float')} >
+				                    <div style={{float: 'right', width:'23%', textAlign:'right' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(secondaryOpts,'right')}
 				                    </div>
 				                </div>

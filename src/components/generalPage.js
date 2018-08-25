@@ -15,9 +15,8 @@ import moment from 'moment';
 
 import { 
         getLinegraphData,
-        fetchProgram,
-        fetch
-        } from '../actions';
+        fetchProgram
+    } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
@@ -101,6 +100,7 @@ class Generalpage extends Component {
     }
 
     changeGlobalProgram(newProgram) {
+        console.log("Enters " + newProgram)
         this.props.fetchProgram(newProgram, this.state.appData, false);
     }
 
