@@ -121,32 +121,32 @@ class Generalpage extends Component {
                     <div>
                         {
                             !appData.productivityData  ?  <p> Man! Looks like there's no data for your program. <br /> If you think this is a mistake, hit up @dan. :-) </p> :
-                                        <div>
-                                            { !GraphData  ?  <p> Loading </p> : 
-                                                <ProductivityCard 
-                                                    globalDate          = {appData.globalDate}
-                                                    globalProgram       = {appData.globalProgram}
-                                                    changeGlobalDate    = {changeGlobalDate} 
-                                                    changeGlobalProgram = {changeGlobalProgram}
-                                                    dateList            = {getDateList(appData.productivityData)} 
-                                                    programList         = {appData.appSettings.programList}
-                                                    refreshData         = {refreshData}
-                                                    lastFetch           = {lastFetch} >
+                                <div>
+                                    { !GraphData  ?  <p> Loading </p> : 
+                                        <ProductivityCard 
+                                            globalDate          = {appData.globalDate}
+                                            globalProgram       = {appData.globalProgram}
+                                            changeGlobalDate    = {changeGlobalDate} 
+                                            changeGlobalProgram = {changeGlobalProgram}
+                                            dateList            = {getDateList(appData.productivityData)} 
+                                            programList         = {appData.appSettings.programList}
+                                            refreshData         = {refreshData}
+                                            lastFetch           = {lastFetch} >
 
-                                                    <h4 className="card-body-title"> TEAM </h4> 
-                                                    { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
-                                                                                        TeamGraphData = {GraphData} 
-                                                                                        globalDate    = {appData.globalDate}
-                                                                                        Key           = {Key + 'team'} /> }
-                                                    <hr /> <br />
-                                                    <h4 className="card-body-title"> INDIVIDUAL </h4>
-                                                    { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
-                                                                                        IndividualGraphData = {GraphData.individualGraphData} 
-                                                                                        globalDate          = {appData.globalDate} 
-                                                                                        Key                 = {Key + 'individual'} /> }
-                                                </ProductivityCard> 
-                                            }
-                                        </div>
+                                            <h4 className="card-body-title"> TEAM </h4> 
+                                            { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
+                                                                                TeamGraphData = {GraphData} 
+                                                                                globalDate    = {appData.globalDate}
+                                                                                Key           = {Key + 'team'} /> }
+                                            <hr /> <br />
+                                            <h4 className="card-body-title"> INDIVIDUAL </h4>
+                                            { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
+                                                                                IndividualGraphData = {GraphData.individualGraphData} 
+                                                                                globalDate          = {appData.globalDate} 
+                                                                                Key                 = {Key + 'individual'} /> }
+                                        </ProductivityCard> 
+                                    }
+                                </div>
                         }               
                     </div>
 		    	</div>

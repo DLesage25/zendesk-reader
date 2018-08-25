@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import CardComponent from './cardComponent'
-import Linegraph from './linegraph_individual'
+import Linegraph from './linegraph'
 
 export default class TeamLinegraphRenderer extends Component {
     constructor(props){
