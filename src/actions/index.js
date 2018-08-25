@@ -157,14 +157,17 @@ export function fetchUserData(email) {
 
 export function getLinegraphData(globalProgram, productivityData) {
     return async dispatch => {
+        console.log({productivityData})
         let [
             teamGraphData,
             individualGraphData,
-            queueData
+            queueData,
+            //radarGraphData
         ] = await Promise.all([
             formatTeamLinegraphData.formatChartData(globalProgram, productivityData),
             formatIndividualLinegraphData.formatChartData(globalProgram, productivityData),
-            formatQueueData.formatChartData(globalProgram, productivityData)
+            formatQueueData.formatChartData(globalProgram, productivityData),
+            //formatRadargraphData.formatChartData(globalProgram, productivityData)
         ]);
 
         let payload = {
