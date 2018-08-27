@@ -4,6 +4,8 @@ import moment from 'moment';
 import CardComponent from './cardComponent'
 import Dropdown from './dropdown'
 import BrandDropdown from './brandDropdown'
+import DatePicker from 'react-datepicker'
+
 
 export default class ProductivityCard extends Component {
     constructor(props){
@@ -14,9 +16,17 @@ export default class ProductivityCard extends Component {
             focused_btn    : false,
             focused_choice : false,
             icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
-            text: 'text' in this.props ? this.props.text : '<default text>'
+            text: 'text' in this.props ? this.props.text : '<default text>',
+            globalDate: (this.props.globalDate === moment().format('MM/DD/YY')) ? moment() : moment(this.props.globalDate.replace(/_/g,'/'))
         };
+        this.handleChange = this.handleChange.bind(this);
     }
+
+    handleChange(date) {
+	    this.setState({
+	      globalDate: date
+	    }, () => {this.props.changeGlobalDate(date.format('MM_DD_YY'))});
+  	}
 
 	render() {
 		const {
@@ -35,7 +45,10 @@ export default class ProductivityCard extends Component {
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
 				        	<div style={{ float: 'left'}}>
 					            <Dropdown current={globalProgram.settings.prettyName} options={programList.map((o) => { return o.prettyName })} action={changeGlobalProgram} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
-					            <Dropdown current={(globalDate === moment().format('MM/DD/YY')) ? 'Today' : globalDate} options={dateList} action={changeGlobalDate} buttonClassName="btn btn-sm btn-outline-secondary ml-2 dropdown-toggle"/>
+					            <DatePicker
+							        selected={this.state.globalDate}
+							        onChange={this.handleChange}
+							    />
 				            </div>
 				            <div style={{ float: 'right', marginRight: '10px'}}>
 				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { (lastFetch) ? moment(lastFetch, 'X').format('MM/DD @ hh:mma') : moment().format('MM/DD @ hh:mma') } </span>

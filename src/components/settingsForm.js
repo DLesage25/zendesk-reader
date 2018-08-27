@@ -44,7 +44,7 @@ export default class SettingsForm extends Component {
     //click timer handler-----------------------------------------------
 
     doneInterval (value, field) {
-      this.props.changeLoaderDisplay();
+      this.props.changeLoaderDisplay(true);
       this.props.updateProgramSettings({value: value, field: field});
     }
 

@@ -82,10 +82,8 @@ class SettingsPage extends Component {
         }
     }
 
-    changeLoaderDisplay() {
-        this.setState({
-            displayLoader: !this.state.displayLoader
-        }, () => {console.log(this.state.displayLoader)})
+    changeLoaderDisplay(done) {
+        this.setState( { displayLoader: !done } )
     }
 
 	render() {
