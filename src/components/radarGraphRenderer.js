@@ -13,7 +13,7 @@ export default class radarGraphRenderer extends Component {
 	render() {
 		return (
 		        	<div className="row" style={{ marginBottom: '20px'}}>
-			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={"Tag distribution"} description="Today's production" body="these are some stats">
+			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6" title={"Tag distribution"} description="Today's production" body="these are some stats">
 			        		<Radargraph  width="500" height="280" />
 			        	</CardComponent>
 		        	</div>
