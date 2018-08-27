@@ -135,10 +135,12 @@ div[id="hourlyThroughputChart"], div[id="queueVolumeChart"] {
 	margin-left: 2.8% !important;
 }
 
-canvas {
+div[class="col-lg-6 individualLineGraph"] canvas {
 	width: 103% !important;
 }
 
 .disabled-top-link {
 	color: #6d7175 !important;
 }
+
+
