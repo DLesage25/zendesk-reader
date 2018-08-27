@@ -101,10 +101,6 @@ export function postProgramSettings(program, programSettings) {
     write('/programs/' + program, programSettings);
 }
 
-// export function getProgramBambooId(program) {
-//     if()
-// }
-
 //the getprogram function should pull all users from /users in FB and filter using that
 export async function getProgramRoster(programId) {
     let users = await get('/users/byUserId');
