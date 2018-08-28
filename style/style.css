@@ -167,9 +167,8 @@ div[class="react-datepicker__input-container"] input:hover, div[class="react-dat
 	text-shadow: 0 0 0 white !important;
 }
 
-div:has(> .react-datepicker-wrapper) { 
-	/* styles to apply to the li tag */
-	display: inline-block;
+input[class="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle"] {
+	width: 58%;
 }
 
 
