@@ -3,7 +3,6 @@ import moment from 'moment';
 
 import CardComponent from './cardComponent'
 import Dropdown from './dropdown'
-import BrandDropdown from './brandDropdown'
 
 export default class ProductivityCard extends Component {
     constructor(props){
