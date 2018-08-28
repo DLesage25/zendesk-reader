@@ -11,6 +11,7 @@ import newSettings from '../modules/newSettings';
 import formatTeamLinegraphData from '../modules/charts/linegraph/formatTeamData';
 import formatIndividualLinegraphData from '../modules/charts/linegraph/formatIndividualData';
 import formatQueueData from '../modules/charts/linegraph/formatQueueData';
+import formatTagData from '../modules/charts/radargraph/formatTagData';
 
 import tempBambooData from './tempBambooData';
 
@@ -162,12 +163,12 @@ export function getLinegraphData(globalProgram, productivityData) {
             teamGraphData,
             individualGraphData,
             queueData,
-            //radarGraphData
+            tagData
         ] = await Promise.all([
             formatTeamLinegraphData.formatChartData(globalProgram, productivityData),
             formatIndividualLinegraphData.formatChartData(globalProgram, productivityData),
             formatQueueData.formatChartData(globalProgram, productivityData),
-            //formatRadargraphData.formatChartData(globalProgram, productivityData)
+            formatTagData.formatChartData(globalProgram, productivityData)
         ]);
 
         let payload = {
