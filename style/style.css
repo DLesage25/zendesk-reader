@@ -160,14 +160,13 @@ div[id="datePicker-container"] {
 div[class="react-datepicker__input-container"] input {
 	color: transparent !important;
 	text-shadow: 0 0 0 #00799C !important;
-	border-color: #00799C !important;
+	border-color: #9ea9b3 !important;
 }
 
 div[class="react-datepicker__input-container"] input:hover, div[class="react-datepicker__input-container"] input:focus {
 	color: transparent !important;
 	text-shadow: 0 0 0 white !important;
 	background-color: #9ea9b3 !important;
-	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
 }
 
 input[class="btn btn-sm btn-outline-secondary ml-2 dropdown-toggle"] {
