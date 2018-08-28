@@ -126,7 +126,11 @@ div[data-reactid='.0.0.0.1.0.0.1.$view-link-1'] {
 	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
 }
 
-div[id="hourlyThroughputChart"], div[id="queueVolumeChart"] {
+div[id="queueVolumeChart"] {
+	margin-left: 3.2% !important;
+}
+
+div[id="hourlyThroughputChart"] {
 	margin-left: 1.8% !important;
 	width: 91% !important;
 }

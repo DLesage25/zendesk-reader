@@ -20,7 +20,9 @@ export default class CardComponent extends Component {
             marginBottom: 'marginBottom' in this.props ? this.props.marginBottom: '0px',
             divHeight: 'divHeight' in this.props ? this.props.divHeight: '233px',
             marginLeft: 'marginLeft' in this.props ? this.props.marginLeft: '0px',
-            maxWidth: 'maxWidth' in this.props ? this.props.maxWidth: ''        };
+            maxWidth: 'maxWidth' in this.props ? this.props.maxWidth: '',
+            id: 'id' in this.props ? this.props.id : null
+        };
 
     }
 

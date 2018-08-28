@@ -138,10 +138,6 @@ class Generalpage extends Component {
                                                                                 TeamGraphData = {GraphData} 
                                                                                 globalDate    = {appData.globalDate}
                                                                                 Key           = {Key + 'team'} /> }
-                                            { !GraphData ? <p> Loading </p> : <RadargraphRenderer 
-                                                                                TeamGraphData = {GraphData} 
-                                                                                globalDate    = {appData.globalDate}
-                                                                                Key           = {Key + 'team'} /> }
                                             <hr /> <br />
                                             <h4 className="card-body-title"> INDIVIDUAL </h4>
                                             { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
