@@ -153,6 +153,20 @@ canvas {
 	color: #6d7175 !important;
 }
 
+div[id="datePicker-container"] {
+	display: inline-block;
+}
+
+div[class="react-datepicker__input-container"] input {
+	color: transparent !important;
+	text-shadow: 0 0 0 #00799C !important;
+}
+
+div[class="react-datepicker__input-container"] input:hover, div[class="react-datepicker__input-container"] input:focus {
+	color: transparent !important;
+	text-shadow: 0 0 0 white !important;
+}
+
 div:has(> .react-datepicker-wrapper) { 
 	/* styles to apply to the li tag */
 	display: inline-block;
