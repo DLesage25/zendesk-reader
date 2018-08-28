@@ -90,7 +90,7 @@ body {
 
 .top-float a:focus {
 	text-decoration: none;
-	color: #f15861;
+	color: #f3f2f2;
 }
 /*TopBar Help Button*/
 div[data-reactid='.0.0.0.1.0.0.1.$view-link-1'] {
@@ -161,6 +161,7 @@ div[class="react-datepicker__input-container"] input {
 	color: transparent !important;
 	text-shadow: 0 0 0 #00799C !important;
 	border-color: #9ea9b3 !important;
+	width: 58%;
 }
 
 div[class="react-datepicker__input-container"] input:hover, div[class="react-datepicker__input-container"] input:focus {
@@ -169,8 +170,8 @@ div[class="react-datepicker__input-container"] input:hover, div[class="react-dat
 	background-color: #9ea9b3 !important;
 }
 
-input[class="btn btn-sm btn-outline-secondary ml-2 dropdown-toggle"] {
-	width: 58%;
+input[class="btn btn-sm btn-outline-secondary ml-2"] {
+	width: 100%;
 }
 
 
