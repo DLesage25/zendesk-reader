@@ -14,28 +14,24 @@ const groupAllData = async(globalProgram, productivityData) => {
 }
 
 const formatAllData = async(groupedData) => {
-	console.log({groupedData})
     return groupedData.map((dayIndex, dayKey) => {
-        var series = dayIndex.series.counts;
-        var seriesKeys = Object.keys(series.labels);
+        var counts = dayIndex.series.counts;
+        var labels = dayIndex.series.labels;
+        var hourKeys = Object.keys(counts);
+
         var data = {
             dayKey: dayIndex.dayKey,
             labels: dayIndex.hourLine,
-            datasets: [{
-                    ...colorSchemes[0],
-                    label: seriesKeys[0],
-                    data: series[seriesKeys[0]]
-                }, {
-                    ...colorSchemes[1],
-                    label: seriesKeys[1],
-                    data: series[seriesKeys[1]]
-                }, {
-                	...colorSchemes[2],
-                    label: seriesKeys[2],
-                    data: series[seriesKeys[2]] 
+            datasets: hourKeys.map((hour, index) => {
+                let colorScheme = colorSchemes[index] || colorSchemes[index - colorSchemes.length]
+                return {
+                    ...colorScheme,
+                    label: hour,
+                    data: counts[hour]
                 }
-            ]
+            })
         };
+
         return data;
     })
 }
@@ -78,11 +74,6 @@ const getDailyCount = async(dayData, hours, dayKey) => {
         let tagKeys = Object.keys(index).sort((a,b)=>{return index[b] - index[a]});
         //sample top 10 items
         tagKeys = tagKeys.slice(0, 10);
-
-        console.log({tagKeys})
-        console.log({index})
-
-        // let tagKeys = Object.keys(index);
 
         tagKeys.map((tag) => {
         	let count = index[tag];
