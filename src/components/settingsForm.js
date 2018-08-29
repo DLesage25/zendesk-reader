@@ -23,8 +23,6 @@ export default class SettingsForm extends Component {
 
         this.timer;                        //timer identifier
         this.timerInterval        = 3000;  //3s
-
-
     }
 
     updateLocalAppData (newState) {
@@ -41,8 +39,6 @@ export default class SettingsForm extends Component {
       } 
     }
 
-    //click timer handler-----------------------------------------------
-
     doneInterval (value, field) {
       this.props.changeLoaderDisplay(true);
       this.props.updateProgramSettings({value: value, field: field});
@@ -53,7 +49,6 @@ export default class SettingsForm extends Component {
       this.props.changeLoaderDisplay();
       this.timer = setTimeout(() => this.doneInterval(value, field), this.timerInterval);
     }
-    //----------------------------------------------------------
 
     onChange (value, field) {
       if(field === 'Goal Type' || field === 'Olark Chats') ((typeof(value) === "boolean") ? this.setState({ olark: value}) : this.setState({ goal: value}))
@@ -61,7 +56,6 @@ export default class SettingsForm extends Component {
       this.timerHandler(value, field);
     }
     
-
     componentDidMount() {
       this.updateLocalAppData();
     }
@@ -70,11 +64,9 @@ export default class SettingsForm extends Component {
       this.updateLocalAppData(nextProps);  
     }
 
-
 	render() {
 
     const { updateProgramSettings } = this.props;
-
     const { onChange } = this;
 
     const olarkChats = [
@@ -92,7 +84,7 @@ export default class SettingsForm extends Component {
       <div className="container">
         <div className="row">
     			<div className="col-md">
-              <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onChange}/>
+              <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onChange} disabled={true}/>
               <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange}/>
               <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange}/>
     			</div>

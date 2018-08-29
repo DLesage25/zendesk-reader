@@ -65,7 +65,7 @@ const getSeries = async(dayData, hours, dayKey, goal) => {
         //convert to array
         index = Object.keys(index).map(function(key) { return index[key]; });
         //filter out queue load
-        index = _.filter(index, function(o) { return o.email })
+        index = _.filter(index, function(o) { return o.email && o.objectType === 'userHourlyStatus' })
 
         let totalHourlyGoal = _.sumBy(index, function(o) { return Number(o.goal) });
         let totalHourlyProd = _.sumBy(index, function(o) { return Number(o[goal]) });

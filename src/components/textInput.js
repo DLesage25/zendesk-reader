@@ -44,7 +44,7 @@ export default class TextInput extends Component {
   			    <label htmlFor="basic-url">{this.props.title}</label>
             <div className="input-group mb-3">
               {this.props.prepend ? this.state.prepend : null}
-              <input type="text" className="form-control" aria-label={this.ariaLabel} aria-describedby={this.props} value={this.state.value} onChange={(event) => this.onChange(event)}/>
+              <input type="text" className="form-control" aria-label={this.ariaLabel} aria-describedby={this.props} value={this.state.value} onChange={(event) => this.onChange(event)} disabled={this.props.disabled}/>
               {this.props.append ? this.state.append : null}
             </div>
           </div>
