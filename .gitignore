@@ -37,7 +37,7 @@ build/Release
 node_modules/*
 !node_modules/react-datepicker/
 jspm_packages/
-functions/node_modules/*
+functions/node_modules/
 
 # Typescript v1 declaration files
 typings/
