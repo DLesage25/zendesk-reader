@@ -3,7 +3,6 @@ import moment from 'moment';
 
 import CardComponent from './cardComponent'
 import Dropdown from './dropdown'
-import BrandDropdown from './brandDropdown'
 import DatePicker from 'react-datepicker'
 
 
