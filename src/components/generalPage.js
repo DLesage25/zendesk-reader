@@ -33,15 +33,19 @@ class Generalpage extends Component {
         super(props);
 
         this.state = {
-            appData: 'appData' in this.props ? this.props.appData: null,
-            lastFetch: null,
-            Key: Math.random()
+            appData       : 'appData' in this.props ? this.props.appData: null,
+            lastFetch     : null,
+            Key           : Math.random(),
+            displayLoader : false
+
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
         this.refreshData = this.refreshData.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
+        this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
+
     }
 
     componentWillMount() {
@@ -52,7 +56,12 @@ class Generalpage extends Component {
         this.checkIfFetch();
     }
 
+    changeLoaderDisplay(done) {
+        this.setState( { displayLoader: !done } )
+    }
+
     checkIfFetch() {
+
         const { FetchProgram } = this.props;
 
         if (!FetchProgram) return true;
@@ -76,7 +85,7 @@ class Generalpage extends Component {
                             appData: newAppData, 
                             lastFetch: moment().format('X'), 
                             Key: Math.random() 
-                        })
+                         })
         } else {
             return true;
         }
@@ -101,11 +110,13 @@ class Generalpage extends Component {
 
     changeGlobalProgram(newProgram) {
         console.log("Enters " + newProgram)
-        this.props.fetchProgram(newProgram, this.state.appData, false);
+        this.changeLoaderDisplay();
+        this.props.fetchProgram(newProgram, this.state.appData, false, this.changeLoaderDisplay);
     }
 
     refreshData() {
-        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true);
+        this.changeLoaderDisplay();
+        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true, this.changeLoaderDisplay);
     }
 
     getDateList(productivityData){
@@ -131,7 +142,9 @@ class Generalpage extends Component {
                                                     dateList            = {getDateList(appData.productivityData)} 
                                                     programList         = {appData.appSettings.programList}
                                                     refreshData         = {refreshData}
-                                                    lastFetch           = {lastFetch} >
+                                                    lastFetch           = {lastFetch}
+                                                    displayLoader       = {this.state.displayLoader}
+                                                     >
 
                                                     <h4 className="card-body-title"> TEAM </h4> 
                                                     { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 

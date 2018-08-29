@@ -12,14 +12,22 @@ export default class ProductivityCard extends Component {
         super(props);
 
         this.state = {
-            title           : 'title' in this.props ? this.props.title: 'Card title',
+            title          : 'title' in this.props ? this.props.title: 'Card title',
             focused_btn    : false,
             focused_choice : false,
-            icon : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
-            text: 'text' in this.props ? this.props.text : '<default text>',
-            globalDate: (this.props.globalDate === moment().format('MM/DD/YY')) ? moment() : moment(this.props.globalDate.replace(/_/g,'/'))
+            icon 		   : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
+            text 		   : 'text' in this.props ? this.props.text : '<default text>',
+            globalDate     : (this.props.globalDate === moment().format('MM/DD/YY')) ? moment() : moment(this.props.globalDate.replace(/_/g,'/')),
+            displayLoader  : this.props.displayLoader
+
         };
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+		this.setState({
+			displayLoader: nextProps.displayLoader
+		}) 
     }
 
     handleChange(date) {
@@ -39,6 +47,13 @@ export default class ProductivityCard extends Component {
 			refreshData,
 			lastFetch
 		} = this.props;
+
+		const loader = (
+			<div style={{ float: 'right', marginRight: '10px', marginTop: '8.5px'}}>
+				<div className="lastUpdatedLoader"></div>
+            </div>
+		);
+
 		return (
 				<section className="card">
 				    <div className="card-header">
@@ -54,6 +69,7 @@ export default class ProductivityCard extends Component {
 				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { (lastFetch) ? moment(lastFetch, 'X').format('MM/DD @ hh:mma') : moment().format('MM/DD @ hh:mma') } </span>
 							<button type="button" className="main-card-dropdown btn btn-sm ml-2 btn-outline-primary" onClick={() => this.props.refreshData()} > <i className="fa fa-sync-alt" /> </button>
 				            </div>
+				            {this.state.displayLoader ? loader : null}
 				        </span>
 				    </div>
 				    <div className="card-body">
