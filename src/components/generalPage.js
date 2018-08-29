@@ -111,12 +111,12 @@ class Generalpage extends Component {
     changeGlobalProgram(newProgram) {
         console.log("Enters " + newProgram)
         this.changeLoaderDisplay();
-        this.props.fetchProgram(newProgram, this.state.appData, false, this.changeLoaderDisplay);
+        this.props.fetchProgram(newProgram, this.state.appData, false, () => {this.changeLoaderDisplay(true)});
     }
 
     refreshData() {
         this.changeLoaderDisplay();
-        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true, this.changeLoaderDisplay);
+        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true, () => {this.changeLoaderDisplay(true)});
     }
 
     getDateList(productivityData){

@@ -262,7 +262,7 @@ export function fetchProgram(programName, appData, isRefresh, callback) {
             productivityData: productivityData.byDate,
             isRefresh: isRefresh
         };
-        if(callback) callback(true);
+        if(callback) callback();
         return dispatch({ type: FETCH_PROGRAM, payload: payload });
     }
 }
