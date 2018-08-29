@@ -17,7 +17,7 @@ export default class ProductivityCard extends Component {
             focused_choice : false,
             icon 		   : 'icon' in this.props ? this.props.icon : 'fa fa-check-square-o',
             text 		   : 'text' in this.props ? this.props.text : '<default text>',
-            globalDate     : (this.props.globalDate === moment().format('MM/DD/YY')) ? moment() : moment(this.props.globalDate.replace(/_/g,'/'), 'MM-DD-YYYY'),
+            globalDate     : (this.props.globalDate === moment().format('MM/DD/YY')) ? moment() : moment(this.props.globalDate.replace(/_/g,'/'), "MM-DD-YYYY"),
             displayLoader  : this.props.displayLoader
 
         };
@@ -26,7 +26,7 @@ export default class ProductivityCard extends Component {
 
     componentWillReceiveProps(nextProps) {
 		this.setState({
-			globalDate   : (nextProps.globalDate === moment().format('MM/DD/YY')) ? moment() : moment(nextProps.globalDate.replace(/_/g,'/'), 'MM-DD-YYYY'),
+			globalDate   : (nextProps.globalDate === moment().format('MM/DD/YY')) ? moment() : moment(nextProps.globalDate.replace(/_/g,'/'), "MM-DD-YYYY"),
 			displayLoader: nextProps.displayLoader
 		}) 
     }
@@ -63,8 +63,6 @@ export default class ProductivityCard extends Component {
 					            <DatePicker
 							        selected={this.state.globalDate}
 							        onChange={this.handleChange}
-							        minDate={moment(dateList[dateList.length - 1].replace(/_/g,'/'), 'MM-DD-YYYY')}
-							        maxDate={moment(dateList[0].replace(/_/g,'/'), 'MM-DD-YYYY')}
 							    />
 							</div>
 				            <div style={{ float: 'right', marginRight: '10px'}}>
