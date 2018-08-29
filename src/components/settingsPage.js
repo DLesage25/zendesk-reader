@@ -17,14 +17,17 @@ class SettingsPage extends Component {
         super(props);
 
         this.state = {
-            appData   : 'appData' in this.props ? this.props.appData: {},
-            lastFetch : moment().format('MM/DD @ hh:mma')
+            appData             : 'appData' in this.props ? this.props.appData: {},
+            lastFetch           : moment().format('MM/DD @ hh:mma'),
+            displayLoader       : false
         };
 
         this.updateLastFetch = this.updateLastFetch.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
         this.updateProgramSettings = this.updateProgramSettings.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
+        this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
+
     }
 
     updateLastFetch () {
@@ -79,9 +82,13 @@ class SettingsPage extends Component {
         }
     }
 
+    changeLoaderDisplay(done) {
+        this.setState( { displayLoader: !done } )
+    }
+
 	render() {
     const { appData } = this.props;
-    const { changeGlobalProgram, updateProgramSettings } = this;
+    const { changeGlobalProgram, updateProgramSettings,  changeLoaderDisplay} = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <SettingsCard 
@@ -89,8 +96,9 @@ class SettingsPage extends Component {
                         programList={this.state.appData.appSettings.programList} 
                         changeGlobalProgram = {changeGlobalProgram}
                         lastFetch = {this.state.lastFetch}
+                        displayLoader = {this.state.displayLoader}
                     >
-                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings}/>
+                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} changeLoaderDisplay={changeLoaderDisplay}/>
                     </SettingsCard>
 		    	</div>
 				)

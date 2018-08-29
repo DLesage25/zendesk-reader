@@ -22,7 +22,7 @@ export default class SettingsForm extends Component {
         this.doneInterval         = this.doneInterval.bind(this);
 
         this.timer;                        //timer identifier
-        this.timerInterval        = 5000;  //5s
+        this.timerInterval        = 3000;  //3s
     }
 
     updateLocalAppData (newState) {
@@ -40,11 +40,13 @@ export default class SettingsForm extends Component {
     }
 
     doneInterval (value, field) {
+      this.props.changeLoaderDisplay(true);
       this.props.updateProgramSettings({value: value, field: field});
     }
 
     timerHandler (value, field) {
       clearTimeout(this.timer);
+      this.props.changeLoaderDisplay();
       this.timer = setTimeout(() => this.doneInterval(value, field), this.timerInterval);
     }
 
