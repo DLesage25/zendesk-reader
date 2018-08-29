@@ -102,10 +102,6 @@ export function postProgramSettings(program, programSettings) {
     write('/programs/' + program, programSettings);
 }
 
-// export function getProgramBambooId(program) {
-//     if()
-// }
-
 //the getprogram function should pull all users from /users in FB and filter using that
 export async function getProgramRoster(programId) {
     let users = await get('/users/byUserId');
@@ -249,7 +245,7 @@ export function fetchAndInitialize(email) {
     }
 }
 
-export function fetchProgram(programName, appData, isRefresh) {
+export function fetchProgram(programName, appData, isRefresh, callback) {
     return async dispatch => {
         let allProgramSettings = await get('programs/');
 
@@ -266,7 +262,7 @@ export function fetchProgram(programName, appData, isRefresh) {
             productivityData: productivityData.byDate,
             isRefresh: isRefresh
         };
-
+        if(callback) callback();
         return dispatch({ type: FETCH_PROGRAM, payload: payload });
     }
 }

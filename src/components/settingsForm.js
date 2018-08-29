@@ -22,9 +22,7 @@ export default class SettingsForm extends Component {
         this.doneInterval         = this.doneInterval.bind(this);
 
         this.timer;                        //timer identifier
-        this.timerInterval        = 5000;  //5s
-
-
+        this.timerInterval        = 3000;  //3s
     }
 
     updateLocalAppData (newState) {
@@ -41,17 +39,16 @@ export default class SettingsForm extends Component {
       } 
     }
 
-    //click timer handler-----------------------------------------------
-
     doneInterval (value, field) {
+      this.props.changeLoaderDisplay(true);
       this.props.updateProgramSettings({value: value, field: field});
     }
 
     timerHandler (value, field) {
       clearTimeout(this.timer);
+      this.props.changeLoaderDisplay();
       this.timer = setTimeout(() => this.doneInterval(value, field), this.timerInterval);
     }
-    //----------------------------------------------------------
 
     onChange (value, field) {
       if(field === 'Goal Type' || field === 'Olark Chats') ((typeof(value) === "boolean") ? this.setState({ olark: value}) : this.setState({ goal: value}))
@@ -59,7 +56,6 @@ export default class SettingsForm extends Component {
       this.timerHandler(value, field);
     }
     
-
     componentDidMount() {
       this.updateLocalAppData();
     }
@@ -68,11 +64,9 @@ export default class SettingsForm extends Component {
       this.updateLocalAppData(nextProps);  
     }
 
-
 	render() {
 
     const { updateProgramSettings } = this.props;
-
     const { onChange } = this;
 
     const olarkChats = [

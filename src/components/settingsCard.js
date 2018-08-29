@@ -16,6 +16,7 @@ export default class SettingsCard extends Component {
             text		   : 'text' in this.props ? this.props.text  : '<default text>',
             current        : this.props.globalProgram.settings.prettyName,
             lastFetch	   : this.props.lastFetch,
+            displayLoader  : this.props.displayLoader
         };
 
     }
@@ -23,12 +24,19 @@ export default class SettingsCard extends Component {
     componentWillReceiveProps(nextProps) {
 		this.setState({
 			current: nextProps.globalProgram.settings.prettyName,
-			lastFetch: nextProps.lastFetch
+			lastFetch: nextProps.lastFetch,
+			displayLoader: nextProps.displayLoader
 		}) 
     }
 
 	render() {
 		const { globalProgram, programList, changeGlobalProgram } = this.props;
+
+		const loader = (
+			<div style={{ float: 'right', marginRight: '10px', marginTop: '8.5px'}}>
+				<div className="lastUpdatedLoader"></div>
+            </div>
+		);
 
 		return (
 
@@ -47,8 +55,9 @@ export default class SettingsCard extends Component {
 							  </div>
 							</nav>
 						    <div style={{ float: 'right', marginRight: '10px'}}>
-				            	<span style={{fontSize:'13px', color:'gray'}}> <b>Last updated</b> { this.state.lastFetch } </span>
+				            	<span style={{fontSize:'13px', color:'gray'}}> <b> Last updated</b> { this.state.lastFetch } </span>
 				            </div>
+				            {this.state.displayLoader ? loader : null}
 				        </span>
 				    </div>
 				    <div className="card-body">
