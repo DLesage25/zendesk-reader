@@ -20,11 +20,11 @@ import {
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamLinegraphRenderer from './teamLinegraphRenderer'
+import RadargraphRenderer from './radargraphRenderer'
+
 import ProductivityCard from './productivityCard'
-import CardComponent from './cardComponent'
 
 import Table from './table3'
-import Radargraph from './radarGraph'
 import Bargraph from './barGraph' 
 
 class Generalpage extends Component {

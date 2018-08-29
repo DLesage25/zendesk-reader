@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 import _ from 'lodash';
 
 import CardComponent from './cardComponent'
-import Linegraph from './linegraph_individual'
+import Linegraph from './linegraph'
 
 export default class IndividualLinegraphRenderer extends Component {
     constructor(props){
