@@ -14,7 +14,6 @@ export default class Linegraph extends Component {
     }
 
     render() {
-        if (this.props.Key && this.props.Key.indexOf('queue') > -1) console.log('queue in LG', this.props.renderData) 
         return (
             <div>
                 {

@@ -2,6 +2,8 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import colorSchemes from './colorScheme';
 
+const ColorSchemes = colorSchemes.splice(2); //removing first two colors
+
 const formatChartData = async(globalProgram, productivityData) => {
     let groupedData = await groupAllData(globalProgram, productivityData);
     let formattedData = await formatAllData(groupedData);
@@ -23,7 +25,7 @@ const formatAllData = async(groupedData) => {
             dayKey: dayIndex.dayKey,
             labels: labels,
             datasets: hourKeys.map((hour, index) => {
-                let colorScheme = colorSchemes[index] || colorSchemes[index - colorSchemes.length]
+                let colorScheme = ColorSchemes[index] || ColorSchemes[index - ColorSchemes.length]
                 return {
                     ...colorScheme,
                     label: hour,

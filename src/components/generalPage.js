@@ -19,7 +19,7 @@ import {
     } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
-import TeamLinegraphRenderer from './teamLinegraphRenderer'
+import TeamGraphRenderer from './teamGraphRenderer'
 import RadargraphRenderer from './radargraphRenderer'
 
 import ProductivityCard from './productivityCard'
@@ -127,8 +127,6 @@ class Generalpage extends Component {
         const { GraphData } = this.props;
         const { appData, lastFetch, Key } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
-
-        console.log({GraphData})
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <div>
@@ -149,8 +147,8 @@ class Generalpage extends Component {
                                                      >
 
                                                     <h4 className="card-body-title"> TEAM </h4> 
-                                                    { !GraphData ? <p> Loading </p> : <TeamLinegraphRenderer 
-                                                                                        TeamGraphData = {GraphData} 
+                                                    { !GraphData ? <p> Loading </p> : <TeamGraphRenderer 
+                                                                                        GraphData = {GraphData} 
                                                                                         globalDate    = {appData.globalDate}
                                                                                         Key           = {Key + 'team'} /> }
                                                     <hr /> <br />

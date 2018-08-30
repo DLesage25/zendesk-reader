@@ -192,7 +192,6 @@ export function fetchAndInitialize(email) {
     return async dispatch => {
         //email = 'bradley.mccalla@partnerhero.com' //test with this
         const userID = email2id(email);
-
         const date = moment();
 
         let [
@@ -201,11 +200,10 @@ export function fetchAndInitialize(email) {
         ] = await Promise.all([
             get('users/byUserId/' + userID),
             get('programs/')
-        ]);
+        ])
 
         let programId = programToId(userData.program);
         let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.id === programId })
-
         let productivityData = await get('productivity/byProgram/' + programId +
             '/byYear/' + date.year() +
             '/byWeek/' + date.week())
@@ -217,7 +215,7 @@ export function fetchAndInitialize(email) {
             selectedProgram = {
                 settings: settings,
                 team: team
-            };
+            }
 
             allProgramSettings[programId] = selectedProgram;
 
@@ -239,8 +237,7 @@ export function fetchAndInitialize(email) {
             appSettings: {
                 programList: programList
             }
-        };
-
+        }
         return dispatch({ type: FETCH_ALL_DATA, payload: payload });
     }
 }
