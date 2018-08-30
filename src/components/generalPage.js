@@ -127,6 +127,8 @@ class Generalpage extends Component {
         const { GraphData } = this.props;
         const { appData, lastFetch, Key } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
+
+        console.log({GraphData})
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <div>
