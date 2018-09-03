@@ -11,10 +11,15 @@ export default class TeamLinegraphRenderer extends Component {
     constructor(props){
         super(props);
         this.renderData = this.renderData.bind(this);
+        this.changeModalState = this.changeModalState.bind(this);
     }
 
     renderData(data, globalDate) {
         return _.find(data, function(o) {return o.dayKey === globalDate});
+    }
+
+    changeModalState(event) {
+        if(this.props.onClick) this.props.onClick(event);
     }
 
     renderLinegraphs (GraphData, globalDate, Key) {
@@ -27,7 +32,7 @@ export default class TeamLinegraphRenderer extends Component {
                 <div style={{ marginBottom:'40px' }}>
                     <div className="row" style={{ marginBottom: '40px' }} id="hourlyThroughputChart">
                         <CardComponent columnClassname="col-lg-12" title="Hourly throughput" description="Actual vs expected performance" body="these are some stats">
-                            <Linegraph width="1000" height="280" renderData={ this.renderData(teamGraphData, globalDate) } />
+                            <Linegraph width="1000" height="280" renderData={ this.renderData(teamGraphData, globalDate) } onClick={(event) => {this.changeModalState(event)}}/>
                         </CardComponent>
                     </div>
                     <div className="row" style={{ marginBottom: '20px' }}>

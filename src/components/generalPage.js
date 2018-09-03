@@ -36,8 +36,8 @@ class Generalpage extends Component {
             appData       : 'appData' in this.props ? this.props.appData: null,
             lastFetch     : null,
             Key           : Math.random(),
-            displayLoader : false
-
+            displayLoader : false,
+            modalState    : false,
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -45,7 +45,7 @@ class Generalpage extends Component {
         this.refreshData = this.refreshData.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
-
+        this.changeModalState = this.changeModalState.bind(this);
     }
 
     componentWillMount() {
@@ -123,6 +123,14 @@ class Generalpage extends Component {
         return Object.keys(productivityData).reverse();
     }
 
+    changeModalState(event) {
+        this.setState({
+            modalState: !this.state.modalState
+        }, () => {console.log(this.state.modalState)})
+    }
+
+
+
 	render() {
         const { GraphData } = this.props;
         const { appData, lastFetch, Key } = this.state;
@@ -143,14 +151,14 @@ class Generalpage extends Component {
                                                     programList         = {appData.appSettings.programList}
                                                     refreshData         = {refreshData}
                                                     lastFetch           = {lastFetch}
-                                                    displayLoader       = {this.state.displayLoader}
                                                      >
 
                                                     <h4 className="card-body-title"> TEAM </h4> 
                                                     { !GraphData ? <p> Loading </p> : <TeamGraphRenderer 
                                                                                         GraphData = {GraphData} 
                                                                                         globalDate    = {appData.globalDate}
-                                                                                        Key           = {Key + 'team'} /> }
+                                                                                        Key           = {Key + 'team'}
+                                                                                        onClick       = {(event) => this.changeModalState(event)} /> }
                                                     <hr /> <br />
                                                     <h4 className="card-body-title"> INDIVIDUAL </h4>
                                                     { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
