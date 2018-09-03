@@ -27,6 +27,8 @@ import ProductivityCard from './productivityCard'
 import Table from './table3'
 import Bargraph from './barGraph' 
 
+import Modal from './modal'
+
 class Generalpage extends Component {
 
     constructor(props){
@@ -165,6 +167,10 @@ class Generalpage extends Component {
                                                                                         IndividualGraphData = {GraphData.individualGraphData} 
                                                                                         globalDate          = {appData.globalDate} 
                                                                                         Key                 = {Key + 'individual'} /> }
+                                                    {this.state.modalState ? <Modal
+                                                                                open={this.state.modalState}
+                                                                                onClose={this.changeModalState}    >
+                                                                             </Modal> : null}
                                                 </ProductivityCard> 
                                             }
                                         </div>
