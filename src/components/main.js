@@ -10,7 +10,7 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state        = { 
-                view : 'Live stats',
+                view : 'Settings',
                 scrolled: false
             };
         this.onGetStarted = this.onGetStarted.bind(this);

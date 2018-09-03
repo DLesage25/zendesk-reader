@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
-import Table from './table3';
+import Table from './scheduleTable';
 import TextInput from './textInput';
 import SettingsButtonsGroup from './settingsButtonsGroup';
 
@@ -96,7 +96,7 @@ export default class SettingsForm extends Component {
         </div>
         <div className="row">
           <div className="col-lg">
-            <label> Schedules </label>
+            <label> Team Management </label>
             <Table /> 
           </div>
         </div>

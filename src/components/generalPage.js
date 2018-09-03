@@ -23,8 +23,6 @@ import TeamGraphRenderer from './teamGraphRenderer'
 import RadargraphRenderer from './radargraphRenderer'
 
 import ProductivityCard from './productivityCard'
-
-import Table from './table3'
 import Bargraph from './barGraph' 
 
 class Generalpage extends Component {
