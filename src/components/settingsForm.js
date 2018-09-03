@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
+import Table from './table';
 import TextInput from './textInput';
 import SettingsButtonsGroup from './settingsButtonsGroup';
 
@@ -88,9 +89,15 @@ export default class SettingsForm extends Component {
               <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange}/>
               <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange}/>
     			</div>
-          <div className="col-sm">
+          <div className="col-md">
             <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange}/>
             <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onChange}/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg">
+            <label> Schedules </label>
+            <Table /> 
           </div>
         </div>
       </div>

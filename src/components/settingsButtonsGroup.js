@@ -4,16 +4,11 @@ import React, { Component } from 'react';
 export default class SettingsButtonsGroup extends Component {
     constructor(props){
         super(props);
-
         this.state = {
-
         };
-
         this.renderButtons        = this.renderButtons.bind(this);
         this.onClick              = this.onClick.bind(this);
         this.upperCaseFirstLetter = this.upperCaseFirstLetter.bind(this);
-
-
     }
 
     onClick(value) {
