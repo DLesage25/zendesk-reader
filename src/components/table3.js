@@ -12,7 +12,34 @@ constructor(props) {
 render() {
   const data = [{
     name: 'Tanner Linsley',
-    loggedTime: '01:13:00',
+    email: 'daniel@partnerhero.com',
+    schedules: {
+      0: {
+        startTime: 9,
+        active: true
+      }, 1: {
+        startTime: 9,
+        active: true
+      }, 2: {
+        startTime: 9,
+        active: true
+      }, 3: {
+        startTime: 9,
+        active: true
+      }, 4: {
+        startTime: 9,
+        active: true
+      }, 5: {
+        startTime: 9,
+        active: true
+      }, 6: {
+        startTime: 9,
+        active: true
+      }, 7: {
+        startTime: 9,
+        active: true
+      }
+    },
     production: {
       publicComments: 5,
       goal: {
@@ -25,7 +52,7 @@ render() {
     }
   },{
     name: 'John Doe',
-    loggedTime: '02:25:00',
+    email: 'daniel@partnerhero.com',
     production: {
       publicComments: 21,
       goal: {
@@ -45,8 +72,8 @@ render() {
       Header: 'Name',
       accessor: 'name' // String-based value accessors!
     }, {
-      Header: 'Logged time',
-      accessor: 'loggedTime',
+      Header: 'Email',
+      accessor: 'email',
       Cell: props => <span className='someclass'>{props.value}</span> // Custom cell components!
     }, {
       id: 'publicComments', // Required because our accessor is not a string

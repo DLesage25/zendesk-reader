@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
-import Table from './table';
+import Table from './table3';
 import TextInput from './textInput';
 import SettingsButtonsGroup from './settingsButtonsGroup';
 
