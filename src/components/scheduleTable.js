@@ -5,8 +5,7 @@ export default class Table extends Component {
 
 constructor(props) {
   super(props);
-
-  /////////this should be erased //////////
+  ///////// this should be erased //////////
   data = [{
     email: 'daniel@partnerhero.com',
     dailyGoal: 25,
@@ -55,8 +54,6 @@ constructor(props) {
     };
 
   this.renderEditable = this.renderEditable.bind(this);
-  //this.renderDayColumns = this.renderDayColumns.bind(this);
-
 }
 
 renderEditable(cellInfo) {
@@ -77,63 +74,63 @@ renderEditable(cellInfo) {
   );
 }
 
-render() {
-  const { data } = this.state;
-  const days = [{
-          name: 'Sun',
-          index: 0
-        }, {
-          name: 'Mon',
-          index: 1
-        }, {
-          name: 'Tues',
-          index: 2
-        }, {
-          name: 'Wed',
-          index: 3
-        }, {
-          name: 'Thurs',
-          index: 4
-        }, {
-          name: 'Fri',
-          index: 5
-        }, {
-          name: 'Sat',
-          index: 6
-        }]
+  render() {
+    const { data } = this.state;
+    const days = [{
+            name: 'Sun',
+            index: 0
+          }, {
+            name: 'Mon',
+            index: 1
+          }, {
+            name: 'Tues',
+            index: 2
+          }, {
+            name: 'Wed',
+            index: 3
+          }, {
+            name: 'Thurs',
+            index: 4
+          }, {
+            name: 'Fri',
+            index: 5
+          }, {
+            name: 'Sat',
+            index: 6
+          }]
 
-  const columns = [{
-    Header: <span> User Info </span>,
-    headerClassName: 'user info',
-    columns: [{
-      Header: 'Email',
-      accessor: 'email',
-      minWidth: 200,
-      Cell: this.renderEditable
+    const columns = [{
+      Header: <span> User Info </span>,
+      headerClassName: 'user info',
+      columns: [{
+        Header: 'Email',
+        accessor: 'email',
+        minWidth: 200,
+        Cell: this.renderEditable
+      }, {
+        id: 'dailyGoal', 
+        Header: 'Daily Goal',
+        accessor: 'dailyGoal',
+        Cell: this.renderEditable
+      }, {
+        id: 'shiftDuration', 
+        Header: 'Shift Duration',
+        accessor: d => d.shiftDuration + ' hours', //d => d.production.publicComments 
+        minWidth: 150,
+        Cell: this.renderEditable
+      }]
     }, {
-      id: 'dailyGoal', 
-      Header: 'Daily Goal',
-      accessor: 'dailyGoal',
-      Cell: this.renderEditable
-    }, {
-      id: 'shiftDuration', 
-      Header: 'Shift Duration',
-      accessor: d => d.shiftDuration + ' hours', //d => d.production.publicComments 
-      minWidth: 150,
-      Cell: this.renderEditable
+      Header: <span> Start times (UTC) </span>,
+      headerClassName: 'schedules',
+      columns: days.map((day) => {
+            return {
+                Header: props => <span>{ day.name }</span>, 
+                accessor: 'schedules.' + day.index + '.startTime',
+                maxWidth: 80,
+                Cell: this.renderEditable
+            }
+        })
     }]
-  }, {
-    Header: <span> Start times (UTC) </span>,
-    headerClassName: 'schedules',
-    columns: days.map((day) => {
-          return {
-              Header: props => <span>{ day.name }</span>, 
-              accessor: 'schedules.' + day.index + '.startTime',
-              maxWidth: 80,
-              Cell: this.renderEditable
-          }
-      })
-  }]
 
   return (
       <ReactTable
@@ -145,5 +142,5 @@ render() {
         style={{borderRadius: '5px'}}
       />
     )
-}
+  }
 }
