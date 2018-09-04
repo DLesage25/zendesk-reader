@@ -21,15 +21,22 @@ export default class Modal extends Component {
     }
 
     render() {
-        return (
-            <div className="example">
-                <ResponsiveModal open={this.state.open} onClose={this.props.onClose} center>
+
+        const modal = (
+            <ResponsiveModal open={this.state.open} onClose={this.props.onClose} center>
                 <h2>Header</h2>
                 <p>
-                    Text
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                    pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+                    hendrerit risus, sed porttitor quam.
                 </p>
-                </ResponsiveModal>
-            </div>
+            </ResponsiveModal>
         );
+
+        return (
+            <div className="modal-wrapper">
+                {this.state.open ? modal : null}
+            </div>
+        )
     }
 }

@@ -54,10 +54,10 @@ class Generalpage extends Component {
         this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         this.checkIfFetch();
     }
-
+    
     changeLoaderDisplay(done) {
         this.setState( { displayLoader: !done } )
     }
@@ -128,14 +128,14 @@ class Generalpage extends Component {
     changeModalState(event) {
         this.setState({
             modalState: !this.state.modalState
-        }, () => {console.log(this.state.modalState)})
+        })
     }
 
 
 
 	render() {
         const { GraphData } = this.props;
-        const { appData, lastFetch, Key } = this.state;
+        const { appData, lastFetch, Key, displayLoader } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
@@ -152,6 +152,7 @@ class Generalpage extends Component {
                                                     dateList            = {getDateList(appData.productivityData)} 
                                                     programList         = {appData.appSettings.programList}
                                                     refreshData         = {refreshData}
+                                                    displayLoader       = {displayLoader}
                                                     lastFetch           = {lastFetch}
                                                      >
 
@@ -167,10 +168,10 @@ class Generalpage extends Component {
                                                                                         IndividualGraphData = {GraphData.individualGraphData} 
                                                                                         globalDate          = {appData.globalDate} 
                                                                                         Key                 = {Key + 'individual'} /> }
-                                                    {this.state.modalState ? <Modal
-                                                                                open={this.state.modalState}
-                                                                                onClose={this.changeModalState}    >
-                                                                             </Modal> : null}
+                                                    <Modal
+                                                       open={this.state.modalState}
+                                                       onClose={(event) => this.changeModalState(event)}>
+                                                    </Modal>
                                                 </ProductivityCard> 
                                             }
                                         </div>

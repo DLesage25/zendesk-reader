@@ -18,13 +18,18 @@ export default class Linegraph extends Component {
         if(this.props.onClick) this.props.onClick(event);
     };
 
+    shouldComponentUpdate(nextProps) {
+        if(nextProps.renderData == this.props.renderData) return false;
+        return true;
+    }
+
     render() {
         return (
             <div>
                 {
                     !this.props.renderData ?
                     <p> No data to load... </p> 
-                    : <LineChart data = { this.props.renderData } width = { this.state.width } height = { this.state.heigth } onClick={this.onClickFunction} redraw />
+                    : <LineChart data = { this.props.renderData } width = { this.state.width } height = { this.state.heigth } onClick={(event) => this.onClickFunction(event)} redraw />
                 }
             </div>
         )
