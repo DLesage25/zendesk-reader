@@ -27,7 +27,7 @@ export default class TeamLinegraphRenderer extends Component {
                 <div style={{ marginBottom:'40px' }}>
                     <div className="row" style={{ marginBottom: '40px' }} id="hourlyThroughputChart">
                         <CardComponent columnClassname="col-lg-12" title="Hourly throughput" description="Actual vs expected performance" body="these are some stats">
-                            <Linegraph width="1000" height="280" renderData={ this.renderData(teamGraphData, globalDate) } />
+                            <Linegraph width="1000" height="280" renderData={ this.renderData(teamGraphData, globalDate) } onClick={(event) => this.props.onClick(event)}/>
                         </CardComponent>
                     </div>
                     <div className="row" style={{ marginBottom: '20px' }}>

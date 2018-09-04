@@ -14,6 +14,11 @@ export default class Radargraph extends Component {
         }
 	}
 
+    shouldComponentUpdate(nextProps) {
+        if(nextProps.renderData == this.props.renderData) return false;
+        return true;
+    }
+
 	render() {
         return (
             <div>
