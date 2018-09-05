@@ -19,8 +19,6 @@ export default class TextInput extends Component {
             value: '',
         };
         this.onChange = this.onChange.bind(this);
-
-
     }
 
     onChange (event) {
@@ -38,7 +36,6 @@ export default class TextInput extends Component {
 
 
 	render() {
-
 		return (
           <div>
   			    <label htmlFor="basic-url">{this.props.title}</label>

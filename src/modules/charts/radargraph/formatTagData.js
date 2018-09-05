@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from 'moment-timezone';
 import colorSchemes from './colorScheme';
 
 const ColorSchemes = colorSchemes.splice(2); //removing first two colors
