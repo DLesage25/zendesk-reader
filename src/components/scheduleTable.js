@@ -105,7 +105,7 @@ renderEditable(cellInfo) {
       columns: [{
         Header: 'Email',
         accessor: 'email',
-        minWidth: 200,
+        minWidth: 250,
         Cell: this.renderEditable
       }, {
         id: 'dailyGoal', 
