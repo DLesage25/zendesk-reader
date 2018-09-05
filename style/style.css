@@ -214,9 +214,8 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
 /*Hints Styling*/
 
 .help-tip{
+    display: inline-block;
     position: absolute;
-    top: 26px;
-    right: 2px;
     text-align: center;
     background-color: #1E2021;
     border-radius: 50%;
@@ -225,12 +224,16 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
     line-height: 9px;
     font-size: 7px;
     cursor: default;
+    margin-left: 3px;
+    margin-top: 7.5px;
 }
 
 .help-tip:before{
     content:'?';
     font-weight: bold;
     color:#fff;
+    position: absolute;
+    left: 2.6px;
 }
 
 .help-tip:hover p{
@@ -244,7 +247,7 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
 
 .help-tip p{    /* The tooltip */
     display: none;
-    text-align: left;
+    text-align: center;
     background-color: #1E2021;
     padding: 20px;
     width: 300px;
@@ -252,7 +255,7 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    right: -4px;
+    left: -146px;
     color: #FFF;
     font-size: 13px;
     line-height: 1.4;
@@ -266,7 +269,7 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
     height: 0;
     border:6px solid transparent;
     border-bottom-color:#1E2021;
-    right:2.5px;
+    right: 144px;
     top:-12px;
 }
 
@@ -276,7 +279,6 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
     content:'';
     position: absolute;
     top:-40px;
-    left:0;
 }
 
 /* CSS animation */

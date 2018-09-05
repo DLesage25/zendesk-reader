@@ -89,8 +89,8 @@ export default class SettingsForm extends Component {
               <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange} hint="This program's manager email"/>
     			</div>
           <div className="col-sm">
-            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange}/>
-            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onChange}/>
+            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange} hint="Determines this program's goal type"/>
+            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onChange} hint="Determines if this program depends of olark chats"/>
           </div>
         </div>
       </div>

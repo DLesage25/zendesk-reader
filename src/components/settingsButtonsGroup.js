@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import HelpHint from './helpHint';
 
 export default class SettingsButtonsGroup extends Component {
     constructor(props){
@@ -63,7 +63,9 @@ export default class SettingsButtonsGroup extends Component {
 
     return (
           <div style={{marginBottom: '1rem'}}> 
-              <label htmlFor="basic-url">{this.props.title}</label>
+              <HelpHint hint={this.props.hint} width="150">
+                <label htmlFor="basic-url">{this.props.title}</label>
+              </HelpHint>
               <br />
               <div className="btn-group" role="group" aria-label="Basic example">
                 {this.renderButtons(this.props.options)}
