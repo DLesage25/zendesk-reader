@@ -4,6 +4,8 @@ import moment from 'moment';
 import TextInput from './textInput';
 import SettingsButtonsGroup from './settingsButtonsGroup';
 
+let toolTipsText = require('../modules/toolTipsText');
+
 export default class SettingsForm extends Component {
     constructor(props){
         super(props);
@@ -57,6 +59,7 @@ export default class SettingsForm extends Component {
     }
     
     componentDidMount() {
+      console.log(toolTipsText, toolTipsText['zendeskURL'])
       this.updateLocalAppData();
     }
 
@@ -85,12 +88,12 @@ export default class SettingsForm extends Component {
         <div className="row">
     			<div className="col-md">
               <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onChange} disabled={true}/>
-              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange} hint="This program's root Zendesk URL"/>
-              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange} hint="This program's manager email"/>
+              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange} hint={toolTipsText['zendeskURL']}/>
+              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange} hint={toolTipsText['managerEmail']}/>
     			</div>
           <div className="col-sm">
-            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange} hint="Determines this program's goal type"/>
-            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onChange} hint="Determines if this program depends of olark chats"/>
+            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange} hint={toolTipsText['goalType']}/>
+            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onChange} hint={toolTipsText['olarkChats']}/>
           </div>
         </div>
       </div>
