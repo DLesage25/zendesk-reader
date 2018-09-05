@@ -85,8 +85,8 @@ export default class SettingsForm extends Component {
         <div className="row">
     			<div className="col-md">
               <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onChange} disabled={true}/>
-              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange}/>
-              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange}/>
+              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange} hint="This program's root Zendesk URL"/>
+              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange} hint="This program's manager email"/>
     			</div>
           <div className="col-sm">
             <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange}/>
