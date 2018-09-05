@@ -10,8 +10,9 @@ constructor(props) {
     email: 'daniel@partnerhero.com',
     dailyGoal: 25,
     shiftDuration: 9,
+    sche: 'ASD',
     schedules: {
-         0: {
+      Mon: {
         startTime: 9,
         active: true
       }, 1: {
@@ -33,19 +34,6 @@ constructor(props) {
         startTime: 9,
         active: true
       }
-    }
-  },{
-    name: 'John Doe',
-    email: 'john.cook@partnerhero.com',
-    production: {
-      publicComments: 21,
-      goal: {
-        type: 'publicComments',
-        value: 23
-      },
-      solved: 31,
-      pending: 6,
-      open: 3
     }
   }]
 
@@ -123,14 +111,25 @@ renderEditable(cellInfo) {
       Header: <span> Start times (UTC) </span>,
       headerClassName: 'schedules',
       columns: days.map((day) => {
+            let index = day.index;
             return {
                 Header: props => <span>{ day.name }</span>, 
-                accessor: 'schedules.' + day.index + '.startTime',
+                accessor: 'schedules.Monday.startTime',
                 maxWidth: 80,
+                id: 'startTime',
                 Cell: this.renderEditable
             }
         })
     }]
+
+// days.map((day) => {
+//             return {
+//                 Header: props => <span>{ day.name }</span>, 
+//                 accessor: 'schedules.' + day.index + '.startTime',
+//                 maxWidth: 80,
+//                 Cell: this.renderEditable
+//             }
+//         })
 
   return (
       <ReactTable
