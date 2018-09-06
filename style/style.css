@@ -216,23 +216,22 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
 .help-tip{
     display: inline-block;
     position: absolute;
-    text-align: center;
     background-color: #6e7071;
     border-radius: 50%;
     width: 14px;
     height: 14px;
-    line-height: 9px;
+    line-height: 13px;
     font-size: 11px;
     cursor: default;
     margin-left: 3px;
-    margin-top: 7.5px;
+    margin-top: 6.5px;
 }
 
 .help-tip:before{
     content:'?';
     font-weight: bold;
     color:#fff;
-    margin-left: 2.2px;
+    margin-left: 3.5px;
 }
 
 .help-tip:hover p{
