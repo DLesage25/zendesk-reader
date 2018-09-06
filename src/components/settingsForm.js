@@ -59,7 +59,6 @@ export default class SettingsForm extends Component {
     }
     
     componentDidMount() {
-      console.log(toolTipsText, toolTipsText['zendeskURL'])
       this.updateLocalAppData();
     }
 
