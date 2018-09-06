@@ -215,23 +215,24 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
 
 .help-tip{
     display: inline-block;
-    position: absolute;
-    background-color: #6e7071;
+    position: relative;
+    background-color: #595b5d;
     border-radius: 50%;
     width: 14px;
     height: 14px;
-    line-height: 13px;
     font-size: 11px;
     cursor: default;
-    margin-left: 3px;
-    margin-top: 6.5px;
+    left: 5px;
 }
 
 .help-tip:before{
     content:'?';
-    font-weight: bold;
+    font-weight: 500;
     color:#fff;
-    margin-left: 3.5px;
+    position: absolute;
+    transform: translate(-50%, -5%);
+    top: 0px;
+    left: 50%;
 }
 
 .help-tip:hover p{
@@ -253,11 +254,11 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    left: -146px;
+    left: -143.1px;
     color: #FFF;
     font-size: 13px;
     line-height: 1.4;
-    top: 18px;
+    top: 20px;
 }
 
 .help-tip p:before{ /* The pointer of the tooltip */
