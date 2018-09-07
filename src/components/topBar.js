@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import ViewLink from './viewLink.js';
 
 const primaryOpts = [
-    { text: 'Live stats', icon: 'fa fa-signal', active: true},
+    { text: 'Live Stats', icon: 'fa fa-signal', active: true},
     { text: 'Forecasting', icon: 'fa fa-superscript', active: false}
 ];
 
