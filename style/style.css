@@ -238,7 +238,6 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
 .help-tip:hover p{
     display:block;
     transform-origin: 100% 0%;
-
     -webkit-animation: fadeIn 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
 
@@ -246,7 +245,7 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
 
 .help-tip p{    /* The tooltip */
     display: none;
-    text-align: center;
+    text-align: left;
     background-color: #1E2021;
     padding: 20px;
     width: 300px;
