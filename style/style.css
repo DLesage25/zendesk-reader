@@ -211,6 +211,97 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
     width: 100%;
 }
 
+/*Hints Styling*/
+
+.help-tip{
+    display: inline-block;
+    position: relative;
+    background-color: #595b5d;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    font-size: 11px;
+    cursor: default;
+    left: 5px;
+}
+
+.help-tip:before{
+    content:'?';
+    font-weight: 500;
+    color:#fff;
+    position: absolute;
+    transform: translate(-50%, -5%);
+    top: 0px;
+    left: 50%;
+}
+
+.help-tip:hover p{
+    display:block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+
+}
+
+.help-tip p{    /* The tooltip */
+    display: none;
+    text-align: left;
+    background-color: #1E2021;
+    padding: 20px;
+    width: 300px;
+    z-index: 1000;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    left: -143.1px;
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
+    top: 20px;
+}
+
+.help-tip p:before{ /* The pointer of the tooltip */
+    position: absolute;
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    right: 144px;
+    top:-12px;
+}
+
+.help-tip p:after{ /* Prevents the tooltip from being hidden */
+    width:100%;
+    height:40px;
+    content:'';
+    position: absolute;
+    top:-40px;
+}
+
+/* CSS animation */
+
+@-webkit-keyframes fadeIn {
+    0% { 
+        opacity:0; 
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+
+/*Hints Styling*/
+
+
+/*DatePicker Styling*/
 
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle,
 .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle,
@@ -885,3 +976,5 @@ input[class="btn btn-sm btn-outline-secondary ml-2"] {
     border-left-color: #e6e6e6;
     cursor: default;
 }
+
+/*DatePicker Styling*/

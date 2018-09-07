@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import HelpHint from './helpHint';
+
 const moment = require('moment');
+
 
 export default class TextInput extends Component {
     constructor(props){
@@ -38,7 +41,9 @@ export default class TextInput extends Component {
 	render() {
 		return (
           <div>
-  			    <label htmlFor="basic-url">{this.props.title}</label>
+            <HelpHint hint={this.props.hint} height="24" width="150">
+              <label htmlFor="basic-url">{this.props.title}</label>
+            </HelpHint>
             <div className="input-group mb-3">
               {this.props.prepend ? this.state.prepend : null}
               <input type="text" className="form-control" aria-label={this.ariaLabel} aria-describedby={this.props} value={this.state.value} onChange={(event) => this.onChange(event)} disabled={this.props.disabled}/>
