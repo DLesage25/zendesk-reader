@@ -6,12 +6,12 @@ const colorSchemes = [{
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(220,220,220,1)"
     }, {
-        fillColor: "rgba(0,167,187,0.2)",
-        strokeColor: "rgba(0,167,187,1)",
-        pointColor: "rgba(0,167,187,1)",
+        fillColor: "rgba(0, 167, 187, 0.2)",
+        strokeColor: "rgba(0, 167, 187, 1)",
+        pointColor: "rgba(0, 167, 187, 1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(0,167,187,1)"
+        pointHighlightStroke: "rgba(0, 167, 187, 1)"
     }, {
         fillColor: "rgb(106,168,148, 0.2)",
         strokeColor: "#05583e",

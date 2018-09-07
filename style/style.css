@@ -50,8 +50,8 @@ body {
 .top-menu {
     height: 50px;
     -webkit-transition: height 0.3s ease, background-color 0.3s ease;
-    background-color: #f15861;
-    border-bottom: 1px solid #f97aa3;
+    background-color: #00799C;
+    border-bottom: 1px solid #969595;
 }
 
 
@@ -152,18 +152,18 @@ div[data-reactid='.0.0.0.1.0.0.2.$view-link-1'] {
 
 .top-bar-logo {
   position: absolute;
-  top: 3px;
-  height: 40px;
+  top: 15px;
+  height: 19px;
   width: auto;
-  -webkit-transition: height 0.3s ease;
+  -webkit-transition: height 0.3s ease, top 0.3s ease;
 }
 
 .scrolled-top-bar-logo {
   position: absolute;
-  top: 3px;
-  height: 34px;
+  top: 11.5px;
+  height: 16px;
   width: auto;
-  -webkit-transition: height 0.3s ease;
+  -webkit-transition: height 0.3s ease, top 0.3s ease;
 }
 
 div[id="hourlyThroughputChart"] {

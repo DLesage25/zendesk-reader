@@ -74,10 +74,10 @@ export default class TopBar extends Component {
 				        <div className="menu" style={{ height: '50px', padding: '21px 16px' }}>
 				            <div className="menu-info-block">
 				                <div className="header-buttons" style={{boxSizing: 'inherit'}}>
-				                    <div style={{float: 'left', width:'48.5%' }} className={this.getScrollClasses('float')} >
+				                    <div style={{float: 'left', width:'45.5%' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(primaryOpts,'left')}
 				                    </div>
-                                    <img src="/src/assets/logos/beacon.png" alt="Beacon" className={this.getScrollClasses('topBarLogo')}/>
+                                    <img src="/src/assets/logos/beacon-light.png" alt="Beacon" className={this.getScrollClasses('topBarLogo')}/>
 				                    <div style={{float: 'right', width:'23%', textAlign:'right' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(secondaryOpts,'right')}
 				                    </div>
