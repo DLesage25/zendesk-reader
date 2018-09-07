@@ -10,7 +10,6 @@ constructor(props) {
     email: 'daniel@partnerhero.com',
     dailyGoal: 25,
     shiftDuration: 9,
-    sche: 'ASD',
     schedules: {
       Mon: {
         startTime: 9,
