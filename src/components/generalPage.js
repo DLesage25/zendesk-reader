@@ -21,7 +21,7 @@ import ProductivityCard from './productivityCard'
 import Table from './table3'
 import Bargraph from './barGraph' 
 
-import Modal from './modal'
+import DrilldownModal from './drilldownModal'
 
 class Generalpage extends Component {
 
@@ -34,6 +34,33 @@ class Generalpage extends Component {
             Key           : Math.random(),
             displayLoader : false,
             modalState    : false,
+            modalData     : [{
+                                name: 'Tanner Linsley',
+                                loggedTime: '01:13:00',
+                                production: {
+                                  publicComments: 5,
+                                  goal: {
+                                    type: 'publicComments',
+                                    value: 10
+                                  },
+                                  solved: 23,
+                                  pending: 15,
+                                  open: 0
+                                }
+                              },{
+                                name: 'John Doe',
+                                loggedTime: '02:25:00',
+                                production: {
+                                  publicComments: 21,
+                                  goal: {
+                                    type: 'publicComments',
+                                    value: 23
+                                  },
+                                  solved: 31,
+                                  pending: 6,
+                                  open: 3
+                                }
+                            }]
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -159,10 +186,11 @@ class Generalpage extends Component {
                                                                                         IndividualGraphData = {GraphData.individualGraphData} 
                                                                                         globalDate          = {appData.globalDate} 
                                                                                         Key                 = {Key + 'individual'} /> }
-                                                    <Modal
+                                                    <DrilldownModal
                                                        open={this.state.modalState}
-                                                       onClose={(event) => this.changeModalState(event)}>
-                                                    </Modal>
+                                                       onClose={(event) => this.changeModalState(event)}
+                                                       modalData={this.state.modalData}>
+                                                    </DrilldownModal>
                                                 </ProductivityCard> 
                                             }
                                         </div>

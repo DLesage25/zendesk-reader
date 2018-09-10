@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import ResponsiveModal from 'react-responsive-modal';
+import Table from './table3';
 
-
-export default class Modal extends Component {
+export default class DrilldownModal extends Component {
     constructor(props){
         super(props);
 
@@ -24,12 +24,8 @@ export default class Modal extends Component {
 
         const modal = (
             <ResponsiveModal open={this.state.open} onClose={this.props.onClose} center>
-                <h2>Header</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                    pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-                    hendrerit risus, sed porttitor quam.
-                </p>
+                <h2>Team Performance</h2>
+                <Table data={this.props.modalData} />
             </ResponsiveModal>
         );
 

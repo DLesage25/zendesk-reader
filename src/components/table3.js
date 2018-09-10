@@ -10,33 +10,33 @@ constructor(props) {
 
 
 render() {
-  const data = [{
-    name: 'Tanner Linsley',
-    loggedTime: '01:13:00',
-    production: {
-      publicComments: 5,
-      goal: {
-        type: 'publicComments',
-        value: 10
-      },
-      solved: 23,
-      pending: 15,
-      open: 0
-    }
-  },{
-    name: 'John Doe',
-    loggedTime: '02:25:00',
-    production: {
-      publicComments: 21,
-      goal: {
-        type: 'publicComments',
-        value: 23
-      },
-      solved: 31,
-      pending: 6,
-      open: 3
-    }
-  }]
+  // const data = [{
+  //   name: 'Tanner Linsley',
+  //   loggedTime: '01:13:00',
+  //   production: {
+  //     publicComments: 5,
+  //     goal: {
+  //       type: 'publicComments',
+  //       value: 10
+  //     },
+  //     solved: 23,
+  //     pending: 15,
+  //     open: 0
+  //   }
+  // },{
+  //   name: 'John Doe',
+  //   loggedTime: '02:25:00',
+  //   production: {
+  //     publicComments: 21,
+  //     goal: {
+  //       type: 'publicComments',
+  //       value: 23
+  //     },
+  //     solved: 31,
+  //     pending: 6,
+  //     open: 3
+  //   }
+  // }]
 
   const columns = [{
     Header: <span> <b>Production</b> </span>,
@@ -71,9 +71,9 @@ render() {
   return (
     <ReactTable
       className="-highlight"
-      data={data}
+      data={this.props.data}
       columns={columns}
-      defaultPageSize={25}
+      defaultPageSize={5}
       showPageSizeOptions={false}
       style={{borderRadius: '5px'}}
     />
