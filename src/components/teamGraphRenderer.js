@@ -34,7 +34,7 @@ export default class TeamLinegraphRenderer extends Component {
                         <CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title="Queue volume" description="Today's incoming ticket volume" body="these are some stats" id="queueVolumeChart">
                             <Linegraph  width="500" height="280" renderData={ this.renderData(queueData, globalDate) } />
                         </CardComponent>
-                        <CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={"Tag distribution"} description="Today's production" body="these are some stats">
+                        <CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={"Tag distribution"} description="Top used tags the last 3 hours" body="these are some stats">
                             <Radargraph  width="500" height="280" renderData={ this.renderData(tagData, globalDate) } />
                         </CardComponent>
                     </div>

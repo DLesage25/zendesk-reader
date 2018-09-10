@@ -1,7 +1,9 @@
 import Types from './types'
-// import objects from '../modules/objects';
 import dataTypes from '../components/dataTypes';
-import FB from 'firebase';
+import FB from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+
 import rest from 'restler';
 import moment from 'moment-timezone';
 import _ from 'lodash';

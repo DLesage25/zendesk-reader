@@ -2,10 +2,6 @@
     General Page
     Main component for the live stats view. Receives productivity data
     and render team/individual linegraphs with it.
-
-    Bugs:
-    - When changing programs, queue data is mutated and ends up aggregating 
-    non-existent labels
 */
 
 import React, { Component } from 'react';
@@ -20,8 +16,6 @@ import {
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamGraphRenderer from './teamGraphRenderer'
-import RadargraphRenderer from './radargraphRenderer'
-
 import ProductivityCard from './productivityCard'
 
 import Table from './table3'
@@ -94,8 +88,6 @@ class Generalpage extends Component {
     }
 
     changeGlobalDate(newDate) {
-        this.props.getLinegraphData(this.state.appData.globalProgram, this.state.appData.productivityData);
-
         const currentState = this.state;
         const { appData } = currentState;
 
@@ -111,9 +103,8 @@ class Generalpage extends Component {
     }
 
     changeGlobalProgram(newProgram) {
-        console.log("Enters " + newProgram)
         this.changeLoaderDisplay();
-        this.props.fetchProgram(newProgram, this.state.appData, false, () => {this.changeLoaderDisplay(true)});
+        this.props.fetchProgram(newProgram, this.state.appData, false, () => { this.changeLoaderDisplay(true) });
     }
 
     refreshData() {

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import ViewLink from './viewLink.js';
 
 const primaryOpts = [
-    { text: 'Live stats', icon: 'fa fa-signal', active: true},
+    { text: 'Live Stats', icon: 'fa fa-signal', active: true},
     { text: 'Forecasting', icon: 'fa fa-superscript', active: false}
 ];
 
@@ -53,6 +53,13 @@ export default class TopBar extends Component {
                     return 'hidden-lg-down noselect scrolled-top-link top-link'   
                 }
                 break;
+            case 'topBarLogo':
+                if (!this.state.scrolled) {
+                    return 'top-bar-logo'
+                } else {
+                    return 'scrolled-top-bar-logo'   
+                }
+                break;
         }
     } 
 
@@ -67,9 +74,10 @@ export default class TopBar extends Component {
 				        <div className="menu" style={{ height: '50px', padding: '21px 16px' }}>
 				            <div className="menu-info-block">
 				                <div className="header-buttons" style={{boxSizing: 'inherit'}}>
-				                    <div style={{float: 'left', width:'50%' }} className={this.getScrollClasses('float')} >
+				                    <div style={{float: 'left', width:'45.5%' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(primaryOpts,'left')}
 				                    </div>
+                                    <img src="/src/assets/logos/beacon-light-2.png" alt="Beacon" className={this.getScrollClasses('topBarLogo')}/>
 				                    <div style={{float: 'right', width:'23%', textAlign:'right' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(secondaryOpts,'right')}
 				                    </div>
