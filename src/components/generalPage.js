@@ -94,7 +94,7 @@ class Generalpage extends Component {
         const isRefresh = FetchProgram.isRefresh;
         const timeSinceLastFetch = moment().format('X') - this.state.lastFetch;
 
-        let outOfRangeDatePicked = Object.getOwnPropertyNames(FetchProgram.productivityData)[0] !== Object.getOwnPropertyNames(this.state.appData.productivityData)[0];
+        let outOfRangeDatePicked = FetchProgram.productivityData ? Object.getOwnPropertyNames(FetchProgram.productivityData)[0] !== Object.getOwnPropertyNames(this.state.appData.productivityData)[0] : false;
 
         console.log('outOfRangeDatePicked',outOfRangeDatePicked)
 

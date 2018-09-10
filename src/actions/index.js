@@ -256,11 +256,13 @@ export function fetchProgram(programName, appData, isRefresh, callback, date) {
             '/byYear/' + dateObject.year() +
             '/byWeek/' + dateObject.week());
 
+        let productivityDataByDate = productivityData ? productivityData.byDate : null;
+
         const payload = {
             appSettings: appData.appSettings,
             globalDate: dateObject.format('MM_DD_YY'),
             globalProgram: selectedProgram,
-            productivityData: productivityData.byDate,
+            productivityData: productivityDataByDate,
             isRefresh: isRefresh
         };
         if(callback) callback();
