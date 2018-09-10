@@ -50,8 +50,8 @@ body {
 .top-menu {
     height: 50px;
     -webkit-transition: height 0.3s ease, background-color 0.3s ease;
-    background-color: #00799C;
-    border-bottom: 1px solid #93b2bb;
+    background-color: #5d5d5d;
+    border-bottom: 1px solid #a0a2a2;
 }
 
 
