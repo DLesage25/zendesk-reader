@@ -18,6 +18,7 @@ export default class Radargraph extends Component {
         return (
             <div>
                 {
+                    this.props.displayLoader ? <p> Loading </p> :
                     !this.props.renderData ?
                     <p> No data to load... </p> 
                     : <RadarChart data = { this.props.renderData } width = { this.state.width } height = { this.state.heigth } redraw />

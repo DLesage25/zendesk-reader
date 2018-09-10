@@ -164,13 +164,15 @@ class Generalpage extends Component {
                                                     { !GraphData ? <p> Loading </p> : <TeamGraphRenderer 
                                                                                         GraphData = {GraphData} 
                                                                                         globalDate    = {appData.globalDate}
-                                                                                        Key           = {Key + 'team'} /> }
+                                                                                        Key           = {Key + 'team'}
+                                                                                        displayLoader = {this.state.displayLoader} /> }
                                                     <hr /> <br />
                                                     <h4 className="card-body-title"> INDIVIDUAL </h4>
                                                     { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
                                                                                         IndividualGraphData = {GraphData.individualGraphData} 
                                                                                         globalDate          = {appData.globalDate} 
-                                                                                        Key                 = {Key + 'individual'} /> }
+                                                                                        Key                 = {Key + 'individual'}
+                                                                                        displayLoader       = {this.state.displayLoader} /> }
                                                 </ProductivityCard> 
                                             }
                                         </div>
