@@ -59,8 +59,6 @@ class Generalpage extends Component {
 
         const { FetchProgram } = this.props;
 
-        console.log('checkIfFetch state', this.state)
-
         if (!FetchProgram) return true;
 
         const newProgramName = FetchProgram.globalProgram.settings.id;
@@ -70,8 +68,6 @@ class Generalpage extends Component {
         const timeSinceLastFetch = moment().format('X') - this.state.lastFetch;
 
         let outOfRangeDatePicked = FetchProgram.productivityData ? Object.getOwnPropertyNames(FetchProgram.productivityData)[0] !== Object.getOwnPropertyNames(this.state.appData.productivityData)[0] : false;
-
-        console.log('outOfRangeDatePicked',outOfRangeDatePicked)
 
         if((isRefresh || newProgramName !== currentProgramName) && timeSinceLastFetch > 5 || outOfRangeDatePicked) {
             let newAppData = {
@@ -98,7 +94,6 @@ class Generalpage extends Component {
         let currentDate = this.state.appData.globalDate;
 
         let findDateInCurrentProductivityData = Object.getOwnPropertyNames(this.state.appData.productivityData).find(function(date) {
-            console.log(currentDate, date)
             return date == currentDate;
         })
 
@@ -123,7 +118,6 @@ class Generalpage extends Component {
     }
 
     changeGlobalProgram(newProgram, date) {
-        console.log('changeGlobalProgram state', this.state)
         this.changeLoaderDisplay();
         this.props.fetchProgram(newProgram, this.state.appData, false, () => { this.changeLoaderDisplay(true) }, date);
     }
