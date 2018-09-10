@@ -39,6 +39,7 @@ class Generalpage extends Component {
         this.refreshData = this.refreshData.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
+        this.refreshChartsData = this.refreshChartsData.bind(this);
 
     }
 
@@ -46,7 +47,32 @@ class Generalpage extends Component {
         this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('componentDidUpdate states prev - curr', prevState, this.state)
+        /*
+        let currentProgram = this.state.appData.globalProgram.settings.prettyName;
+
+        let previousProgram = prevState.appData.globalProgram.settings.prettyName;
+
+        let currenProductivityData = this.state.appData.productivityData;
+
+        let currentDate = this.state.appData.globalDate;
+
+        let previousDate = prevState.appData.globalDate;
+
+        console.log(currentDate, previousDate)
+
+        let findDateInCurrentProductivityData = Object.getOwnPropertyNames(currenProductivityData).find(function(date) {
+            return date == currentDate;
+        })
+
+        let findPreviousDateInCurrentProductivityData = Object.getOwnPropertyNames(currenProductivityData).find(function(date) {
+            return date == previousDate;
+        })
+
+        console.log(findDateInCurrentProductivityData == undefined, findPreviousDateInCurrentProductivityData, currentProgram == previousProgram)
+        */
+
         this.checkIfFetch();
     }
 
@@ -58,6 +84,8 @@ class Generalpage extends Component {
 
         const { FetchProgram } = this.props;
 
+        console.log('checkIfFetch state', this.state)
+
         if (!FetchProgram) return true;
 
         const newProgramName = FetchProgram.globalProgram.settings.id;
@@ -66,7 +94,11 @@ class Generalpage extends Component {
         const isRefresh = FetchProgram.isRefresh;
         const timeSinceLastFetch = moment().format('X') - this.state.lastFetch;
 
-        if((isRefresh || newProgramName !== currentProgramName) && timeSinceLastFetch > 5) {
+        let outOfRangeDatePicked = Object.getOwnPropertyNames(FetchProgram.productivityData)[0] !== Object.getOwnPropertyNames(this.state.appData.productivityData)[0];
+
+        console.log('outOfRangeDatePicked',outOfRangeDatePicked)
+
+        if((isRefresh || newProgramName !== currentProgramName) && timeSinceLastFetch > 5 || outOfRangeDatePicked) {
             let newAppData = {
                 ...this.props.appData,
                 appSettings: FetchProgram.appSettings,
@@ -85,6 +117,20 @@ class Generalpage extends Component {
         }
     }
 
+    refreshChartsData() {
+
+        let currentDate = this.state.appData.globalDate;
+
+        let findDateInCurrentProductivityData = Object.getOwnPropertyNames(this.state.appData.productivityData).find(function(date) {
+            console.log(currentDate, date)
+            return date == currentDate;
+        })
+
+        if(!findDateInCurrentProductivityData) this.changeGlobalProgram(this.state.appData.globalProgram.settings.prettyName, moment(this.state.appData.globalDate.replace(/_/g,'/'), 'MM-DD-YYYY'))
+
+        return true;
+    }
+
     changeGlobalDate(newDate) {
         const currentState = this.state;
         const { appData } = currentState;
@@ -97,12 +143,13 @@ class Generalpage extends Component {
             },
             Key: Math.random()
         };
-        this.setState(newState)
+        this.setState(newState, () => {this.refreshChartsData()})
     }
 
-    changeGlobalProgram(newProgram) {
+    changeGlobalProgram(newProgram, date) {
+        console.log('changeGlobalProgram state', this.state)
         this.changeLoaderDisplay();
-        this.props.fetchProgram(newProgram, this.state.appData, false, () => { this.changeLoaderDisplay(true) });
+        this.props.fetchProgram(newProgram, this.state.appData, false, () => { this.changeLoaderDisplay(true) }, date);
     }
 
     refreshData() {
@@ -111,7 +158,7 @@ class Generalpage extends Component {
     }
 
     getDateList(productivityData){
-        return Object.keys(productivityData).reverse();
+        return Object.keys(productivityData);
     }
 
 	render() {

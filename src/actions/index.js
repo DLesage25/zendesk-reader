@@ -244,16 +244,17 @@ export function fetchAndInitialize(email) {
     }
 }
 
-export function fetchProgram(programName, appData, isRefresh, callback) {
+export function fetchProgram(programName, appData, isRefresh, callback, date) {
     return async dispatch => {
         let allProgramSettings = await get('programs/');
 
         let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName })
         let programId = selectedProgram.settings.id;
+        let dateObject = date || moment();
 
         let productivityData = await get('productivity/byProgram/' + programId +
-            '/byYear/' + moment().year() +
-            '/byWeek/' + moment().week());
+            '/byYear/' + dateObject.year() +
+            '/byWeek/' + dateObject.week());
 
         const payload = {
             appSettings: appData.appSettings,
