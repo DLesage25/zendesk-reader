@@ -31,7 +31,6 @@ class Generalpage extends Component {
             lastFetch     : null,
             Key           : Math.random(),
             displayLoader : false
-
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -133,7 +132,7 @@ class Generalpage extends Component {
 
 	render() {
         const { GraphData } = this.props;
-        const { appData, lastFetch, Key } = this.state;
+        const { appData, lastFetch, Key, displayLoader } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
@@ -151,7 +150,7 @@ class Generalpage extends Component {
                                                     programList         = {appData.appSettings.programList}
                                                     refreshData         = {refreshData}
                                                     lastFetch           = {lastFetch}
-                                                    displayLoader       = {this.state.displayLoader}
+                                                    displayLoader       = {displayLoader}
                                                      >
 
                                                     <h4 className="card-body-title"> TEAM </h4> 
@@ -159,14 +158,14 @@ class Generalpage extends Component {
                                                                                         GraphData = {GraphData} 
                                                                                         globalDate    = {appData.globalDate}
                                                                                         Key           = {Key + 'team'}
-                                                                                        displayLoader = {this.state.displayLoader} /> }
+                                                                                        displayLoader = {displayLoader} /> }
                                                     <hr /> <br />
                                                     <h4 className="card-body-title"> INDIVIDUAL </h4>
                                                     { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
                                                                                         IndividualGraphData = {GraphData.individualGraphData} 
                                                                                         globalDate          = {appData.globalDate} 
                                                                                         Key                 = {Key + 'individual'}
-                                                                                        displayLoader       = {this.state.displayLoader} /> }
+                                                                                        displayLoader       = {displayLoader} /> }
                                                 </ProductivityCard> 
                                             }
                                         </div>
