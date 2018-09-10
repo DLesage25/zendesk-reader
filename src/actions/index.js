@@ -258,6 +258,7 @@ export function fetchProgram(programName, appData, isRefresh, callback, date) {
 
         const payload = {
             appSettings: appData.appSettings,
+            globalDate: dateObject.format('MM_DD_YY'),
             globalProgram: selectedProgram,
             productivityData: productivityData.byDate,
             isRefresh: isRefresh

@@ -102,6 +102,7 @@ class Generalpage extends Component {
             let newAppData = {
                 ...this.props.appData,
                 appSettings: FetchProgram.appSettings,
+                globalDate: FetchProgram.globalDate,
                 globalProgram: FetchProgram.globalProgram,
                 productivityData: FetchProgram.productivityData
             }
