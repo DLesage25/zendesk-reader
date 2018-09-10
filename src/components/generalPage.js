@@ -48,31 +48,6 @@ class Generalpage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log('componentDidUpdate states prev - curr', prevState, this.state)
-        /*
-        let currentProgram = this.state.appData.globalProgram.settings.prettyName;
-
-        let previousProgram = prevState.appData.globalProgram.settings.prettyName;
-
-        let currenProductivityData = this.state.appData.productivityData;
-
-        let currentDate = this.state.appData.globalDate;
-
-        let previousDate = prevState.appData.globalDate;
-
-        console.log(currentDate, previousDate)
-
-        let findDateInCurrentProductivityData = Object.getOwnPropertyNames(currenProductivityData).find(function(date) {
-            return date == currentDate;
-        })
-
-        let findPreviousDateInCurrentProductivityData = Object.getOwnPropertyNames(currenProductivityData).find(function(date) {
-            return date == previousDate;
-        })
-
-        console.log(findDateInCurrentProductivityData == undefined, findPreviousDateInCurrentProductivityData, currentProgram == previousProgram)
-        */
-
         this.checkIfFetch();
     }
 

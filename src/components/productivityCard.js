@@ -62,6 +62,7 @@ export default class ProductivityCard extends Component {
 					            <DatePicker
 							        selected={this.state.globalDate}
 							        onChange={this.handleChange}
+							        minDate={moment(globalProgram.settings.startDate.replace(/_/g,'/'), 'MM-DD-YYYY')}
 							        maxDate={moment()}
 							    />
 							</div>
