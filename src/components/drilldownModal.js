@@ -24,7 +24,7 @@ export default class DrilldownModal extends Component {
 
         const modal = (
             <ResponsiveModal open={this.state.open} onClose={this.props.onClose} center>
-                <h2>Team Performance</h2>
+                <h5>Team Performance</h5>
                 <Table data={this.props.modalData} />
             </ResponsiveModal>
         );

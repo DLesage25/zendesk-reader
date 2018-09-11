@@ -10,68 +10,72 @@ constructor(props) {
 
 
 render() {
-  // const data = [{
-  //   name: 'Tanner Linsley',
-  //   loggedTime: '01:13:00',
-  //   production: {
-  //     publicComments: 5,
-  //     goal: {
-  //       type: 'publicComments',
-  //       value: 10
-  //     },
-  //     solved: 23,
-  //     pending: 15,
-  //     open: 0
-  //   }
-  // },{
-  //   name: 'John Doe',
-  //   loggedTime: '02:25:00',
-  //   production: {
-  //     publicComments: 21,
-  //     goal: {
-  //       type: 'publicComments',
-  //       value: 23
-  //     },
-  //     solved: 31,
-  //     pending: 6,
-  //     open: 3
-  //   }
-  // }]
+  const data = [{
+    hour: '7:00 AM',
+    name: 'Tanner Linsley',
+    publicComments: 5,
+    goal: 10,
+    goalType: 'publicComments',
+    solved: 23,
+    pending: 15,
+    open: 0
+  }, {
+    hour: '8:00 AM',
+    name: 'Tanner Linsley',
+    publicComments: 15,
+    goal: 12,
+    goalType: 'publicComments',
+    solved: 23,
+    pending: 15,
+    open: 0
+  }, {
+    hour: '9:00 AM',
+    name: 'Tanner Linsley',
+    publicComments: 8,
+    goal: 14,
+    goalType: 'publicComments',
+    solved: 23,
+    pending: 15,
+    open: 0
+  }]
 
   const columns = [{
     Header: <span> <b>Production</b> </span>,
     headerClassName: 'production',
     columns: [{
+      Header: 'Hour',
+      accessor: 'hour' 
+    }, {
       Header: 'Name',
-      accessor: 'name' // String-based value accessors!
+      accessor: 'name'
     }, {
-      Header: 'Logged time',
-      accessor: 'loggedTime',
-      Cell: props => <span className='someclass'>{props.value}</span> // Custom cell components!
-    }, {
-      id: 'publicComments', // Required because our accessor is not a string
-      Header: 'Public Comments',
-      accessor: d => d.production.publicComments + '/' + d.production.goal.value // Custom value accessors!
+      Header: 'Goal',
+      accessor: 'goal'
     }]
   }, {
-    Header: <span> <b>Status breakdown</b> </span>,
-    headerClassName: 'status-breakdown',
-    columns: [{
-      Header: props => <span>Solved</span>, // Custom header components!
-      accessor: 'production.solved'
-    }, {
-      Header: props => <span>Pending</span>, // Custom header components!
-      accessor: 'production.pending'
-    }, {
-      Header: props => <span>Open</span>, // Custom header components!
-      accessor: 'production.open'
-    }]
-  }]
+      Header: <span> <b>Status breakdown</b> </span>,
+      headerClassName: 'status-breakdown',
+      columns: [{
+        Header: 'PCs',
+        accessor: 'publicComments'
+      }, {
+        Header: 'Solved',
+        accessor: 'solved'
+      }, {
+        Header: 'Pending',
+        accessor: 'pending'
+      }, {
+        Header: 'Open',
+        accessor: 'open'
+      }]
+  }] 
+
+
 
   return (
     <ReactTable
       className="-highlight"
-      data={this.props.data}
+      data={data}
       columns={columns}
       defaultPageSize={5}
       showPageSizeOptions={false}

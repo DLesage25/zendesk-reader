@@ -68,7 +68,7 @@ class Generalpage extends Component {
         this.refreshData = this.refreshData.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
-        this.changeModalState = this.changeModalState.bind(this);
+        this.loadModal = this.loadModal.bind(this);
     }
 
     componentWillMount() {
@@ -143,7 +143,8 @@ class Generalpage extends Component {
         return Object.keys(productivityData).reverse();
     }
 
-    changeModalState(event) {
+    loadModal(data, date) {
+        console.log({data}, {date});
         this.setState({
             modalState: !this.state.modalState
         })
@@ -154,7 +155,7 @@ class Generalpage extends Component {
 	render() {
         const { GraphData } = this.props;
         const { appData, lastFetch, Key, displayLoader } = this.state;
-        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
+        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadModal } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <div>
@@ -179,7 +180,7 @@ class Generalpage extends Component {
                                                                                         GraphData = {GraphData} 
                                                                                         globalDate    = {appData.globalDate}
                                                                                         Key           = {Key + 'team'}
-                                                                                        onClick       = {(event) => this.changeModalState(event)} /> }
+                                                                                        onClick       = {loadModal} /> }
                                                     <hr /> <br />
                                                     <h4 className="card-body-title"> INDIVIDUAL </h4>
                                                     { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
@@ -188,7 +189,7 @@ class Generalpage extends Component {
                                                                                         Key                 = {Key + 'individual'} /> }
                                                     <DrilldownModal
                                                        open={this.state.modalState}
-                                                       onClose={(event) => this.changeModalState(event)}
+                                                       onClose={loadModal}
                                                        modalData={this.state.modalData}>
                                                     </DrilldownModal>
                                                 </ProductivityCard> 
