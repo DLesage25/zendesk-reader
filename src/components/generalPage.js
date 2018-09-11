@@ -150,7 +150,12 @@ class Generalpage extends Component {
         })
     }
 
-
+    /*
+    *
+    *   To-do
+    *   Create formatTableData function that runs whenever onclick is triggered.
+    *   Show loader on modal when waiting for information.
+    */
 
 	render() {
         const { GraphData } = this.props;
