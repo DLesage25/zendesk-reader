@@ -77,7 +77,7 @@ export default class TopBar extends Component {
 				                    <div style={{float: 'left', width:'45.5%' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(primaryOpts,'left')}
 				                    </div>
-                                    <img src="/src/assets/logos/beacon-light-2.png" alt="Beacon" className={this.getScrollClasses('topBarLogo')}/>
+                                    <img src="./assets/logos/beacon-light-2.png" alt="Beacon" className={this.getScrollClasses('topBarLogo')}/>
 				                    <div style={{float: 'right', width:'23%', textAlign:'right' }} className={this.getScrollClasses('float')} >
 			                            {this.renderLinks(secondaryOpts,'right')}
 				                    </div>

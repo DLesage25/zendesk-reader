@@ -43,15 +43,9 @@ export default class SettingsCard extends Component {
 				<section className="card">
 				    <div className="card-header">
 				        <span className="cat__core__title card-title" style={{ fontSize: '18px' }}>
-							<nav className="navbar navbar-expand-lg navbar-light bg-light">
+							<nav className="navbar navbar-expand-lg navbar-light bg-light" style={{ display: 'table-row' }}>
 					          <Dropdown current={globalProgram.settings.prettyName} options={programList.map((o) => { return o.prettyName })} action={changeGlobalProgram} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />
 							  <div style={{marginLeft:'10px'}} className="collapse navbar-collapse" id="navbarNavAltMarkup">
-							    <div className="navbar-nav">
-							      <a className="nav-item nav-link settings-link" href="#">Home <span className="sr-only">(current)</span></a>
-							      <a className="nav-item nav-link settings-link" href="#">Features</a>
-							      <a className="nav-item nav-link settings-link" href="#">Pricing</a>
-							      <a className="nav-item nav-link settings-link" href="#">Disabled</a>
-							    </div>
 							  </div>
 							</nav>
 						    <div style={{ float: 'right', marginRight: '10px'}}>

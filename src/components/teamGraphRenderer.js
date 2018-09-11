@@ -27,15 +27,15 @@ export default class TeamLinegraphRenderer extends Component {
                 <div style={{ marginBottom:'40px' }}>
                     <div className="row" style={{ marginBottom: '40px' }} id="hourlyThroughputChart">
                         <CardComponent columnClassname="col-lg-12" title="Hourly throughput" description="Actual vs expected performance" body="these are some stats">
-                            <Linegraph width="1000" height="280" renderData={ this.renderData(teamGraphData, globalDate) } onClick={() => this.props.onClick('team')}/>
+                            <Linegraph width="1000" height="280" renderData={ this.renderData(teamGraphData, globalDate) } displayLoader = {this.props.displayLoader} onClick={() => this.props.onClick('team')}/>
                         </CardComponent>
                     </div>
                     <div className="row" style={{ marginBottom: '20px' }}>
                         <CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title="Queue volume" description="Today's incoming ticket volume" body="these are some stats" id="queueVolumeChart">
-                            <Linegraph  width="500" height="280" renderData={ this.renderData(queueData, globalDate) } />
+                            <Linegraph  width="500" height="280" renderData={ this.renderData(queueData, globalDate) } displayLoader = {this.props.displayLoader} />
                         </CardComponent>
                         <CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={"Tag distribution"} description="Top used tags the last 3 hours" body="these are some stats">
-                            <Radargraph  width="500" height="280" renderData={ this.renderData(tagData, globalDate) } />
+                            <Radargraph  width="500" height="280" renderData={ this.renderData(tagData, globalDate) } displayLoader = {this.props.displayLoader} />
                         </CardComponent>
                     </div>
                 </div>
