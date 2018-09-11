@@ -21,6 +21,8 @@ import ProductivityCard from './productivityCard'
 import Table from './table3'
 import Bargraph from './barGraph' 
 
+import DrilldownModal from './drilldownModal'
+
 class Generalpage extends Component {
 
     constructor(props){
@@ -30,7 +32,35 @@ class Generalpage extends Component {
             appData       : 'appData' in this.props ? this.props.appData: null,
             lastFetch     : null,
             Key           : Math.random(),
-            displayLoader : false
+            displayLoader : false,
+            modalState    : false,
+            modalData     : [{
+                                name: 'Tanner Linsley',
+                                loggedTime: '01:13:00',
+                                production: {
+                                  publicComments: 5,
+                                  goal: {
+                                    type: 'publicComments',
+                                    value: 10
+                                  },
+                                  solved: 23,
+                                  pending: 15,
+                                  open: 0
+                                }
+                              },{
+                                name: 'John Doe',
+                                loggedTime: '02:25:00',
+                                production: {
+                                  publicComments: 21,
+                                  goal: {
+                                    type: 'publicComments',
+                                    value: 23
+                                  },
+                                  solved: 31,
+                                  pending: 6,
+                                  open: 3
+                                }
+                            }]
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -39,7 +69,7 @@ class Generalpage extends Component {
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
         this.refreshChartsData = this.refreshChartsData.bind(this);
-
+        this.loadModal = this.loadModal.bind(this);
     }
 
     componentWillMount() {
@@ -49,7 +79,7 @@ class Generalpage extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.checkIfFetch();
     }
-
+    
     changeLoaderDisplay(done) {
         this.setState( { displayLoader: !done } )
     }
@@ -130,10 +160,24 @@ class Generalpage extends Component {
         return Object.keys(productivityData);
     }
 
+    loadModal(data, date) {
+        console.log({data}, {date});
+        this.setState({
+            modalState: !this.state.modalState
+        })
+    }
+
+    /*
+    *
+    *   To-do
+    *   Create formatTableData function that runs whenever onclick is triggered.
+    *   Show loader on modal when waiting for information.
+    */
+
 	render() {
         const { GraphData } = this.props;
         const { appData, lastFetch, Key, displayLoader } = this.state;
-        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData } = this;
+        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadModal } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <div>
@@ -149,6 +193,7 @@ class Generalpage extends Component {
                                                     dateList            = {getDateList(appData.productivityData)} 
                                                     programList         = {appData.appSettings.programList}
                                                     refreshData         = {refreshData}
+                                                    displayLoader       = {displayLoader}
                                                     lastFetch           = {lastFetch}
                                                     displayLoader       = {displayLoader}
                                                      >
@@ -158,14 +203,21 @@ class Generalpage extends Component {
                                                                                         GraphData = {GraphData} 
                                                                                         globalDate    = {appData.globalDate}
                                                                                         Key           = {Key + 'team'}
-                                                                                        displayLoader = {displayLoader} /> }
+                                                                                        displayLoader = {displayLoader}
+                                                                                        onClick       = {loadModal} /> }
                                                     <hr /> <br />
                                                     <h4 className="card-body-title"> INDIVIDUAL </h4>
                                                     { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
                                                                                         IndividualGraphData = {GraphData.individualGraphData} 
                                                                                         globalDate          = {appData.globalDate} 
                                                                                         Key                 = {Key + 'individual'}
-                                                                                        displayLoader       = {displayLoader} /> }
+                                                                                        displayLoader       = {displayLoader}
+                                                                                        Key                 = {Key + 'individual'} /> }
+                                                    <DrilldownModal
+                                                       open={this.state.modalState}
+                                                       onClose={loadModal}
+                                                       modalData={this.state.modalData}>
+                                                    </DrilldownModal>
                                                 </ProductivityCard> 
                                             }
                                         </div>
