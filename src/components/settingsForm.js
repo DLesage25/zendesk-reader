@@ -17,10 +17,11 @@ export default class SettingsForm extends Component {
             olark        : false
         };
 
-        this.updateLocalAppData   = this.updateLocalAppData.bind(this);
-        this.onChange             = this.onChange.bind(this);
-        this.timerHandler         = this.timerHandler.bind(this);
-        this.doneInterval         = this.doneInterval.bind(this);
+        this.updateLocalAppData    = this.updateLocalAppData.bind(this);
+        this.onInputChange         = this.onInputChange.bind(this);
+        this.updateProgramTeamUser = this.updateProgramTeamUser.bind(this);
+        this.timerHandler          = this.timerHandler.bind(this);
+        this.doneInterval          = this.doneInterval.bind(this);
 
         this.timer;                        //timer identifier
         this.timerInterval        = 3000;  //3s
@@ -40,21 +41,25 @@ export default class SettingsForm extends Component {
       } 
     }
 
-    doneInterval (value, field) {
+    doneInterval (callback) {
       this.props.changeLoaderDisplay(true);
-      this.props.updateProgramSettings({value: value, field: field});
     }
 
-    timerHandler (value, field) {
+    timerHandler (callback) {
       clearTimeout(this.timer);
       this.props.changeLoaderDisplay();
-      this.timer = setTimeout(() => this.doneInterval(value, field), this.timerInterval);
+      this.timer = setTimeout(() => this.doneInterval(callback), this.timerInterval);
     }
 
-    onChange (value, field) {
+    onInputChange (value, field) {
       if(field === 'Goal Type' || field === 'Olark Chats') ((typeof(value) === "boolean") ? this.setState({ olark: value}) : this.setState({ goal: value}))
         else { ((field === 'Program Name') ? this.setState({ programName: value}) : ((field === 'Zendesk URL') ? this.setState({ zendeskURL: value}) : this.setState({ managerEmail: value}))) }
-      this.timerHandler(value, field);
+      this.timerHandler(this.props.updateProgramSettings({value: value, field: field}));
+    }
+
+    updateProgramTeamUser(payload) {
+      let programName = this.state.programName;
+      this.timerHandler(this.props.updateProgramTeamUser(payload.rootName, payload.newUserObject));
     }
     
     componentDidMount() {
@@ -68,7 +73,7 @@ export default class SettingsForm extends Component {
 	render() {
 
     const { updateProgramSettings } = this.props;
-    const { onChange } = this;
+    const { onInputChange, updateProgramTeamUser } = this;
 
     const olarkChats = [
           { value: true, className: ((this.state.olark) ? 'btn btn-secondary active' : 'btn btn-secondary')},
@@ -85,19 +90,20 @@ export default class SettingsForm extends Component {
       <div className="container">
         <div className="row">
     			<div className="col-md">
-              <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onChange} disabled={true}/>
-              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onChange}/>
-              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onChange}/>
+              <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onInputChange} disabled={true}/>
+              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onInputChange}/>
+              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onInputChange}/>
     			</div>
           <div className="col-md">
-            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onChange}/>
-            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onChange}/>
+            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onInputChange}/>
+            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onInputChange}/>
           </div>
         </div>
         <div className="row">
           <div className="col-lg">
             <label> Team Management </label>
-            <Table /> 
+            <button style={{border: '0', backgroundColor: 'white'}}>+</button>
+            <Table team={this.props.globalProgram.team} updateProgramTeamUser={updateProgramTeamUser}/> 
           </div>
         </div>
       </div>

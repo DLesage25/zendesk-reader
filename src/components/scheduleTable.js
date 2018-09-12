@@ -1,67 +1,171 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
 
+let _ = require('lodash');
+
 export default class Table extends Component {
 
 constructor(props) {
   super(props);
-  ///////// this should be erased //////////
-  data = [{
-    email: 'daniel@partnerhero.com',
-    dailyGoal: 25,
-    shiftDuration: 9,
-    schedules: {
-      Mon: {
-        startTime: 9,
-        active: true
-      }, 1: {
-        startTime: 9,
-        active: false
-      }, 2: {
-        startTime: 9,
-        active: true
-      }, 3: {
-        startTime: 9,
-        active: true
-      }, 4: {
-        startTime: 9,
-        active: true
-      }, 5: {
-        startTime: 9,
-        active: true
-      }, 6: {
-        startTime: 9,
-        active: true
-      }
-    }
-  }]
 
-    this.state = {
-      data: data
-    };
+  this.data = Object.values(this.props.team)
+
+  this.state = {
+    data: []
+  };
 
   this.renderEditable = this.renderEditable.bind(this);
+  this.verifyDataIntegrity = this.verifyDataIntegrity.bind(this);
+  this.compareObjectsIntegrity = this.compareObjectsIntegrity.bind(this);
+  this.onChange = this.onChange.bind(this);
+  this.createNewUser = this.createNewUser.bind(this);
+  this.pushNewUserInputToTable = this.pushNewUserInputToTable.bind(this);
+
+
+  this.rootNames = Object.keys(this.props.team);
+
+}
+
+componentDidMount() {
+  this.verifyDataIntegrity();
+}
+
+verifyDataIntegrity() {
+  console.log('verifying data')
+
+  let dataObjectsPattern = {
+    email: '',
+    dailyGoal: 0,
+    shiftDuration: 0,
+    Sun: {
+      startTime: 0,
+      active: true
+    },
+    Mon: {
+      startTime: 0,
+      active: true
+    }, 
+    Tues: {
+      startTime: 0,
+      active: true
+    }, 
+    Wed: {
+      startTime: 0,
+      active: true
+    }, 
+    Thurs: {
+      startTime: 0,
+      active: true
+    }, 
+    Fri: {
+      startTime: 0,
+      active: true
+    }, 
+    Sat: {
+      startTime: 0,
+      active: true
+    }
+  }
+
+  let data = [...this.data];
+
+  console.log('complete data', data)
+
+  _.forEach(data, (user, index) => {
+
+    console.log(this.compareObjectsIntegrity(user, dataObjectsPattern), user, dataObjectsPattern)
+
+    if (!this.compareObjectsIntegrity(user, dataObjectsPattern)) {
+
+      let rootName = this.rootNames[index];
+
+      let newUserObject = JSON.parse(JSON.stringify(dataObjectsPattern));
+
+      newUserObject.email = user.email;
+
+      data[index] = newUserObject;
+
+      this.props.updateProgramTeamUser({newUserObject, rootName});
+    }
+
+    if(index === data.length - 1) this.setState({ data }, () => {this.pushNewUserInputToTable(dataObjectsPattern)})
+  });
+
+}
+
+pushNewUserInputToTable(dataObjectsPattern) {
+  let data = [...this.state.data];
+
+  let newUserObject = JSON.parse(JSON.stringify(dataObjectsPattern));
+
+  if(data[data.length - 1] !== ''){
+    data.push(newUserObject);
+    this.setState({ data} )
+  }
+  return;
+}
+
+createNewUser() {
+  
+  let data = this.state.data;
+
+  let newUserObject = data[data.length - 1];
+
+  newUserObject.email = data[data.length].email;
+
+  let rootName = newUserObject.email.replace(/./g, '_');
+
+  this.props.updateProgramTeamUser({newUserObject, rootName});
+
+}
+
+compareObjectsIntegrity(obj, objCompare){
+    var equal = true;
+    for (i in obj)
+        if (!objCompare.hasOwnProperty(i))
+            equal = false;
+    return equal;
 }
 
 renderEditable(cellInfo) {
+
+  let value;
+
+  let index = cellInfo.index;
+
+  let column = cellInfo.column.id;
+
+  let startTime = this.state.data[index][column].startTime;
+
+  if (startTime !== undefined && startTime >= 0) value = startTime;
+  else value = this.state.data[index][column];
+  
   return (
-    <div
-      style={{ backgroundColor: "#fff" }}
-      contentEditable
-      suppressContentEditableWarning
-      onBlur={e => {
-        const data = [...this.state.data];
-        data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-        this.setState({ data });
-      }}
-      dangerouslySetInnerHTML={{
-        __html: this.state.data[cellInfo.index][cellInfo.column.id]
-      }}
-    />
+    <input value={value} onChange={(event) => {this.onChange(event, index, column)}} style={{ backgroundColor: "#fff", width: '100%', height: '100%', border: '0' }}/>
   );
 }
 
+onChange(event, index, column) {
+
+  let value = event.target.value;
+
+  let data = [...this.state.data];
+
+  let startTime = data[index][column].startTime;
+
+  let newUserObject = data[index];
+
+  let rootName = this.rootNames[index];
+
+  if (startTime !== undefined && startTime >= 0) data[index][column].startTime = value;
+  else data[index][column] = value;
+
+  this.props.updateProgramTeamUser({newUserObject, rootName});
+
+}
+
   render() {
+
     const { data } = this.state;
     const days = [{
             name: 'Sun',
@@ -95,40 +199,48 @@ renderEditable(cellInfo) {
         minWidth: 250,
         Cell: this.renderEditable
       }, {
-        id: 'dailyGoal', 
         Header: 'Daily Goal',
         accessor: 'dailyGoal',
         Cell: this.renderEditable
       }, {
-        id: 'shiftDuration', 
         Header: 'Shift Duration',
-        accessor: d => d.shiftDuration + ' hours', //d => d.production.publicComments 
+        accessor: 'shiftDuration', //d => d.production.publicComments 
         minWidth: 150,
         Cell: this.renderEditable
       }]
     }, {
       Header: <span> Start times (UTC) </span>,
       headerClassName: 'schedules',
-      columns: days.map((day) => {
-            let index = day.index;
-            return {
-                Header: props => <span>{ day.name }</span>, 
-                accessor: 'schedules.Monday.startTime',
-                maxWidth: 80,
-                id: 'startTime',
-                Cell: this.renderEditable
-            }
-        })
+      columns: [{
+            id: 'Sun',
+            Header: 'Sun',
+            Cell: this.renderEditable
+          }, {
+            id: 'Mon',
+            Header: 'Mon',
+            Cell: this.renderEditable
+          }, {
+            id: 'Tues',
+            Header: 'Tue',
+            Cell: this.renderEditable
+          }, {
+            id: 'Wed',
+            Header: 'Wed',
+            Cell: this.renderEditable
+          }, {
+            id: 'Thurs',
+            Header: 'Thu',
+            Cell: this.renderEditable
+          }, {
+            id: 'Fri',
+            Header: 'Fri',
+            Cell: this.renderEditable
+          }, {
+            id: 'Sat',
+            Header: 'Sat',
+            Cell: this.renderEditable
+          }]
     }]
-
-// days.map((day) => {
-//             return {
-//                 Header: props => <span>{ day.name }</span>, 
-//                 accessor: 'schedules.' + day.index + '.startTime',
-//                 maxWidth: 80,
-//                 Cell: this.renderEditable
-//             }
-//         })
 
   return (
       <ReactTable

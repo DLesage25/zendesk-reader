@@ -8,7 +8,8 @@ import SettingsForm from './SettingsForm'
 
 import { 
         fetchProgram,
-        postProgramSettings
+        postProgramSettings,
+        postProgramTeamUser
     } from '../actions';
 
 class SettingsPage extends Component {
@@ -25,6 +26,7 @@ class SettingsPage extends Component {
         this.updateLastFetch = this.updateLastFetch.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
         this.updateProgramSettings = this.updateProgramSettings.bind(this);
+        this.updateProgramTeamUser = this.updateProgramTeamUser.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
 
@@ -52,6 +54,10 @@ class SettingsPage extends Component {
         postProgramSettings(path, payload.value);
         this.updateLastFetch();
 
+    }
+
+    updateProgramTeamUser (rootName, newUserObject) {
+        postProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject);
     }
 
     componentDidUpdate () {
@@ -87,8 +93,10 @@ class SettingsPage extends Component {
     }
 
 	render() {
+
+    console.log('settingsPage appData: ', this.state.appData)
     const { appData } = this.props;
-    const { changeGlobalProgram, updateProgramSettings,  changeLoaderDisplay} = this;
+    const { changeGlobalProgram, updateProgramSettings, updateProgramTeamUser, changeLoaderDisplay} = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <SettingsCard 
@@ -98,7 +106,7 @@ class SettingsPage extends Component {
                         lastFetch = {this.state.lastFetch}
                         displayLoader = {this.state.displayLoader}
                     >
-                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} changeLoaderDisplay={changeLoaderDisplay}/>
+                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} updateProgramTeamUser={updateProgramTeamUser} changeLoaderDisplay={changeLoaderDisplay}/>
                     </SettingsCard>
 		    	</div>
 				)
