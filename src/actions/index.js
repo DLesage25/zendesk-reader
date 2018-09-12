@@ -22,7 +22,8 @@ const {
     SET_ENTRY,
     GRAPH_DATA,
     FILTER_INDIVIDUAL_PRODUCTIVITY,
-    FETCH_PROGRAM
+    FETCH_PROGRAM,
+    DRILLDOWN_MODAL_DATA
 } = Types;
 
 let AccessData = {
@@ -151,6 +152,40 @@ export function fetchUserData(email) {
         DB.ref('/users').once('value', snapshot => {
             dispatch({ type: FETCH_USER_DATA, payload: [snapshot.val(), email] });
         });
+    }
+}
+
+export function getDrilldownModalData(user, productivityData, isQueueData) {
+    return async dispatch => {
+        let payload = [{
+                        name: 'Tanner Linsley',
+                        loggedTime: '01:13:00',
+                        production: {
+                          publicComments: 5,
+                          goal: {
+                            type: 'publicComments',
+                            value: 10
+                          },
+                          solved: 23,
+                          pending: 15,
+                          open: 0
+                        }
+                      },{
+                        name: 'John Doe',
+                        loggedTime: '02:25:00',
+                        production: {
+                          publicComments: 21,
+                          goal: {
+                            type: 'publicComments',
+                            value: 23
+                          },
+                          solved: 31,
+                          pending: 6,
+                          open: 3
+                        }
+                    }];
+
+        return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
     }
 }
 

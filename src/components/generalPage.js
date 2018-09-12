@@ -11,7 +11,8 @@ import moment from 'moment';
 
 import { 
         getLinegraphData,
-        fetchProgram
+        fetchProgram,
+        getDrilldownModalData
     } from '../actions';
 
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
@@ -33,34 +34,8 @@ class Generalpage extends Component {
             lastFetch     : null,
             Key           : Math.random(),
             displayLoader : false,
-            modalState    : false,
-            modalData     : [{
-                                name: 'Tanner Linsley',
-                                loggedTime: '01:13:00',
-                                production: {
-                                  publicComments: 5,
-                                  goal: {
-                                    type: 'publicComments',
-                                    value: 10
-                                  },
-                                  solved: 23,
-                                  pending: 15,
-                                  open: 0
-                                }
-                              },{
-                                name: 'John Doe',
-                                loggedTime: '02:25:00',
-                                production: {
-                                  publicComments: 21,
-                                  goal: {
-                                    type: 'publicComments',
-                                    value: 23
-                                  },
-                                  solved: 31,
-                                  pending: 6,
-                                  open: 3
-                                }
-                            }]
+            drilldownModalState    : false,
+            drilldownModalData     : 'DrilldownData' in this.props ? this.props.DrilldownData: {}
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -69,7 +44,7 @@ class Generalpage extends Component {
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
         this.refreshChartsData = this.refreshChartsData.bind(this);
-        this.loadModal = this.loadModal.bind(this);
+        this.loadDrilldownModal = this.loadDrilldownModal.bind(this);
     }
 
     componentWillMount() {
@@ -160,10 +135,10 @@ class Generalpage extends Component {
         return Object.keys(productivityData);
     }
 
-    loadModal(data, date) {
+    loadDrilldownModal(data, date) {
         console.log({data}, {date});
         this.setState({
-            modalState: !this.state.modalState
+            drilldownModalState: !this.state.drilldownModalState
         })
     }
 
@@ -177,7 +152,7 @@ class Generalpage extends Component {
 	render() {
         const { GraphData } = this.props;
         const { appData, lastFetch, Key, displayLoader } = this.state;
-        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadModal } = this;
+        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadDrilldownModal } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <div>
@@ -204,7 +179,7 @@ class Generalpage extends Component {
                                                                                         globalDate    = {appData.globalDate}
                                                                                         Key           = {Key + 'team'}
                                                                                         displayLoader = {displayLoader}
-                                                                                        onClick       = {loadModal} /> }
+                                                                                        onClick       = {loadDrilldownModal} /> }
                                                     <hr /> <br />
                                                     <h4 className="card-body-title"> INDIVIDUAL </h4>
                                                     { !GraphData ? <p> Loading </p> : <IndividualLinegraphRenderer 
@@ -214,9 +189,9 @@ class Generalpage extends Component {
                                                                                         displayLoader       = {displayLoader}
                                                                                         Key                 = {Key + 'individual'} /> }
                                                     <DrilldownModal
-                                                       open={this.state.modalState}
-                                                       onClose={loadModal}
-                                                       modalData={this.state.modalData}>
+                                                       open={this.state.drilldownModalState}
+                                                       onClose={loadDrilldownModal}
+                                                       data={this.state.drilldownModalData}>
                                                     </DrilldownModal>
                                                 </ProductivityCard> 
                                             }
@@ -231,18 +206,21 @@ class Generalpage extends Component {
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
         getLinegraphData : getLinegraphData,
-        fetchProgram : fetchProgram
+        fetchProgram : fetchProgram,
+        getDrilldownModalData : getDrilldownModalData
     }, dispatch);
 }
 
 function mapStateToProps(state){
     const {
         graphData,
-        fetchProgram
+        fetchProgram,
+        drilldownData
     } = state;
     return { 
         GraphData : graphData,
-        FetchProgram : fetchProgram
+        FetchProgram : fetchProgram,
+        DrilldownData: drilldownData
     };
 }
 
