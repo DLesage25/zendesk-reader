@@ -50,7 +50,7 @@ module.exports = {
     plugins : [ 
         new CopyWebpackPlugin([
             { from: './index.html', to: '../public/index.html' },
-            { from: './src/assets', to: '../public/assets' },
+            { from: './assets', to: '../public/assets' },
             { from: './style', to: '../public/style' }
           ]),
     ]

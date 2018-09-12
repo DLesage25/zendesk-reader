@@ -13,6 +13,13 @@ const colorSchemes = [{
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(0, 167, 187, 1)"
     }, {
+        fillColor: "rgba(144, 198, 149, 0.2)",
+        strokeColor: "rgba(144, 198, 149, 1)",
+        pointColor: "rgba(144, 198, 149, 1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(144, 198, 149, 1)"
+    }, {
         fillColor: "rgb(106,168,148, 0.2)",
         strokeColor: "#05583e",
         pointColor: "#05583e",
@@ -54,13 +61,6 @@ const colorSchemes = [{
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(251, 169, 105, 1)" 
-    }, {
-        fillColor: "rgba(144, 198, 149, 0.2)",
-        strokeColor: "rgba(144, 198, 149, 1)",
-        pointColor: "rgba(144, 198, 149, 1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(144, 198, 149, 1)"
     }, {
         fillColor: "rgba(80, 188, 205, 0.2)",
         strokeColor: "rgba(80, 188, 205, 1)",
