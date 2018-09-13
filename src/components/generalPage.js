@@ -22,7 +22,7 @@ import ProductivityCard from './productivityCard'
 import Table from './table3'
 import Bargraph from './barGraph' 
 
-import DrilldownModal from './drilldownModal'
+import modal from './modal'
 
 class Generalpage extends Component {
 
@@ -136,10 +136,10 @@ class Generalpage extends Component {
     }
 
     loadDrilldownModal(data, date) {
-        console.log({data}, {date});
-        this.setState({
-            drilldownModalState: !this.state.drilldownModalState
-        })
+        // console.log({data}, {date});
+        // this.setState({
+        //     drilldownModalState: !this.state.drilldownModalState
+        // })
     }
 
     /*
@@ -188,11 +188,6 @@ class Generalpage extends Component {
                                                                                         Key                 = {Key + 'individual'}
                                                                                         displayLoader       = {displayLoader}
                                                                                         Key                 = {Key + 'individual'} /> }
-                                                    <DrilldownModal
-                                                       open={this.state.drilldownModalState}
-                                                       onClose={loadDrilldownModal}
-                                                       data={this.state.drilldownModalData}>
-                                                    </DrilldownModal>
                                                 </ProductivityCard> 
                                             }
                                         </div>
