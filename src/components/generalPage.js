@@ -188,6 +188,13 @@ class Generalpage extends Component {
                                                                                         Key                 = {Key + 'individual'}
                                                                                         displayLoader       = {displayLoader}
                                                                                         Key                 = {Key + 'individual'} /> }
+                                                    <DrilldownModal
+                                                       open={this.state.drilldownModalState}
+                                                       onClose={loadDrilldownModal}
+                                                       data={this.state.drilldownModalData}>
+                                                            <h5>Team Performance</h5>
+                                                            <Table data={this.props.data} />
+                                                    </DrilldownModal>
                                                 </ProductivityCard> 
                                             }
                                         </div>
