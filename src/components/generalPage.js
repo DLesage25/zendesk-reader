@@ -22,7 +22,7 @@ import ProductivityCard from './productivityCard'
 import Table from './table3'
 import Bargraph from './barGraph' 
 
-import modal from './modal'
+import Modal from './modal'
 
 class Generalpage extends Component {
 
@@ -136,10 +136,10 @@ class Generalpage extends Component {
     }
 
     loadDrilldownModal(data, date) {
-        // console.log({data}, {date});
-        // this.setState({
-        //     drilldownModalState: !this.state.drilldownModalState
-        // })
+        console.log({data}, {date});
+        this.setState({
+            drilldownModalState: !this.state.drilldownModalState
+        })
     }
 
     /*
@@ -151,7 +151,7 @@ class Generalpage extends Component {
 
 	render() {
         const { GraphData } = this.props;
-        const { appData, lastFetch, Key, displayLoader } = this.state;
+        const { appData, lastFetch, Key, displayLoader, drilldownModalState, drilldownModalData } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadDrilldownModal } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
@@ -188,13 +188,13 @@ class Generalpage extends Component {
                                                                                         Key                 = {Key + 'individual'}
                                                                                         displayLoader       = {displayLoader}
                                                                                         Key                 = {Key + 'individual'} /> }
-                                                    <DrilldownModal
-                                                       open={this.state.drilldownModalState}
+                                                    <Modal
+                                                       open={drilldownModalState}
                                                        onClose={loadDrilldownModal}
-                                                       data={this.state.drilldownModalData}>
-                                                            <h5>Team Performance</h5>
-                                                            <Table data={this.props.data} />
-                                                    </DrilldownModal>
+                                                       data={drilldownModalData}>
+                                                        <h5>Team Performance</h5>
+                                                        <Table data={this.props.data} />
+                                                    </Modal>
                                                 </ProductivityCard> 
                                             }
                                         </div>

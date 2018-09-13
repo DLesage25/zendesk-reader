@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ResponsiveModal from 'react-responsive-modal';
 import Table from './table3';
 
-export default class DrilldownModal extends Component {
+export default class Modal extends Component {
     constructor(props){
         super(props);
 
@@ -21,7 +21,6 @@ export default class DrilldownModal extends Component {
     }
 
     render() {
-
         const modal = (
             <ResponsiveModal open={this.state.open} onClose={this.props.onClose} center>
                 {this.props.children}
