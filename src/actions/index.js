@@ -155,36 +155,66 @@ export function fetchUserData(email) {
     }
 }
 
-export function getDrilldownModalData(user, productivityData, isQueueData) {
+export function getDrilldownModalData(type, productivityData, callback) {
     return async dispatch => {
-        let payload = [{
-                        name: 'Tanner Linsley',
-                        loggedTime: '01:13:00',
-                        production: {
-                          publicComments: 5,
-                          goal: {
-                            type: 'publicComments',
-                            value: 10
-                          },
-                          solved: 23,
-                          pending: 15,
-                          open: 0
-                        }
-                      },{
-                        name: 'John Doe',
-                        loggedTime: '02:25:00',
-                        production: {
-                          publicComments: 21,
-                          goal: {
-                            type: 'publicComments',
-                            value: 23
-                          },
-                          solved: 31,
-                          pending: 6,
-                          open: 3
-                        }
-                    }];
+        console.log({type}, {productivityData});
+        // let payload = [{
+        //                 name: 'Tanner Linsley',
+        //                 loggedTime: '01:13:00',
+        //                 production: {
+        //                   publicComments: 5,
+        //                   goal: {
+        //                     type: 'publicComments',
+        //                     value: 10
+        //                   },
+        //                   solved: 23,
+        //                   pending: 15,
+        //                   open: 0
+        //                 }
+        //               },{
+        //                 name: 'John Doe',
+        //                 loggedTime: '02:25:00',
+        //                 production: {
+        //                   publicComments: 21,
+        //                   goal: {
+        //                     type: 'publicComments',
+        //                     value: 23
+        //                   },
+        //                   solved: 31,
+        //                   pending: 6,
+        //                   open: 3
+        //                 }
+        //             }];
 
+      const payload = [{
+        hour: '7:00 AM',
+        name: 'Tanner Linsley',
+        publicComments: 5,
+        goal: 10,
+        goalType: 'publicComments',
+        solved: 23,
+        pending: 15,
+        open: 0
+      }, {
+        hour: '8:00 AM',
+        name: 'Tanner Linsley',
+        publicComments: 15,
+        goal: 12,
+        goalType: 'publicComments',
+        solved: 23,
+        pending: 15,
+        open: 0
+      }, {
+        hour: '9:00 AM',
+        name: 'Tanner Linsley',
+        publicComments: 8,
+        goal: 14,
+        goalType: 'publicComments',
+        solved: 23,
+        pending: 15,
+        open: 0
+      }]
+        if(callback) callback();
         return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
     }
 }

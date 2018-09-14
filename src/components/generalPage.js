@@ -128,18 +128,20 @@ class Generalpage extends Component {
 
     refreshData() {
         this.changeLoaderDisplay();
-        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true, () => {this.changeLoaderDisplay(true)});
+        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true, () => { this.changeLoaderDisplay(true) });
     }
 
     getDateList(productivityData){
         return Object.keys(productivityData);
     }
 
-    loadDrilldownModal(data, date) {
-        console.log({data}, {date});
-        this.setState({
-            drilldownModalState: !this.state.drilldownModalState
-        })
+    loadDrilldownModal(type) {
+        console.log({type});
+
+        this.props.getDrilldownModalData(type, this.props.productivityData, () => { this.setState({ drilldownModalState: !this.state.drilldownModalState }) });
+        // this.setState({
+        //     drilldownModalState: !this.state.drilldownModalState
+        // })
     }
 
     /*
@@ -150,7 +152,7 @@ class Generalpage extends Component {
     */
 
 	render() {
-        const { GraphData } = this.props;
+        const { GraphData, DrilldownData } = this.props;
         const { appData, lastFetch, Key, displayLoader, drilldownModalState, drilldownModalData } = this.state;
         const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadDrilldownModal } = this;
 		return (
@@ -190,10 +192,13 @@ class Generalpage extends Component {
                                                                                         Key                 = {Key + 'individual'} /> }
                                                     <Modal
                                                        open={drilldownModalState}
-                                                       onClose={loadDrilldownModal}
-                                                       data={drilldownModalData}>
-                                                        <h5>Team Performance</h5>
-                                                        <Table data={this.props.data} />
+                                                       onClose={loadDrilldownModal}>
+                                                            {!DrilldownData ? <p> Loading </p> : 
+                                                                <div>
+                                                                    <h5>Team Performance</h5>
+                                                                    <Table data={DrilldownData} /> 
+                                                                </div>
+                                                            }
                                                     </Modal>
                                                 </ProductivityCard> 
                                             }

@@ -6,11 +6,14 @@ export default class Table extends Component {
 constructor(props) {
   super(props);
 
+  this.state = {
+      open: false,
+  };
 }
 
 
 render() {
-  const data = [{
+  const data2 = [{
     hour: '7:00 AM',
     name: 'Tanner Linsley',
     publicComments: 5,
@@ -70,17 +73,21 @@ render() {
       }]
   }] 
 
-
-
+  //this.props.data is not being read 
+    console.log(this.props.data, data2)
   return (
-    <ReactTable
-      className="-highlight"
-      data={data}
-      columns={columns}
-      defaultPageSize={5}
-      showPageSizeOptions={false}
-      style={{borderRadius: '5px'}}
-    />
+              <div>
+                  { !data2.length ? <p> Loading </p> :
+                    <ReactTable
+                      className="-highlight"
+                      data={data2} 
+                      columns={columns}
+                      defaultPageSize={5}
+                      showPageSizeOptions={false}
+                      style={{borderRadius: '5px'}}
+                    />
+                  }
+              </div>
     )
 }
 }
