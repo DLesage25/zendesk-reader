@@ -104,9 +104,10 @@ export function postProgramSettings(program, programSettings) {
     write('/programs/' + program, programSettings);
 }
 
-export function postProgramTeamUser(program, rootName, newUserObject) {
+export function postProgramTeamUser(program, rootName, newUserObject, callback) {
     let path = /programs/ + program + '/team/' + rootName + '/';
     write(path, newUserObject);
+    if(callback) callback();
 }
 
 //the getprogram function should pull all users from /users in FB and filter using that
@@ -197,7 +198,7 @@ export function programToId(program) {
 
 export function fetchAndInitialize(email) {
     return async dispatch => {
-        email = 'bradley.mccalla@partnerhero.com' //test with this
+        email = 'stanley@partnerhero.com' //test with this
         const userID = email2id(email);
         const date = moment();
 

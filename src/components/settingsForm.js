@@ -3,7 +3,10 @@ import moment from 'moment';
 
 import Table from './scheduleTable';
 import TextInput from './textInput';
+import Modal from './modal';
 import SettingsButtonsGroup from './settingsButtonsGroup';
+
+import NewUserLayout from './newUserLayout.js';
 
 export default class SettingsForm extends Component {
     constructor(props){
@@ -14,14 +17,20 @@ export default class SettingsForm extends Component {
             zendeskURL   : '',
             managerEmail : '',
             goal         : '',
-            olark        : false
+            olark        : false,
+            modalState   : false,
+            team         : {},
         };
 
         this.updateLocalAppData    = this.updateLocalAppData.bind(this);
         this.onInputChange         = this.onInputChange.bind(this);
         this.updateProgramTeamUser = this.updateProgramTeamUser.bind(this);
+        this.createProgramTeamUser = this.createProgramTeamUser.bind(this);
         this.timerHandler          = this.timerHandler.bind(this);
         this.doneInterval          = this.doneInterval.bind(this);
+        this.changeModalState      = this.changeModalState.bind(this);
+        this.dynamicSort           = this.dynamicSort.bind(this);
+
 
         this.timer;                        //timer identifier
         this.timerInterval        = 3000;  //3s
@@ -30,15 +39,18 @@ export default class SettingsForm extends Component {
     updateLocalAppData (newState) {
       let newData = newState ? newState.globalProgram.settings : this.props.globalProgram.settings;
 
+      let newTeam = newState ? newState.globalProgram.team : this.props.globalProgram.team;
+
       if (newData.prettyName !== this.state.programName) {
         this.setState({ 
           programName: newData.prettyName,
           zendeskURL: newData.zendeskURL,
           managerEmail: newData.managerEmail,
           goal: newData.goal,
-          olark: newData.olark 
+          olark: newData.olark,
+          team: newTeam
         });
-      } 
+      } else if(newTeam && newTeam.length !== this.state.team) this.setState({ team: newTeam })
     }
 
     doneInterval (callback) {
@@ -57,9 +69,37 @@ export default class SettingsForm extends Component {
       this.timerHandler(this.props.updateProgramSettings({value: value, field: field}));
     }
 
+    dynamicSort(property) {
+        var sortOrder = 1;
+        if(property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
+
     updateProgramTeamUser(payload) {
       let programName = this.state.programName;
       this.timerHandler(this.props.updateProgramTeamUser(payload.rootName, payload.newUserObject));
+    }
+
+    createProgramTeamUser(payload) {
+
+      let team = JSON.parse(JSON.stringify(this.state.team)) || JSON.parse(JSON.stringify(this.props.globalProgram.team));
+
+      let teamArray = JSON.parse(JSON.stringify(team));
+
+      teamArray = Object.values(teamArray);
+
+      if (!teamArray.filter((member) => { return member.email === payload.newUserObject.email; })[0]){
+
+        team[payload.rootName] = payload.newUserObject;
+
+        this.timerHandler(this.props.updateProgramTeamUser(payload.rootName, payload.newUserObject, team));
+      }
     }
     
     componentDidMount() {
@@ -70,10 +110,14 @@ export default class SettingsForm extends Component {
       this.updateLocalAppData(nextProps);  
     }
 
+    changeModalState() {
+      this.setState({modalState: !this.state.modalState})
+    }
+
 	render() {
 
     const { updateProgramSettings } = this.props;
-    const { onInputChange, updateProgramTeamUser } = this;
+    const { onInputChange, updateProgramTeamUser, createProgramTeamUser, changeModalState } = this;
 
     const olarkChats = [
           { value: true, className: ((this.state.olark) ? 'btn btn-secondary active' : 'btn btn-secondary')},
@@ -102,10 +146,13 @@ export default class SettingsForm extends Component {
         <div className="row">
           <div className="col-lg">
             <label> Team Management </label>
-            <button style={{border: '0', backgroundColor: 'white'}}>+</button>
-            <Table team={this.props.globalProgram.team} updateProgramTeamUser={updateProgramTeamUser}/> 
+            <button style={{border: '0', backgroundColor: 'white'}} onClick={changeModalState}>+</button>
+            <Table team={this.state.team} programName={this.state.programName} updateProgramTeamUser={updateProgramTeamUser}/> 
           </div>
         </div>
+        <Modal open={this.state.modalState} onClose={changeModalState} id='newUserModal' >
+          <NewUserLayout updateProgramTeamUser={createProgramTeamUser} closeModal={changeModalState} goal={this.state.goal}/>
+        </Modal>
       </div>
 		)
 	}

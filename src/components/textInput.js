@@ -17,6 +17,11 @@ export default class TextInput extends Component {
             append,
             prepend,
             value: '',
+            inputStyle: this.props.inputStyle ? this.props.inputStyle : null,
+            groupStyle: this.props.groupStyle ? this.props.groupStyle : null,
+            inputClassName: this.props.inputClassName ? 'form-control ' + this.props.inputClassName : 'form-control',
+            groupClassName: this.props.groupClassName ? 'input-group mb-3 ' + this.props.groupClassName : 'input-group mb-3',
+            id: this.props.id ? this.props.id : Math.random()
         };
         this.onChange = this.onChange.bind(this);
     }
@@ -39,9 +44,9 @@ export default class TextInput extends Component {
 		return (
           <div>
   			    <label htmlFor="basic-url">{this.props.title}</label>
-            <div className="input-group mb-3">
+            <div className={this.state.groupClassName} style={this.state.groupStyle}>
               {this.props.prepend ? this.state.prepend : null}
-              <input type="text" className="form-control" aria-label={this.ariaLabel} aria-describedby={this.props} value={this.state.value} onChange={(event) => this.onChange(event)} disabled={this.props.disabled}/>
+              <input type="text" className={this.state.inputClassName} aria-label={this.ariaLabel} aria-describedby={this.props} value={this.state.value} onChange={(event) => this.onChange(event)} disabled={this.props.disabled} id={this.state.id} style={this.state.inputStyle}/>
               {this.props.append ? this.state.append : null}
             </div>
           </div>

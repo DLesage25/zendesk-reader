@@ -29,7 +29,7 @@ class SettingsPage extends Component {
         this.updateProgramTeamUser = this.updateProgramTeamUser.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
-
+        this.refreshProgram = this.refreshProgram.bind(this);
     }
 
     updateLastFetch () {
@@ -56,8 +56,22 @@ class SettingsPage extends Component {
 
     }
 
-    updateProgramTeamUser (rootName, newUserObject) {
-        postProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject);
+    updateProgramTeamUser (rootName, newUserObject, newTeamObject) {
+
+        console.log('SettingsPage')
+
+        let newState = JSON.parse(JSON.stringify(this.state));
+
+        if (newTeamObject !== undefined) {
+            newState.appData.globalProgram.team = newTeamObject;
+            this.setState(newState, () => {postProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)})
+        } else postProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)
+
+        this.updateLastFetch();
+    }
+
+    refreshProgram() {
+        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true);
     }
 
     componentDidUpdate () {
@@ -73,8 +87,6 @@ class SettingsPage extends Component {
 
         const newProgramName = FetchProgram.globalProgram.settings.id;
         const currentProgramName = this.state.appData.globalProgram.settings.id;
-
-        const isRefresh = FetchProgram.isRefresh;
 
         if((newProgramName !== currentProgramName)) {
             let newAppData = {
@@ -94,7 +106,6 @@ class SettingsPage extends Component {
 
 	render() {
 
-    console.log('settingsPage appData: ', this.state.appData)
     const { appData } = this.props;
     const { changeGlobalProgram, updateProgramSettings, updateProgramTeamUser, changeLoaderDisplay} = this;
 		return (

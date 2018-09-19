@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
+import Dropdown from './dropdown'
 
 let _ = require('lodash');
 
@@ -8,9 +9,8 @@ export default class Table extends Component {
 constructor(props) {
   super(props);
 
-  this.data = Object.values(this.props.team)
-
   this.state = {
+    programName: this.props.programName ? this.props.programName : '',
     data: []
   };
 
@@ -18,24 +18,26 @@ constructor(props) {
   this.verifyDataIntegrity = this.verifyDataIntegrity.bind(this);
   this.compareObjectsIntegrity = this.compareObjectsIntegrity.bind(this);
   this.onChange = this.onChange.bind(this);
-  this.createNewUser = this.createNewUser.bind(this);
-  this.pushNewUserInputToTable = this.pushNewUserInputToTable.bind(this);
-
-
-  this.rootNames = Object.keys(this.props.team);
 
 }
 
 componentDidMount() {
-  this.verifyDataIntegrity();
+  this.verifyDataIntegrity(Object.values(this.props.team));
 }
 
-verifyDataIntegrity() {
-  console.log('verifying data')
+componentWillReceiveProps(nextProps) {
+
+  if(this.state.programName !== nextProps.programName) this.verifyDataIntegrity(Object.values(nextProps.team))
+
+  else if (this.state.data.length < nextProps.state.data.length) this.setState(nextProps)
+}
+
+verifyDataIntegrity(team) {
 
   let dataObjectsPattern = {
     email: '',
     dailyGoal: 0,
+    status: 'Active',
     shiftDuration: 0,
     Sun: {
       startTime: 0,
@@ -67,17 +69,17 @@ verifyDataIntegrity() {
     }
   }
 
-  let data = [...this.data];
+  let data = [...team];
 
-  console.log('complete data', data)
+  let rootNames = Object.keys(this.props.team);
 
   _.forEach(data, (user, index) => {
 
-    console.log(this.compareObjectsIntegrity(user, dataObjectsPattern), user, dataObjectsPattern)
+    if (!this.compareObjectsIntegrity(dataObjectsPattern, user) || !this.compareObjectsIntegrity(user, dataObjectsPattern)) {
 
-    if (!this.compareObjectsIntegrity(user, dataObjectsPattern)) {
+      console.log('comparing')
 
-      let rootName = this.rootNames[index];
+      let rootName = rootNames[index];
 
       let newUserObject = JSON.parse(JSON.stringify(dataObjectsPattern));
 
@@ -88,34 +90,8 @@ verifyDataIntegrity() {
       this.props.updateProgramTeamUser({newUserObject, rootName});
     }
 
-    if(index === data.length - 1) this.setState({ data }, () => {this.pushNewUserInputToTable(dataObjectsPattern)})
+    if(index === data.length - 1) this.setState({ data })
   });
-
-}
-
-pushNewUserInputToTable(dataObjectsPattern) {
-  let data = [...this.state.data];
-
-  let newUserObject = JSON.parse(JSON.stringify(dataObjectsPattern));
-
-  if(data[data.length - 1] !== ''){
-    data.push(newUserObject);
-    this.setState({ data} )
-  }
-  return;
-}
-
-createNewUser() {
-  
-  let data = this.state.data;
-
-  let newUserObject = data[data.length - 1];
-
-  newUserObject.email = data[data.length].email;
-
-  let rootName = newUserObject.email.replace(/./g, '_');
-
-  this.props.updateProgramTeamUser({newUserObject, rootName});
 
 }
 
@@ -139,15 +115,24 @@ renderEditable(cellInfo) {
 
   if (startTime !== undefined && startTime >= 0) value = startTime;
   else value = this.state.data[index][column];
+
+  let renderCell;
+
+  let options = ['Active', 'Inactive'];
+
+  let inputCell = (<input value={value} onChange={(event) => {this.onChange(event, index, column)}} style={{ backgroundColor: "#fff", width: '100%', height: '100%', border: '0', textAlign: 'center' }}/>);
+
+  let dropdownCell = (<Dropdown current={value} options={options} action={(event) => {this.onChange(event, index, column)}} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />);
+
+  if(column === 'status') renderCell = dropdownCell;
+  else renderCell = inputCell;
   
-  return (
-    <input value={value} onChange={(event) => {this.onChange(event, index, column)}} style={{ backgroundColor: "#fff", width: '100%', height: '100%', border: '0' }}/>
-  );
+  return ( renderCell );
 }
 
 onChange(event, index, column) {
 
-  let value = event.target.value;
+  let value = event.target ? event.target.value : event;
 
   let data = [...this.state.data];
 
@@ -155,7 +140,9 @@ onChange(event, index, column) {
 
   let newUserObject = data[index];
 
-  let rootName = this.rootNames[index];
+  let rootNames = Object.keys(this.props.team);
+
+  let rootName = rootNames[index];
 
   if (startTime !== undefined && startTime >= 0) data[index][column].startTime = value;
   else data[index][column] = value;
@@ -167,28 +154,6 @@ onChange(event, index, column) {
   render() {
 
     const { data } = this.state;
-    const days = [{
-            name: 'Sun',
-            index: 0
-          }, {
-            name: 'Mon',
-            index: 1
-          }, {
-            name: 'Tues',
-            index: 2
-          }, {
-            name: 'Wed',
-            index: 3
-          }, {
-            name: 'Thurs',
-            index: 4
-          }, {
-            name: 'Fri',
-            index: 5
-          }, {
-            name: 'Sat',
-            index: 6
-          }]
 
     const columns = [{
       Header: <span> User Info </span>,
@@ -196,16 +161,22 @@ onChange(event, index, column) {
       columns: [{
         Header: 'Email',
         accessor: 'email',
-        minWidth: 250,
+        minWidth: 282,
+        Cell: this.renderEditable
+      }, {
+        Header: 'Status',
+        accessor: 'status',
+        minWidth: 88,
         Cell: this.renderEditable
       }, {
         Header: 'Daily Goal',
         accessor: 'dailyGoal',
+        minWidth: 78,
         Cell: this.renderEditable
       }, {
         Header: 'Shift Duration',
         accessor: 'shiftDuration', //d => d.production.publicComments 
-        minWidth: 150,
+        minWidth: 125,
         Cell: this.renderEditable
       }]
     }, {
@@ -214,30 +185,37 @@ onChange(event, index, column) {
       columns: [{
             id: 'Sun',
             Header: 'Sun',
+            maxWidth: 55,
             Cell: this.renderEditable
           }, {
             id: 'Mon',
             Header: 'Mon',
+            maxWidth: 55,
             Cell: this.renderEditable
           }, {
             id: 'Tues',
             Header: 'Tue',
+            maxWidth: 55,
             Cell: this.renderEditable
           }, {
             id: 'Wed',
             Header: 'Wed',
+            maxWidth: 55,
             Cell: this.renderEditable
           }, {
             id: 'Thurs',
             Header: 'Thu',
+            maxWidth: 55,
             Cell: this.renderEditable
           }, {
             id: 'Fri',
             Header: 'Fri',
+            maxWidth: 55,
             Cell: this.renderEditable
           }, {
             id: 'Sat',
             Header: 'Sat',
+            maxWidth: 55,
             Cell: this.renderEditable
           }]
     }]
