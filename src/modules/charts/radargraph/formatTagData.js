@@ -80,6 +80,7 @@ const getDailyCount = async(dayData, hours, dayKey) => {
         let tagKeys = Object.keys(index).sort((a, b) => { return index[b] - index[a] });
         //sample top 10 items
         tagKeys = tagKeys.slice(0, 5);
+        // console.log({tagKeys})
         tagKeys.map((tag) => {
             let count = index[tag];
             //if not tag count, init array

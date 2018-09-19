@@ -34,8 +34,7 @@ class Generalpage extends Component {
             lastFetch     : null,
             Key           : Math.random(),
             displayLoader : false,
-            drilldownModalState    : false,
-            drilldownModalData     : 'DrilldownData' in this.props ? this.props.DrilldownData: {}
+            drilldownModalState    : false
         };
 
         this.changeGlobalDate = this.changeGlobalDate.bind(this);
@@ -138,7 +137,7 @@ class Generalpage extends Component {
     loadDrilldownModal(type) {
         console.log({type});
 
-        this.props.getDrilldownModalData(type, this.props.productivityData, () => { this.setState({ drilldownModalState: !this.state.drilldownModalState }) });
+        this.props.getDrilldownModalData(type, this.state.appData.productivityData, () => { this.setState({ drilldownModalState: !this.state.drilldownModalState }) });
         // this.setState({
         //     drilldownModalState: !this.state.drilldownModalState
         // })
