@@ -59,9 +59,6 @@ class SettingsPage extends Component {
     }
 
     updateProgramTeamUser (rootName, newUserObject, newTeamObject) {
-
-        console.log('SettingsPage')
-
         let newState = JSON.parse(JSON.stringify(this.state));
 
         if (newTeamObject !== undefined) {
@@ -74,9 +71,7 @@ class SettingsPage extends Component {
 
     deleteProgramUser(rootName) {
         let newState = JSON.parse(JSON.stringify(this.state));
-
         delete newState.appData.globalProgram.team[rootName];
-
         this.setState(newState, () => {deleteUser(this.state.appData.globalProgram.settings.id, rootName)})
         this.updateLastFetch();
     }
