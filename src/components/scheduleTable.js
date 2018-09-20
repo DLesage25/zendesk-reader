@@ -109,7 +109,7 @@ renderEditable(cellInfo) {
 
   let column = cellInfo.column.id;
 
-  if(column === 'delete') return (<button type="button" className="btn btn-secondary" onClick={(event) => {this.onChange(event, index, column)}}>-</button>);
+  if(column === 'delete') return (<button type="button" className="btn btn-secondary" onClick={(event) => {this.onChange(event, index, column)}} style={{width: '23px', height: '22px', padding: '0', lineHeight: '0', position: 'relative', left:'33%', top:'6%'}} ><span style={{position: 'relative', top: '-0.03em'}} >-</span></button>);
 
   let startTime = this.state.data[index][column].startTime;
 
@@ -160,9 +160,15 @@ onChange(event, index, column) {
       Header: <span> User Info </span>,
       headerClassName: 'user info',
       columns: [{
+            accessor: 'status',
+            id: 'delete',
+            Header: 'Remove',
+            maxWidth: 81,
+            Cell: this.renderEditable
+        }, {
         Header: 'Email',
         accessor: 'email',
-        minWidth: 282,
+        minWidth: 209,
         Cell: this.renderEditable
       }, {
         Header: 'Status',
@@ -216,12 +222,6 @@ onChange(event, index, column) {
           }, {
             id: 'Sat',
             Header: 'Sat',
-            maxWidth: 55,
-            Cell: this.renderEditable
-          }, {
-            accessor: 'status',
-            id: 'delete',
-            Header: '',
             maxWidth: 55,
             Cell: this.renderEditable
           }]
