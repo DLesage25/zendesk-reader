@@ -104,7 +104,7 @@ export function postProgramSettings(program, programSettings) {
     write('/programs/' + program, programSettings);
 }
 
-export function postProgramTeamUser(program, rootName, newUserObject, callback) {
+export function writeProgramTeamUser(program, rootName, newUserObject, callback) {
     let path = '/programs/' + program + '/team/' + rootName + '/';
     write(path, newUserObject);
     if(callback) callback();

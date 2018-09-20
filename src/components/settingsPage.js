@@ -9,7 +9,7 @@ import SettingsForm from './SettingsForm'
 import { 
         fetchProgram,
         postProgramSettings,
-        postProgramTeamUser,
+        writeProgramTeamUser,
         deleteUser
     } from '../actions';
 
@@ -66,8 +66,8 @@ class SettingsPage extends Component {
 
         if (newTeamObject !== undefined) {
             newState.appData.globalProgram.team = newTeamObject;
-            this.setState(newState, () => {postProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)})
-        } else postProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)
+            this.setState(newState, () => {writeProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)})
+        } else writeProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)
 
         this.updateLastFetch();
     }
