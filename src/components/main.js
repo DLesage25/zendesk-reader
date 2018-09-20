@@ -39,7 +39,7 @@ class Main extends Component {
                     <section className = 'page-content' >
                         <div className = 'page-content-inner'>
                             <nav className = 'top-submenu top-submenu-with-background'>
-                                <div className = 'row' style = {{ height:'100%'}} >
+                                <div className = 'row' style = {{ height:'100%', display: 'block !important'}} >
                                     {this.renderSections(this.props.StartupData)}
                                 </div >
                             </nav >
