@@ -61,7 +61,6 @@ export default class SettingsButtonsGroup extends Component {
               <HelpHint hint={this.props.hint} width="150">
                 <label htmlFor="basic-url">{this.props.title}</label>
               </HelpHint>
-              <br />
               <div className="btn-group" role="group" aria-label="Basic example">
                 {this.renderButtons(this.props.options)}
               </div>
