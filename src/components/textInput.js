@@ -46,7 +46,7 @@ export default class TextInput extends Component {
 	render() {
 		return (
           <div>
-            <HelpHint hint={this.props.hint} height="24" width="150">
+            <HelpHint hint={this.props.hint} height={this.props.helpHintHeight !== undefined ? (this.props.helpHintHeight > 0 ? this.props.helpHintHeight : undefined) : '24'} width={this.props.helpHintWidth !== undefined ? (this.props.helpHintWidth > 0 ? this.props.helpHintWidth : undefined) : '150'}>
               <label htmlFor="basic-url">{this.props.title}</label>
             </HelpHint>
             <div className={this.state.groupClassName} style={this.state.groupStyle}>

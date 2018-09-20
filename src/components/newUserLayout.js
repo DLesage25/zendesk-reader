@@ -113,28 +113,28 @@ export default class NewUserLayout extends Component {
                 <form onSubmit={createNewUser}>
                     <div style={{display: 'table'}}>
                         <div style={{display: 'table-cell', width: '25%', textAlign: 'center'}}>
-                            <TextInput title='Email:' value={this.state.email} onChange={onChange} groupStyle={{width: '90%', margin: 'auto'}}/>
+                            <TextInput title='Email:' value={this.state.email} onChange={onChange} groupStyle={{width: '90%', margin: 'auto'}} helpHintWidth={0}/>
                         </div>
                         <div style={{display: 'table-cell', width: '25%', textAlign: 'center'}}>
-                            <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Daily Goal:' value={this.state.dailyGoal} onChange={onChange} append={this.props.goal}/>
+                            <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Daily Goal:' value={this.state.dailyGoal} onChange={onChange} append={this.props.goal} helpHintWidth={0}/>
                         </div>
                     </div>
                 <h5>Schedules</h5>
                 <div style={{display: 'table'}}>
                     <div style={{display: 'table-cell', width: '25%', textAlign: 'center'}}>
                         <div>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Shift Duration:' value={this.state.shiftDuration} onChange={onChange} append='Hrs'/>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Sunday' value={this.state.Sun.startTime} onChange={onChange} append=':00'/>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Monday' value={this.state.Mon.startTime} onChange={onChange} append=':00'/>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Tuesday' value={this.state.Tues.startTime} onChange={onChange} append=':00'/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Shift Duration:' value={this.state.shiftDuration} onChange={onChange} append='Hrs' helpHintWidth={0}/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Sunday' value={this.state.Sun.startTime} onChange={onChange} append=':00' helpHintWidth={0}/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Monday' value={this.state.Mon.startTime} onChange={onChange} append=':00' helpHintWidth={0}/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Tuesday' value={this.state.Tues.startTime} onChange={onChange} append=':00' helpHintWidth={0}/>
                         </div>
                     </div>
                     <div style={{display: 'table-cell', width: '25%', textAlign: 'center'}}>    
                         <div>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Wednesday' value={this.state.Wed.startTime} onChange={onChange} append=':00'/>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Thursday' value={this.state.Thurs.startTime} onChange={onChange} append=':00'/>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Friday' value={this.state.Fri.startTime} onChange={onChange} append=':00'/>
-                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Saturday' value={this.state.Sat.startTime} onChange={onChange} append=':00'/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Wednesday' value={this.state.Wed.startTime} onChange={onChange} append=':00' helpHintWidth={0}/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Thursday' value={this.state.Thurs.startTime} onChange={onChange} append=':00' helpHintWidth={0}/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Friday' value={this.state.Fri.startTime} onChange={onChange} append=':00' helpHintWidth={0}/>
+                          <TextInput groupClassName='settings-modal-input-group' inputClassName='settings-modal-input' title='Saturday' value={this.state.Sat.startTime} onChange={onChange} append=':00' helpHintWidth={0}/>
                         </div>
                       <br/>
                     </div>
