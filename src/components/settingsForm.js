@@ -7,6 +7,7 @@ import Modal from './modal';
 import SettingsButtonsGroup from './settingsButtonsGroup';
 
 import NewUserLayout from './newUserLayout.js';
+let toolTipsText = require('../modules/toolTipsText');
 
 export default class SettingsForm extends Component {
     constructor(props){
@@ -139,12 +140,12 @@ export default class SettingsForm extends Component {
         <div className="row">
     			<div className="col-md">
               <TextInput title="Program Name" value={this.state.programName} aria-label="Username" aria-describedby="basic-addon1" onChange={onInputChange} disabled={true}/>
-              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onInputChange}/>
-              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onInputChange}/>
-    			</div>
-          <div className="col-md">
-            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onInputChange}/>
-            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onInputChange}/>
+              <TextInput title="Zendesk URL" value={this.state.zendeskURL} aria-label="Recipient's username" aria-describedby="basic-addon2" prepend="https://" append=".zendesk.com" onChange={onInputChange} hint={toolTipsText['zendeskURL']}/>
+              <TextInput title="Manager Email" value={this.state.managerEmail} aria-label="Recipient's username" aria-describedby="basic-addon2" append="@partnerhero.com" onChange={onInputChange} hint={toolTipsText['managerEmail']}/>
+          </div>
+          <div className="col-sm">
+            <SettingsButtonsGroup options = {goalType} title = 'Goal Type' onClick={onInputChange} hint={toolTipsText['goalType']}/>
+            <SettingsButtonsGroup options = {olarkChats} title = 'Olark Chats' onClick={onInputChange} hint={toolTipsText['olarkChats']}/>
           </div>
         </div>
         <div className="row">

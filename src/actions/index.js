@@ -203,7 +203,7 @@ export function programToId(program) {
 
 export function fetchAndInitialize(email) {
     return async dispatch => {
-        //email = 'bradley.mccalla@partnerhero.com' //test with this
+        email = 'stanley@partnerhero.com' //test with this
         const userID = email2id(email);
         const date = moment();
 
@@ -255,21 +255,25 @@ export function fetchAndInitialize(email) {
     }
 }
 
-export function fetchProgram(programName, appData, isRefresh, callback) {
+export function fetchProgram(programName, appData, isRefresh, callback, date) {
     return async dispatch => {
         let allProgramSettings = await get('programs/');
 
         let selectedProgram = _.find(allProgramSettings, (o) => { return o.settings.prettyName === programName })
         let programId = selectedProgram.settings.id;
+        let dateObject = date || moment();
 
         let productivityData = await get('productivity/byProgram/' + programId +
-            '/byYear/' + moment().year() +
-            '/byWeek/' + moment().week());
+            '/byYear/' + dateObject.year() +
+            '/byWeek/' + dateObject.week());
+
+        let productivityDataByDate = productivityData ? productivityData.byDate : null;
 
         const payload = {
             appSettings: appData.appSettings,
+            globalDate: dateObject.format('MM_DD_YY'),
             globalProgram: selectedProgram,
-            productivityData: productivityData.byDate,
+            productivityData: productivityDataByDate,
             isRefresh: isRefresh
         };
         if(callback) callback();
