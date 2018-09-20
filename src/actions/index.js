@@ -225,6 +225,8 @@ export function fetchAndInitialize(email) {
             const team = await getProgramRoster(programId);
             const settings = newSettings.program(programId);
 
+            settings.startDate = moment().format('MM_DD_YY');
+
             selectedProgram = {
                 settings: settings,
                 team: team
