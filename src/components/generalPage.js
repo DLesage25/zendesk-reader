@@ -159,7 +159,6 @@ class Generalpage extends Component {
     }
 
     loadModal(data, date) {
-        console.log({data}, {date});
         this.setState({
             modalState: !this.state.modalState
         })

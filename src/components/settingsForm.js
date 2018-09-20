@@ -151,7 +151,7 @@ export default class SettingsForm extends Component {
         <div className="row">
           <div className="col-lg">
             <label> Team Management </label>
-            <button className='btn btn-secondary' style={{marginLeft: '8px', width: '23px', height: '22px', padding: '0 !important', lineHeight: '0'}} onClick={changeModalState}>+</button>
+            <button className='btn btn-secondary' style={{marginLeft: '8px', width: '23px', height: '22px', padding: '0 !important', lineHeight: '0'}} onClick={changeModalState}><span style={{position: 'relative', top: '-0.08em', left: '-0.03em'}}>+</span></button>
             <Table team={this.state.team} programName={this.state.programName} updateProgramTeamUser={updateProgramTeamUser} deleteProgramUser={deleteProgramUser}/> 
           </div>
         </div>

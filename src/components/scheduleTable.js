@@ -77,8 +77,6 @@ verifyDataIntegrity(team) {
 
     if (!this.compareObjectsIntegrity(dataObjectsPattern, user) || !this.compareObjectsIntegrity(user, dataObjectsPattern)) {
 
-      console.log('comparing')
-
       let rootName = rootNames[index];
 
       let newUserObject = JSON.parse(JSON.stringify(dataObjectsPattern));
@@ -111,9 +109,7 @@ renderEditable(cellInfo) {
 
   let column = cellInfo.column.id;
 
-  console.log(column)
-
-  if(column === 'delete') return (<button type="button" className="btn btn-secondary" onClick={(event) => {this.onChange(event, index, column)}}>X</button>);
+  if(column === 'delete') return (<button type="button" className="btn btn-secondary" onClick={(event) => {this.onChange(event, index, column)}}>-</button>);
 
   let startTime = this.state.data[index][column].startTime;
 
@@ -135,8 +131,6 @@ renderEditable(cellInfo) {
 }
 
 onChange(event, index, column) {
-
-  console.log(event, index, column)
 
   let value = event.target ? event.target.value : event;
 
