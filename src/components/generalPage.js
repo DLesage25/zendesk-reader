@@ -17,8 +17,6 @@ import {
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamGraphRenderer from './teamGraphRenderer'
 import ProductivityCard from './productivityCard'
-
-import Table from './table3'
 import Bargraph from './barGraph' 
 
 import DrilldownModal from './drilldownModal'
@@ -161,7 +159,6 @@ class Generalpage extends Component {
     }
 
     loadModal(data, date) {
-        console.log({data}, {date});
         this.setState({
             modalState: !this.state.modalState
         })

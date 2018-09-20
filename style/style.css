@@ -114,6 +114,26 @@ body {
     color: #f3f2f2;
 }
 
+/*Settings Page Modal*/
+
+.styles_modal__gNwvD {
+    max-width: 1200px;
+    width: 40%;
+}
+
+.settings-modal-input-group {
+    width: 50% !important;
+    margin: auto;
+}
+
+.settings-modal-input {
+    text-align: center;
+}
+
+.rt-td div {
+    position: static;
+}
+
 
 /*TopBar Help Button*/
 
