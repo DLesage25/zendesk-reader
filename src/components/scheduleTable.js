@@ -111,6 +111,10 @@ renderEditable(cellInfo) {
 
   let column = cellInfo.column.id;
 
+  console.log(column)
+
+  if(column === 'delete') return (<button type="button" className="btn btn-secondary" onClick={(event) => {this.onChange(event, index, column)}}>X</button>);
+
   let startTime = this.state.data[index][column].startTime;
 
   if (startTime !== undefined && startTime >= 0) value = startTime;
@@ -120,7 +124,7 @@ renderEditable(cellInfo) {
 
   let options = ['Active', 'Inactive'];
 
-  let inputCell = (<input value={value} onChange={(event) => {this.onChange(event, index, column)}} style={{ backgroundColor: "#fff", width: '100%', height: '100%', border: '0', textAlign: 'center' }}/>);
+  let inputCell = (<input value={value} onChange={(event) => {this.onChange(event, index, column)}} style={{ backgroundColor: "#fff", width: '100%', height: '100%', border: '0', textAlign: 'left' }}/>);
 
   let dropdownCell = (<Dropdown current={value} options={options} action={(event) => {this.onChange(event, index, column)}} buttonClassName="main-card-dropdown btn btn-sm btn-outline-primary ml-2 dropdown-toggle" />);
 
@@ -132,11 +136,13 @@ renderEditable(cellInfo) {
 
 onChange(event, index, column) {
 
+  console.log(event, index, column)
+
   let value = event.target ? event.target.value : event;
 
   let data = [...this.state.data];
 
-  let startTime = data[index][column].startTime;
+  let startTime = data[index][column] !== undefined ? data[index][column].startTime : undefined;
 
   let newUserObject = data[index];
 
@@ -147,7 +153,8 @@ onChange(event, index, column) {
   if (startTime !== undefined && startTime >= 0) data[index][column].startTime = value;
   else data[index][column] = value;
 
-  this.props.updateProgramTeamUser({newUserObject, rootName});
+  if(column === 'delete') this.props.deleteProgramUser(rootName);
+  else this.props.updateProgramTeamUser({newUserObject, rootName});
 
 }
 
@@ -176,7 +183,7 @@ onChange(event, index, column) {
       }, {
         Header: 'Shift Duration',
         accessor: 'shiftDuration', //d => d.production.publicComments 
-        minWidth: 125,
+        minWidth: 116,
         Cell: this.renderEditable
       }]
     }, {
@@ -217,6 +224,12 @@ onChange(event, index, column) {
             Header: 'Sat',
             maxWidth: 55,
             Cell: this.renderEditable
+          }, {
+            accessor: 'status',
+            id: 'delete',
+            Header: '',
+            maxWidth: 55,
+            Cell: this.renderEditable
           }]
     }]
 
@@ -225,7 +238,7 @@ onChange(event, index, column) {
         className="-highlight"
         data={data}
         columns={columns}
-        defaultPageSize={5}
+        defaultPageSize={10}
         showPageSizeOptions={false}
         style={{borderRadius: '5px'}}
       />

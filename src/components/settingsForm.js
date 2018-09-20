@@ -26,6 +26,7 @@ export default class SettingsForm extends Component {
         this.onInputChange         = this.onInputChange.bind(this);
         this.updateProgramTeamUser = this.updateProgramTeamUser.bind(this);
         this.createProgramTeamUser = this.createProgramTeamUser.bind(this);
+        this.deleteProgramUser     = this.deleteProgramUser.bind(this);
         this.timerHandler          = this.timerHandler.bind(this);
         this.doneInterval          = this.doneInterval.bind(this);
         this.changeModalState      = this.changeModalState.bind(this);
@@ -82,8 +83,11 @@ export default class SettingsForm extends Component {
     }
 
     updateProgramTeamUser(payload) {
-      let programName = this.state.programName;
       this.timerHandler(this.props.updateProgramTeamUser(payload.rootName, payload.newUserObject));
+    }
+
+    deleteProgramUser(rootName) {
+      this.timerHandler(this.props.deleteProgramUser(rootName));
     }
 
     createProgramTeamUser(payload) {
@@ -117,7 +121,7 @@ export default class SettingsForm extends Component {
 	render() {
 
     const { updateProgramSettings } = this.props;
-    const { onInputChange, updateProgramTeamUser, createProgramTeamUser, changeModalState } = this;
+    const { onInputChange, updateProgramTeamUser, createProgramTeamUser, changeModalState, deleteProgramUser } = this;
 
     const olarkChats = [
           { value: true, className: ((this.state.olark) ? 'btn btn-secondary active' : 'btn btn-secondary')},
@@ -146,8 +150,8 @@ export default class SettingsForm extends Component {
         <div className="row">
           <div className="col-lg">
             <label> Team Management </label>
-            <button style={{border: '0', backgroundColor: 'white'}} onClick={changeModalState}>+</button>
-            <Table team={this.state.team} programName={this.state.programName} updateProgramTeamUser={updateProgramTeamUser}/> 
+            <button className='btn btn-secondary' style={{marginLeft: '8px', width: '23px', height: '22px', padding: '0 !important', lineHeight: '0'}} onClick={changeModalState}>+</button>
+            <Table team={this.state.team} programName={this.state.programName} updateProgramTeamUser={updateProgramTeamUser} deleteProgramUser={deleteProgramUser}/> 
           </div>
         </div>
         <Modal open={this.state.modalState} onClose={changeModalState} id='newUserModal' >
