@@ -157,65 +157,107 @@ export function fetchUserData(email) {
 
 export function getDrilldownModalData(type, productivityData, callback) {
     return async dispatch => {
-        console.log({type}, {productivityData});
-        // let payload = [{
-        //                 name: 'Tanner Linsley',
-        //                 loggedTime: '01:13:00',
-        //                 production: {
-        //                   publicComments: 5,
-        //                   goal: {
-        //                     type: 'publicComments',
-        //                     value: 10
-        //                   },
-        //                   solved: 23,
-        //                   pending: 15,
-        //                   open: 0
-        //                 }
-        //               },{
-        //                 name: 'John Doe',
-        //                 loggedTime: '02:25:00',
-        //                 production: {
-        //                   publicComments: 21,
-        //                   goal: {
-        //                     type: 'publicComments',
-        //                     value: 23
-        //                   },
-        //                   solved: 31,
-        //                   pending: 6,
-        //                   open: 3
-        //                 }
-        //             }];
+        console.log(type, {productivityData});
+        let defaultUserObject = {
+            hour: '',
+            name: '',
+            publicComments: 0,
+            goal: 0,
+            goalType: '',
+            solved: 0,
+            pending: 0,
+            open: 0
+          }
 
-      const payload = [{
-        hour: '7:00 AM',
-        name: 'Tanner Linsley',
-        publicComments: 5,
-        goal: 10,
-        goalType: 'publicComments',
-        solved: 23,
-        pending: 15,
-        open: 0
-      }, {
-        hour: '8:00 AM',
-        name: 'Tanner Linsley',
-        publicComments: 15,
-        goal: 12,
-        goalType: 'publicComments',
-        solved: 23,
-        pending: 15,
-        open: 0
-      }, {
-        hour: '9:00 AM',
-        name: 'Tanner Linsley',
-        publicComments: 8,
-        goal: 14,
-        goalType: 'publicComments',
-        solved: 23,
-        pending: 15,
-        open: 0
-      }]
-        if(callback) callback();
-        return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
+        let payload = [];
+
+        let isEmail = type.split('@').length > 1;
+
+        let teamArray = Object.values(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+
+        let teamArrayKeys = Object.keys(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+
+        if (type === 'teamProductivity') {
+
+            _.forEach(teamArray, (entry, key) => {
+
+
+                let teamByHour = Object.values(entry);
+
+                _.forEach(teamByHour, (teamMember, teamMemberKey) => {
+                    if (teamMember.privateComments !== undefined) {
+                        let nameChunks = teamMember.email.split('@')[0].split('.');
+
+                        let newNameChunks = [];
+                        _.forEach(nameChunks, (chunk, chunkKey) => {
+                            chunk = chunk.charAt(0).toUpperCase() + chunk.slice(1);
+                            newNameChunks.push(chunk);
+
+                            if(chunkKey === nameChunks.length - 1) {
+
+                                let name = newNameChunks.join(' ');
+                                let newUserObject = JSON.parse(JSON.stringify(defaultUserObject));
+                                newUserObject.hour = teamArrayKeys[key];
+                                newUserObject.name = name;
+                                newUserObject.publicComments = teamMember.privateComments;
+                                newUserObject.goal = teamMember.goal;
+                                newUserObject.goalType = teamMember.goalType;
+                                newUserObject.solved = teamMember.solved;
+                                newUserObject.pending = teamMember.pending;
+                                newUserObject.open = teamMember.open;
+                                payload.push(newUserObject);
+                            }
+                        })
+                    }
+                })
+
+                if(key === teamArray.length - 1) {
+                    if(callback) callback();
+                    return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
+                }
+            })
+        } else if (isEmail) {
+            let email = type;
+            let nameChunks = email.split('@')[0].split('.');
+            let newNameChunks = [];
+            let name;
+
+            _.forEach(nameChunks, (chunk, chunkKey) => {
+                chunk = chunk.charAt(0).toUpperCase() + chunk.slice(1);
+                newNameChunks.push(chunk);
+
+                if(chunkKey === nameChunks.length - 1) {
+                    name = newNameChunks.join(' ');
+
+                    _.forEach(teamArray, (entry, key) => { 
+
+                        let teamByHour = Object.values(entry);
+
+                        _.forEach(teamByHour, (teamMember, teamMemberKey) => { 
+                            if(teamMember.email === email) {
+                                let newUserObject = JSON.parse(JSON.stringify(defaultUserObject));
+                                newUserObject.hour = teamArrayKeys[key];
+                                newUserObject.name = name;
+                                newUserObject.publicComments = teamMember.privateComments;
+                                newUserObject.goal = teamMember.goal;
+                                newUserObject.goalType = teamMember.goalType;
+                                newUserObject.solved = teamMember.solved;
+                                newUserObject.pending = teamMember.pending;
+                                newUserObject.open = teamMember.open;
+                                payload.push(newUserObject);
+                            }
+                        })
+
+                        if(key === teamArray.length - 1) {
+                            if(callback) callback();
+                            return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
+                        }
+                    
+                    })
+
+                }
+            })
+        }
     }
 }
 

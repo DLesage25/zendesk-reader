@@ -44,6 +44,7 @@ class Generalpage extends Component {
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
         this.refreshChartsData = this.refreshChartsData.bind(this);
         this.loadDrilldownModal = this.loadDrilldownModal.bind(this);
+        this.changeDrillDownState = this.changeDrillDownState.bind(this);
     }
 
     componentWillMount() {
@@ -135,12 +136,15 @@ class Generalpage extends Component {
     }
 
     loadDrilldownModal(type) {
-        console.log({type});
+        if(type === 'queueData') this.props.getDrilldownModalData(type, this.props.GraphData.queueData, this.changeDrillDownState());
+        else this.props.getDrilldownModalData(type, this.state.appData.productivityData, this.changeDrillDownState());
 
-        this.props.getDrilldownModalData(type, this.state.appData.productivityData, () => { this.setState({ drilldownModalState: !this.state.drilldownModalState }) });
-        // this.setState({
-        //     drilldownModalState: !this.state.drilldownModalState
-        // })
+    }
+
+    changeDrillDownState() {
+        this.setState({
+            drilldownModalState: !this.state.drilldownModalState
+        })
     }
 
     /*
@@ -153,7 +157,7 @@ class Generalpage extends Component {
 	render() {
         const { GraphData, DrilldownData } = this.props;
         const { appData, lastFetch, Key, displayLoader, drilldownModalState, drilldownModalData } = this.state;
-        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadDrilldownModal } = this;
+        const { changeGlobalProgram, changeGlobalDate, getDateList, refreshData, loadDrilldownModal, changeDrillDownState } = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <div>
@@ -188,10 +192,11 @@ class Generalpage extends Component {
                                                                                         globalDate          = {appData.globalDate} 
                                                                                         Key                 = {Key + 'individual'}
                                                                                         displayLoader       = {displayLoader}
-                                                                                        Key                 = {Key + 'individual'} /> }
+                                                                                        Key                 = {Key + 'individual'}
+                                                                                        onClick             = {loadDrilldownModal} /> }
                                                     <Modal
                                                        open={drilldownModalState}
-                                                       onClose={loadDrilldownModal}>
+                                                       onClose={changeDrillDownState}>
                                                             {!DrilldownData ? <p> Loading </p> : 
                                                                 <div>
                                                                     <h5>Team Performance</h5>
