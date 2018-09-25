@@ -105,6 +105,17 @@ export function postProgramSettings(program, programSettings) {
     write('/programs/' + program, programSettings);
 }
 
+export function writeProgramTeamUser(program, rootName, newUserObject, callback) {
+    let path = '/programs/' + program + '/team/' + rootName + '/';
+    write(path, newUserObject);
+    if(callback) callback();
+}
+
+export function deleteUser(program, rootName) {
+    let path = '/programs/' + program + '/team/' + rootName + '/';
+    remove(path);
+}
+
 //the getprogram function should pull all users from /users in FB and filter using that
 export async function getProgramRoster(programId) {
     let users = await get('/users/byUserId');
@@ -352,6 +363,8 @@ export function fetchAndInitialize(email) {
         if (!selectedProgram && productivityData) {
             const team = await getProgramRoster(programId);
             const settings = newSettings.program(programId);
+
+            settings.startDate = moment().format('MM_DD_YY');
 
             selectedProgram = {
                 settings: settings,

@@ -18,7 +18,6 @@ import {
 import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamGraphRenderer from './teamGraphRenderer'
 import ProductivityCard from './productivityCard'
-
 import GeneralDrillDownTable from './generalDrillDownTable'
 import QueueTable from './queueTable'
 import Bargraph from './barGraph' 

@@ -9,7 +9,7 @@ export default class HelpHint extends Component {
 
 	render() {
 		return (
-      <div style={{width: this.props.width ? this.props.width + 'px' : '0px', height: this.props.height ? this.props.height + 'px' : '0px'}}>
+      <div style={{width: this.props.width !== undefined ? this.props.width + 'px' : null, height: this.props.height !== undefined ? this.props.height + 'px' : null}}>
         {this.props.children}
         {this.props.hint ? 
           <div className="help-tip">

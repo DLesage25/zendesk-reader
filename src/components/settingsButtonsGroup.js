@@ -4,16 +4,11 @@ import HelpHint from './helpHint';
 export default class SettingsButtonsGroup extends Component {
     constructor(props){
         super(props);
-
         this.state = {
-
         };
-
         this.renderButtons        = this.renderButtons.bind(this);
         this.onClick              = this.onClick.bind(this);
         this.upperCaseFirstLetter = this.upperCaseFirstLetter.bind(this);
-
-
     }
 
     onClick(value) {
@@ -66,7 +61,6 @@ export default class SettingsButtonsGroup extends Component {
               <HelpHint hint={this.props.hint} width="150">
                 <label htmlFor="basic-url">{this.props.title}</label>
               </HelpHint>
-              <br />
               <div className="btn-group" role="group" aria-label="Basic example">
                 {this.renderButtons(this.props.options)}
               </div>

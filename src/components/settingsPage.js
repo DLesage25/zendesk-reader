@@ -8,7 +8,9 @@ import SettingsForm from './SettingsForm'
 
 import { 
         fetchProgram,
-        postProgramSettings
+        postProgramSettings,
+        writeProgramTeamUser,
+        deleteUser
     } from '../actions';
 
 class SettingsPage extends Component {
@@ -25,9 +27,11 @@ class SettingsPage extends Component {
         this.updateLastFetch = this.updateLastFetch.bind(this);
         this.changeGlobalProgram = this.changeGlobalProgram.bind(this);
         this.updateProgramSettings = this.updateProgramSettings.bind(this);
+        this.updateProgramTeamUser = this.updateProgramTeamUser.bind(this);
+        this.deleteProgramUser = this.deleteProgramUser.bind(this);
         this.checkIfFetch = this.checkIfFetch.bind(this);
         this.changeLoaderDisplay = this.changeLoaderDisplay.bind(this);
-
+        this.refreshProgram = this.refreshProgram.bind(this);
     }
 
     updateLastFetch () {
@@ -54,6 +58,28 @@ class SettingsPage extends Component {
 
     }
 
+    updateProgramTeamUser (rootName, newUserObject, newTeamObject) {
+        let newState = JSON.parse(JSON.stringify(this.state));
+
+        if (newTeamObject !== undefined) {
+            newState.appData.globalProgram.team = newTeamObject;
+            this.setState(newState, () => {writeProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)})
+        } else writeProgramTeamUser(this.state.appData.globalProgram.settings.id, rootName, newUserObject)
+
+        this.updateLastFetch();
+    }
+
+    deleteProgramUser(rootName) {
+        let newState = JSON.parse(JSON.stringify(this.state));
+        delete newState.appData.globalProgram.team[rootName];
+        this.setState(newState, () => {deleteUser(this.state.appData.globalProgram.settings.id, rootName)})
+        this.updateLastFetch();
+    }
+
+    refreshProgram() {
+        this.props.fetchProgram(this.state.appData.globalProgram.settings.prettyName, this.state.appData, true);
+    }
+
     componentDidUpdate () {
         this.checkIfFetch();
     }
@@ -67,8 +93,6 @@ class SettingsPage extends Component {
 
         const newProgramName = FetchProgram.globalProgram.settings.id;
         const currentProgramName = this.state.appData.globalProgram.settings.id;
-
-        const isRefresh = FetchProgram.isRefresh;
 
         if((newProgramName !== currentProgramName)) {
             let newAppData = {
@@ -87,8 +111,9 @@ class SettingsPage extends Component {
     }
 
 	render() {
+
     const { appData } = this.props;
-    const { changeGlobalProgram, updateProgramSettings,  changeLoaderDisplay} = this;
+    const { changeGlobalProgram, updateProgramSettings, updateProgramTeamUser, changeLoaderDisplay, deleteProgramUser} = this;
 		return (
 		    	<div className="col-large" style={{ marginTop: '70px', width: '100%' }}>
                     <SettingsCard 
@@ -98,7 +123,7 @@ class SettingsPage extends Component {
                         lastFetch = {this.state.lastFetch}
                         displayLoader = {this.state.displayLoader}
                     >
-                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} changeLoaderDisplay={changeLoaderDisplay}/>
+                        <SettingsForm globalProgram={this.state.appData.globalProgram} programList={this.state.appData.appSettings.programList} updateProgramSettings={updateProgramSettings} updateProgramTeamUser={updateProgramTeamUser} deleteProgramUser={deleteProgramUser} changeLoaderDisplay={changeLoaderDisplay}/>
                     </SettingsCard>
 		    	</div>
 				)
