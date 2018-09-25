@@ -58,6 +58,13 @@ body {
     }
 }
 
+.drilldown-download {
+    margin-top: 12px;
+    display: block;
+    width: 20%;
+    float: right;
+}
+
 .top-menu {
     height: 50px;
     -webkit-transition: height 0.3s ease, background-color 0.3s ease;

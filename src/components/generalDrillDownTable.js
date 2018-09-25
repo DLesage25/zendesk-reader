@@ -60,7 +60,7 @@ render() {
                         showPageSizeOptions={false}
                         style={{borderRadius: '5px'}}
                       />
-                      <CSVLink data={Object.values(this.props.data)} filename={'Production_Report_' + moment().format('MM_DD_YYYY_hh_mm') + '.csv'} className="btn btn-secondary" style={{display: 'block'}}>Download</CSVLink>
+                      <CSVLink data={Object.values(this.props.data)} filename={'Production_Report_' + moment().format('MM_DD_YYYY_hh_mm') + '.csv'} className="btn btn-secondary drilldown-download">Download</CSVLink>
                     </div>
                   }
               </div>
