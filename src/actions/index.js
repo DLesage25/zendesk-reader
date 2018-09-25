@@ -248,10 +248,9 @@ export function getDrilldownModalData(type, productivityData, callback) {
                                 newUserObject.solved = teamMember.solved;
                                 newUserObject.pending = teamMember.pending;
                                 newUserObject.open = teamMember.open;
+                                payload.push(newUserObject);
                             }
                         })
-
-                        payload.push(newUserObject);
 
                         if(key === teamArray.length - 1) {
                             console.log('individual', payload)
