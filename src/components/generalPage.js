@@ -205,7 +205,7 @@ class Generalpage extends Component {
                                                             {!DrilldownData ? <p> Loading </p> : 
                                                                 <div>
                                                                     <h5>Team Performance</h5>
-                                                                    {Object.values(DrilldownData)[0].name ? <GeneralDrillDownTable data={DrilldownData} /> : <QueueTable data={DrilldownData}/>} 
+                                                                    {DrilldownData.payload[0].name ? <GeneralDrillDownTable data={DrilldownData.payload} /> : <QueueTable data={DrilldownData.payload}/>} 
                                                                 </div>
                                                             }
                                                     </Modal>

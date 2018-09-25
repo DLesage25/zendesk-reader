@@ -3,7 +3,7 @@ export default (state = null, action) => {
         case 'DRILLDOWN_MODAL_DATA':
             return {
                 ...state,
-                ...action.payload
+                payload: action.payload
             }
     }
     return state;

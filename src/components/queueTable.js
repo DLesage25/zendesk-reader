@@ -50,13 +50,13 @@ render() {
                     <div>
                       <ReactTable
                         className="-highlight"
-                        data={Object.values(this.props.data)} 
+                        data={this.props.data} 
                         columns={this.state.tableColumns}
                         defaultPageSize={5}
                         showPageSizeOptions={false}
                         style={{borderRadius: '5px'}}
                       />
-                      <CSVLink data={Object.values(this.props.data)} filename={'Queue_Volume_Report_' + moment().format('MM_DD_YYYY_hh_mm') + '.csv'} className="btn btn-secondary drilldown-download">Download</CSVLink>
+                      <CSVLink data={this.props.data} filename={'Queue_Volume_Report_' + moment().format('MM_DD_YYYY_hh_mm') + '.csv'} className="btn btn-secondary drilldown-download">Download</CSVLink>
                     </div>
                   }
               </div>
