@@ -56,7 +56,7 @@ render() {
                         className="-highlight"
                         data={this.props.data} 
                         columns={columns}
-                        defaultPageSize={5}
+                        defaultPageSize={10}
                         showPageSizeOptions={false}
                         style={{borderRadius: '5px'}}
                       />
