@@ -167,56 +167,58 @@ export function getDrilldownModalData(type, productivityData, callback) {
             solved: 0,
             pending: 0,
             open: 0
-          }
+        }
+
+        let defaultTagObject = {
+            hour: ''
+        }
 
         let payload = [];
 
         let isEmail = type.split('@').length > 1;
 
-        let teamArray = Object.values(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
-
-        let teamArrayKeys = Object.keys(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
-
         if (type === 'teamProductivity') {
+
+            let teamArray = Object.values(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+
+            let teamArrayKeys = Object.keys(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
 
             _.forEach(teamArray, (entry, key) => {
 
 
                 let teamByHour = Object.values(entry);
 
-                _.forEach(teamByHour, (teamMember, teamMemberKey) => {
+                let newUserObject = JSON.parse(JSON.stringify(defaultUserObject));
+
+                newUserObject.hour = teamArrayKeys[key];
+
+                newUserObject.goalType += teamByHour[0].goalType;
+
+                newUserObject.name = 'All Users';
+
+                teamByHour.map(teamMember => {
                     if (teamMember.privateComments !== undefined) {
-                        let nameChunks = teamMember.email.split('@')[0].split('.');
-
-                        let newNameChunks = [];
-                        _.forEach(nameChunks, (chunk, chunkKey) => {
-                            chunk = chunk.charAt(0).toUpperCase() + chunk.slice(1);
-                            newNameChunks.push(chunk);
-
-                            if(chunkKey === nameChunks.length - 1) {
-
-                                let name = newNameChunks.join(' ');
-                                let newUserObject = JSON.parse(JSON.stringify(defaultUserObject));
-                                newUserObject.hour = teamArrayKeys[key];
-                                newUserObject.name = name;
-                                newUserObject.publicComments = teamMember.privateComments;
-                                newUserObject.goal = teamMember.goal;
-                                newUserObject.goalType = teamMember.goalType;
-                                newUserObject.solved = teamMember.solved;
-                                newUserObject.pending = teamMember.pending;
-                                newUserObject.open = teamMember.open;
-                                payload.push(newUserObject);
-                            }
-                        })
+                        newUserObject.publicComments += teamMember.privateComments;
+                        newUserObject.goal += parseInt(teamMember.goal);
+                        newUserObject.solved += teamMember.solved;
+                        newUserObject.pending += teamMember.pending;
+                        newUserObject.open += teamMember.open;
                     }
                 })
 
+                payload.push(newUserObject);
+
                 if(key === teamArray.length - 1) {
+                    console.log('team', payload)
                     if(callback) callback();
                     return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
                 }
             })
         } else if (isEmail) {
+            let teamArray = Object.values(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+
+            let teamArrayKeys = Object.keys(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+
             let email = type;
             let nameChunks = email.split('@')[0].split('.');
             let newNameChunks = [];
@@ -233,10 +235,12 @@ export function getDrilldownModalData(type, productivityData, callback) {
 
                         let teamByHour = Object.values(entry);
 
-                        _.forEach(teamByHour, (teamMember, teamMemberKey) => { 
+                        let newUserObject = JSON.parse(JSON.stringify(defaultUserObject));
+
+                        newUserObject.hour = teamArrayKeys[key];
+
+                        teamByHour.map(teamMember => { 
                             if(teamMember.email === email) {
-                                let newUserObject = JSON.parse(JSON.stringify(defaultUserObject));
-                                newUserObject.hour = teamArrayKeys[key];
                                 newUserObject.name = name;
                                 newUserObject.publicComments = teamMember.privateComments;
                                 newUserObject.goal = teamMember.goal;
@@ -244,11 +248,13 @@ export function getDrilldownModalData(type, productivityData, callback) {
                                 newUserObject.solved = teamMember.solved;
                                 newUserObject.pending = teamMember.pending;
                                 newUserObject.open = teamMember.open;
-                                payload.push(newUserObject);
                             }
                         })
 
+                        payload.push(newUserObject);
+
                         if(key === teamArray.length - 1) {
+                            console.log('individual', payload)
                             if(callback) callback();
                             return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
                         }
@@ -257,7 +263,34 @@ export function getDrilldownModalData(type, productivityData, callback) {
 
                 }
             })
-        }
+            } else if (type === 'queueData') {
+
+                let tagsArray = productivityData[productivityData.length - 1].datasets;
+                let timeKeys = productivityData[productivityData.length - 1].labels;
+
+                _.forEach(timeKeys, (time, timeKey) => {
+
+                    let newTagObject = JSON.parse(JSON.stringify(defaultTagObject));
+                    
+                    newTagObject.hour = time;
+
+                    tagsArray.map(tag => {
+                        newTagObject[tag.label] = tag.data[timeKey] ? tag.data[timeKey] : 0;
+                    })
+
+                    payload.push(newTagObject);
+
+
+                    if(timeKey === timeKeys.length - 1) {
+                        console.log('tags', payload)
+                        if(callback) callback();
+                        return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
+                    }
+
+                })
+
+                console.log('tagsArray', tagsArray, 'timeKeys', timeKeys)
+            }
     }
 }
 

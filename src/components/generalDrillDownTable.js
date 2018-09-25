@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
+import {CSVLink} from 'react-csv';
+const moment = require('moment');
 
-export default class Table extends Component {
+export default class GeneralDrillDownTable extends Component {
 
 constructor(props) {
   super(props);
@@ -49,14 +51,17 @@ render() {
   return (
               <div>
                   { !this.props.data ? <p> Loading </p> :
-                    <ReactTable
-                      className="-highlight"
-                      data={Object.values(this.props.data)} 
-                      columns={columns}
-                      defaultPageSize={5}
-                      showPageSizeOptions={false}
-                      style={{borderRadius: '5px'}}
-                    />
+                    <div>
+                      <ReactTable
+                        className="-highlight"
+                        data={Object.values(this.props.data)} 
+                        columns={columns}
+                        defaultPageSize={5}
+                        showPageSizeOptions={false}
+                        style={{borderRadius: '5px'}}
+                      />
+                      <CSVLink data={Object.values(this.props.data)} filename={'Production_Report_' + moment().format('MM_DD_YYYY_hh_mm') + '.csv'} className="btn btn-secondary" style={{display: 'block'}}>Download</CSVLink>
+                    </div>
                   }
               </div>
     )

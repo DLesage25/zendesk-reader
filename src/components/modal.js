@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import ResponsiveModal from 'react-responsive-modal';
-import Table from './table3';
+import Table from './generalDrillDownTable';
 
 export default class Modal extends Component {
     constructor(props){

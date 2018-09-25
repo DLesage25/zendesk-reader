@@ -19,7 +19,8 @@ import IndividualLinegraphRenderer from './individualLinegraphRenderer'
 import TeamGraphRenderer from './teamGraphRenderer'
 import ProductivityCard from './productivityCard'
 
-import Table from './table3'
+import GeneralDrillDownTable from './generalDrillDownTable'
+import QueueTable from './queueTable'
 import Bargraph from './barGraph' 
 
 import Modal from './modal'
@@ -49,6 +50,10 @@ class Generalpage extends Component {
 
     componentWillMount() {
         this.props.getLinegraphData(this.props.appData.globalProgram, this.props.appData.productivityData)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('nextProps Generalpage', nextProps)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -200,7 +205,7 @@ class Generalpage extends Component {
                                                             {!DrilldownData ? <p> Loading </p> : 
                                                                 <div>
                                                                     <h5>Team Performance</h5>
-                                                                    <Table data={DrilldownData} /> 
+                                                                    {Object.values(DrilldownData)[0].name ? <GeneralDrillDownTable data={DrilldownData} /> : <QueueTable data={DrilldownData}/>} 
                                                                 </div>
                                                             }
                                                     </Modal>
