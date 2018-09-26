@@ -166,9 +166,8 @@ export function fetchUserData(email) {
     }
 }
 
-export function getDrilldownModalData(type, productivityData, callback) {
+export function getDrilldownModalData(type, productivityData, date, callback) {
     return async dispatch => {
-        console.log(type, {productivityData});
         let defaultUserObject = {
             hour: '',
             name: '',
@@ -190,9 +189,9 @@ export function getDrilldownModalData(type, productivityData, callback) {
 
         if (type === 'teamProductivity') {
 
-            let teamArray = Object.values(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+            let teamArray = Object.values(productivityData[date].byHour);
 
-            let teamArrayKeys = Object.keys(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+            let teamArrayKeys = Object.keys(productivityData[date].byHour);
 
             _.forEach(teamArray, (entry, key) => {
 
@@ -220,15 +219,15 @@ export function getDrilldownModalData(type, productivityData, callback) {
                 payload.push(newUserObject);
 
                 if(key === teamArray.length - 1) {
-                    console.log('team', payload)
                     if(callback) callback();
                     return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
                 }
             })
         } else if (isEmail) {
-            let teamArray = Object.values(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
 
-            let teamArrayKeys = Object.keys(Object.values(productivityData)[Object.values(productivityData).length - 1].byHour);
+            let teamArray = Object.values(productivityData[date].byHour);
+
+            let teamArrayKeys = Object.keys(productivityData[date].byHour);
 
             let email = type;
             let nameChunks = email.split('@')[0].split('.');
@@ -264,7 +263,6 @@ export function getDrilldownModalData(type, productivityData, callback) {
                         })
 
                         if(key === teamArray.length - 1) {
-                            console.log('individual', payload)
                             if(callback) callback();
                             return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
                         }
@@ -275,31 +273,38 @@ export function getDrilldownModalData(type, productivityData, callback) {
             })
             } else if (type === 'queueData') {
 
-                let tagsArray = productivityData[productivityData.length - 1].datasets;
-                let timeKeys = productivityData[productivityData.length - 1].labels;
+                let tagsArray = null;
+                let timeKeys = null;
 
-                _.forEach(timeKeys, (time, timeKey) => {
+                productivityData.map(tagSet => { 
+                    if(tagSet.dayKey === date){
+                        tagsArray = tagSet.datasets;
+                        timeKeys = tagSet.labels;
+                         _.forEach(timeKeys, (time, timeKey) => {
 
-                    let newTagObject = JSON.parse(JSON.stringify(defaultTagObject));
-                    
-                    newTagObject.hour = time;
+                            let newTagObject = JSON.parse(JSON.stringify(defaultTagObject));
+                            
+                            newTagObject.hour = time;
 
-                    tagsArray.map(tag => {
-                        newTagObject[tag.label] = tag.data[timeKey] ? tag.data[timeKey] : 0;
-                    })
+                            tagsArray.map(tag => {
+                                newTagObject[tag.label] = tag.data[timeKey] ? tag.data[timeKey] : 0;
+                            })
 
-                    payload.push(newTagObject);
+                            payload.push(newTagObject);
 
 
-                    if(timeKey === timeKeys.length - 1) {
-                        console.log('tags', payload)
-                        if(callback) callback();
-                        return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
+                            if(timeKey === timeKeys.length - 1) {
+                                if(callback) callback();
+                                return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: payload })
+                            }
+
+                        })
                     }
-
                 })
-
-                console.log('tagsArray', tagsArray, 'timeKeys', timeKeys)
+                if(tagsArray === null) {
+                    if(callback) callback();
+                    return dispatch({ type: DRILLDOWN_MODAL_DATA, payload: [] })
+                }
             }
     }
 }
@@ -342,7 +347,7 @@ export function programToId(program) {
 
 export function fetchAndInitialize(email) {
     return async dispatch => {
-        //email = 'bradley.mccalla@partnerhero.com' //test with this
+        email = 'stanley@partnerhero.com' //test with this
         const userID = email2id(email);
         const date = moment();
 

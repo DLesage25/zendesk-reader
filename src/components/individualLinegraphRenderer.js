@@ -43,10 +43,10 @@ export default class IndividualLinegraphRenderer extends Component {
     			return (
 		        	<div key={group[0].email} className="row" style={{ marginBottom: '25px'}}>
 			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[0].email} description="Today's production" body="these are some stats">
-			        		<Linegraph  width="500" height="280" renderData={ this.renderData(group[0].productivity, globalDate) } displayLoader = {this.props.displayLoader} onClick={() => this.props.onClick(group[0].email)}/>
+			        		<Linegraph  width="500" height="280" renderData={ this.renderData(group[0].productivity, globalDate) } displayLoader = {this.props.displayLoader} onClick={() => this.props.onClick(group[0].email, globalDate)}/>
 			        	</CardComponent>
 			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[1].email} description="Today's production" body="these are some stats">
-			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[1].productivity, globalDate) } displayLoader = {this.props.displayLoader} onClick={() => this.props.onClick(group[1].email)}/>
+			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[1].productivity, globalDate) } displayLoader = {this.props.displayLoader} onClick={() => this.props.onClick(group[1].email, globalDate)}/>
 			        	</CardComponent>
 		        	</div>
     			)
@@ -54,7 +54,7 @@ export default class IndividualLinegraphRenderer extends Component {
     			return (
 		        	<div key={group[0].email} className="row" style={{ marginBottom: '20px'}}>
 			        	<CardComponent maxWidth="45%" columnClassname="col-lg-6 individualLineGraph" title={group[0].email} description="Today's production" body="these are some stats">
-			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[0].productivity, globalDate) } displayLoader = {this.props.displayLoader} onClick={() => this.props.onClick(group[0].email)}/>
+			        		<Linegraph  width="500" height="280" renderData={this.renderData(group[0].productivity, globalDate) } displayLoader = {this.props.displayLoader} onClick={() => this.props.onClick(group[0].email, globalDate)}/>
 			        	</CardComponent>
 		        	</div>
     			)

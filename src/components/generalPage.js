@@ -52,7 +52,7 @@ class Generalpage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps Generalpage', nextProps)
+        //console.log('nextProps Generalpage', nextProps)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -139,9 +139,9 @@ class Generalpage extends Component {
         return Object.keys(productivityData);
     }
 
-    loadDrilldownModal(type) {
-        if(type === 'queueData') this.props.getDrilldownModalData(type, this.props.GraphData.queueData, this.changeDrillDownState());
-        else this.props.getDrilldownModalData(type, this.state.appData.productivityData, this.changeDrillDownState());
+    loadDrilldownModal(type, date) {
+        if(type === 'queueData') this.props.getDrilldownModalData(type, this.props.GraphData.queueData, date, this.changeDrillDownState());
+        else this.props.getDrilldownModalData(type, this.state.appData.productivityData, date, this.changeDrillDownState());
 
     }
 
