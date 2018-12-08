@@ -1,0 +1,141 @@
+@import '../mixins';
+
+/*
+ * JQUERY STEPS
+ */
+
+.cui-wizard {
+    &--steps--icon, .number {
+        border: 3px solid $primary;
+        border-radius: 100%;
+        width: 45px;
+        height: 45px;
+        display: inline-block;
+        text-align: center;
+        line-height: 37px;
+        color: $primary;
+        font-size: 24px;
+        background: $white;
+    }
+    &--steps--title {
+        display: block;
+    }
+    > .content {
+        min-height: 150px;
+        margin: 0px 0px 15px;
+        background: transparent;
+        > .body {
+            background: transparent;
+            padding: 25px 0px;
+        }
+    }
+    .steps {
+        ul {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            li {
+                flex-grow: 200;
+                margin-bottom: 10px;
+                float: none;
+                width: auto;
+                position: relative;
+                a {
+                    background: transparent !important;
+                    margin: 0px !important;
+                    text-align: center;
+                    color: $black !important;
+                    line-height: 30px;
+                    position: relative;
+                    z-index: 2;
+                    .number {
+                        display: none;
+                    }
+                }
+                &:before, &:after {
+                    position: absolute;
+                    content: '';
+                    display: block;
+                    width: 50%;
+                    top: 36px;
+                    right: 0px;
+                    height: 3px;
+                    background: $primary;
+                    z-index: 1;
+                }
+                &:after {
+                    right: auto;
+                    left: 0px;
+                }
+                &:first-child {
+                    &:after {
+                        display: none;
+                    }
+                }
+                &:last-child {
+                    &:before {
+                        display: none;
+                    }
+                }
+                &.disabled {
+                    &:before, &:after {
+                        background: $gray-darken;
+                    }
+                    .cui-wizard--steps--icon, .number {
+                        border-color: $gray-darken;
+                        background: $gray-darken;
+                        color: $white;
+                    }
+                    a {
+                        color: $black-lighten-more-more !important;
+                    }
+                }
+            }
+            @media (max-width: $md-max-width) {
+                flex-direction: column;
+            }
+        }
+    }
+    .actions {
+        text-align: center;
+        li {
+            margin-left: 0px !important;
+            a {
+                background-color: $default;
+                border-color: $default;
+                min-width: 120px;
+                text-align: center;
+                &:hover, &:active {
+                    background-color: lighten($default, 6%);
+                    border-color: lighten($default, 6%);
+                }
+            }
+            &.disabled {
+                a {
+                    background-color: $default !important;
+                    border-color: $default !important;
+                    color: $white !important;
+                    cursor: not-allowed;
+                    opacity: .65;
+                }
+            }
+        }
+    }
+    &__numbers {
+        .number {
+            padding-left: 3px;
+        }
+        .steps {
+            ul {
+                li {
+                    a {
+                        .number {
+                            display: inline-block !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

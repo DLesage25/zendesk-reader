@@ -1,0 +1,776 @@
+/************************************
+ **                                **
+ **        ZENDESK FETCH           **
+ **                                **
+ ************************************/
+import moment from 'moment-timezone';
+import Bottleneck from 'bottleneck';
+import _ from 'lodash';
+import {
+    get,
+    httpGet
+} from '../index';
+
+import config from '../config';
+//rate limiter for zd api
+const limiter = new Bottleneck({ maxConcurrent: 4, minTime: 300 });
+//main run function
+const startZendeskFetch = async (program) => {
+    let currentTime = moment().tz('America/Tegucigalpa');
+    //if this is an hourly job, it shouldn't run in less than 30 minutes
+    let lastIteration = await get('stats/cloudFunctions/hourly_job/lastIterationTimestamp');
+    let timeDifference = currentTime.diff(moment(lastIteration, 'MM/DD/YYYY HH:mm a'), 'hours', true) - 6;
+    let timeThreshold = (program ? 0.1 : 0.5)
+
+    if (timeDifference < timeThreshold) {
+        console.log('Killing iteration for max recurrence. Time difference : ' + timeDifference + ' Threshold: ' + timeThreshold)
+        return true;
+    }
+
+    let route = 'programs/' + (program ? program : '');
+    let allProgramData = await get(route);
+
+    // used solely for manual fetches
+    if (program) {
+        allProgramData[program] = JSON.parse(JSON.stringify(allProgramData))
+        delete allProgramData.settings;
+        delete allProgramData.views;
+        delete allProgramData.team;
+    }
+
+    let mainPayload = await Promise.all(Object.keys(allProgramData).map(async (program) => {
+        let programData = await checkProgramSettings(allProgramData[program], currentTime);
+        return programData;
+    }))
+
+    return _.compact(mainPayload);
+}
+
+const checkProgramSettings = async (program, currentTime) => {
+    let validFetch = await checkValidity(program.settings, currentTime);
+    let payload = false;
+
+    if (validFetch) payload = await fetchProgramData(program, currentTime);
+    return payload;
+}
+
+const checkValidity = async (settings, currentTime) => {
+    let {
+        fetchCadence,
+        lastFetch,
+        adminEmail,
+        zendeskURL
+    } = settings;
+
+    if (!adminEmail || !zendeskURL || !fetchCadence || !lastFetch) return false;
+
+    let timeDifference = currentTime.diff(moment(lastFetch, 'X'), 'hours', true);
+
+    if (fetchCadence === 'hourly' && timeDifference >= 0.5) {
+        return true;
+    } else if (fetchCadence === 'bi-hourly' && timeDifference >= 1.5) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const fetchProgramData = async (program, currentTime) => {
+
+    let { views, team, settings } = program;
+    let { slackUpdates } = settings;
+    let httpOptions = getProgramCredentials(program);
+    let teamObjects = await getTeamObjects(team, currentTime, slackUpdates);
+
+    if (!httpOptions || !teamObjects.length) return false;
+
+    console.log('Starting fetch process for ' + settings.id);
+
+    let viewIds = await getViewIds(httpOptions, views);
+
+    let payload_1 = await getViewCounts(httpOptions, viewIds);
+    let payload_2 = await getUsers(httpOptions, payload_1, teamObjects);
+    let payload_3 = await getTicketsForAllUsers(httpOptions, payload_2);
+    let payload_4 = await getCommentsForAllUsers(httpOptions, payload_3);
+    let payload_5 = await getTagBreakdown(payload_4);
+    let payload_6 = await prepareAllUserObjects(payload_5, settings);
+    let payload_final = await prepareDataForSources(payload_6, settings);
+
+    console.log('Finishing fetch process for ' + settings.id);
+
+    delete payload_final.users;
+    delete payload_final.allUserStats;
+    delete payload_final.userObjects;
+    delete payload_final.tags;
+
+    let slackActive = (slackUpdates === 'off') ? false : true;
+
+    return {
+        program: settings.id,
+        payload: payload_final,
+        channel: settings.slackChannel,
+        slackResponse: payload_final.slackResponse,
+        slackActive: slackActive,
+        timestamp: currentTime.format('MM/DD/YYYY HH:mm a')
+    };
+}
+
+const getProgramCredentials = ({ settings }) => {
+    let cred = config['ZENDESK_' + settings.id.toUpperCase() + '_TOKEN'] || config['ZENDESK_' + settings.id.toUpperCase() + '_PASSWORD']
+    if (!cred) return false;
+
+    return {
+        apiURL: settings.zendeskURL,
+        userGroupId: settings.userGroupId,
+        creds: {
+            username: settings.adminEmail,
+            password: cred
+        }
+    };
+}
+
+const getActiveUsers = async (team, currentTime, slackUpdates) => {
+
+    let today = currentTime.format('ddd');
+    let yesterday = moment().tz('America/Tegucigalpa').subtract(1,'days').format('ddd');
+
+    let activeUsers = Object.keys(team).map((key) => {
+        
+        let currentHour = currentTime.format('k');
+
+        let user = team[key];
+        let { shiftDuration } = user;
+
+        let validatedSchedule = scheduleValidation(user[today],user[yesterday], shiftDuration, currentTime );
+
+        let todayShift = validatedSchedule.todayShift || validatedSchedule;
+
+        let { active, startTime } = todayShift;
+
+        let endingTime = endingTimeCalculation(startTime, shiftDuration);
+
+        if (validatedSchedule.amShift !== undefined) currentHour  = parseFloat(currentHour) + 24;
+
+        if (
+            parseFloat(shiftDuration) > 0 &&
+            active &&
+            parseFloat(startTime) <= currentHour &&
+            endingTime >= currentHour ||
+            slackUpdates === 'permanent'
+        ) {
+            let userWithGoal = calculateCurrentGoal(user, todayShift, currentHour);
+            return userWithGoal;
+        } else {
+            return false;
+        }
+    })
+
+    return _.compact(activeUsers);
+
+}
+
+const scheduleValidation = (todayShift, yesterdayShift, shiftDuration, currentTime) => {
+    let todayShiftStartTime = parseFloat(todayShift.startTime);
+    let yesterdayEndingTime = parseFloat(yesterdayShift.startTime) + parseFloat(shiftDuration)
+
+    let formattedCurrentTime = currentTime.format('k');
+
+    if (yesterdayEndingTime > 24 && (todayShiftStartTime > formattedCurrentTime || isNaN(todayShiftStartTime))) return {todayShift: {...yesterdayShift}, amShift: true};
+    return todayShift;
+}
+
+const endingTimeCalculation = (startTime, duration) => {
+    return parseFloat(startTime) + parseFloat(duration);
+}
+
+const calculateCurrentGoal = (user, todayShift, currentHour) => {
+    let { dailyGoal, shiftDuration } = user;
+    let { startTime } = todayShift;
+
+    dailyGoal = parseFloat(dailyGoal);
+    shiftDuration = parseFloat(shiftDuration);
+    startTime = parseFloat(startTime)
+    //assuming 9 hour shifts are productive for only 7.5 hours
+    let productiveTime = (shiftDuration === 9) ? 7.5 : shiftDuration;
+    //hours since user came in
+    let hoursSinceEntry = Math.abs(currentHour - startTime);
+    //daily goal split among shift length multiplied by amount of hours in
+    var currentGoal = ((dailyGoal / productiveTime) * hoursSinceEntry);
+
+    if (currentHour < startTime) currentGoal = 0;
+    if (currentGoal > dailyGoal) currentGoal = dailyGoal;
+    if (currentHour === startTime) currentGoal = 0;
+
+    currentGoal = parseFloat(currentGoal.toFixed(0))
+
+    return {
+        ...user,
+        currentGoal
+    }
+}
+
+const getTeamObjects = async (team, currentTime, slackUpdates) => {
+    let activeUsers = await getActiveUsers(team, currentTime, slackUpdates);
+
+    return Object.keys(activeUsers).map((index) => {
+        return {
+            email: activeUsers[index].email,
+            currentGoal: activeUsers[index].currentGoal
+        }
+    })
+}
+
+//retrieves Zendesk view IDs- needed for fetching view counts
+const getViewIds = async (httpOptions, views) => {
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/views.json', httpOptions.creds);
+
+    views = _.filter(views, (o) => {
+        return o.active;
+    })
+
+    let viewNames = Object.keys(views).map((index) => {
+        return views[index].name;
+    })
+
+    result = _.filter(result.views, (o) => {
+        return viewNames.indexOf(o.title) !== -1;
+    });
+
+    for (var i = 0; i < result.length; i++) {
+        result[i] = {
+            name: result[i].title,
+            id: result[i].id.toString()
+        };
+    }
+
+    return result;
+}
+
+//  gets a bulk ticket count for each view ID 
+const getViewCounts = async (httpOptions, viewIds) => {
+    //slack response
+    var slackResponse = { 'Queue load': '' }
+    //  main JSON payload
+    let allocatorData = { associateProductivity: {}, queueLoad: {}, tags: {} };
+
+    let urlPath = '/api/v2/views/count_many.json?ids=';
+    for (var i = 0; i < viewIds.length; i++) {
+        urlPath += viewIds[i].id + ',';
+    }
+    urlPath = urlPath.slice(0, -1);
+
+    let result = await httpGet(httpOptions.apiURL + urlPath, httpOptions.creds);
+
+    if (result.view_counts) {
+        result = result.view_counts;
+
+        result.map(({ view_id }, index) => {
+            let name = _.find(viewIds, (o) => {
+                return o.id == view_id;
+            }).name;
+
+            let load = result[index].value;
+
+            slackResponse['Queue load'] +=
+                name + ': ' + load + ' \n';
+
+            allocatorData.queueLoad[name] = load;
+        })
+
+        slackResponse['Queue load'] = slackResponse['Queue load'].replace('[', '').replace(']', '');
+        return { allocatorData: allocatorData, slackResponse: slackResponse }
+
+    } else {
+        slackResponse['Queue load'] = 'No load detected'
+        throw Error('Error when extracting view counts for http options: ' + JSON.stringify(httpOptions) + ' : ' + JSON.stringify(result))
+    }
+}
+
+//  gets user Ids using emails
+const getUsers = async (httpOptions, payload, teamObjects) => {
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/groups/' + httpOptions.userGroupId + '/users.json', httpOptions.creds);
+
+    if (result.next_page) {
+        let secondResult = await httpGet(result.next_page, httpOptions.creds);
+        result = _.compact(result.users.concat(secondResult.users));
+    } else {
+        result = result.users;
+    }
+
+    let foundUsers = Object.keys(teamObjects).map((key) => {
+        let index = teamObjects[key];
+        let found = _.find(result, (o) => {
+            return o.email === index.email;
+        });
+        if (found) {
+            found.currentGoal = index.currentGoal;
+            return found;
+        } else {
+            return false;
+        }
+    })
+
+    payload.users = _.compact(_.flatten(foundUsers));
+    if (!payload.users.length) console.warn('No users found for ' + JSON.stringify(httpOptions.apiURL))
+    return payload;
+}
+
+//  main function to get tickets for all users
+const getTicketsForAllUsers = async (httpOptions, payload) => {
+    let tags = [];
+    let allUserStats = await Promise.all(payload.users.map(async (user) => {
+        let { userStats, userTags } = await getTickets(httpOptions, user);
+
+        tags.push(userTags)
+        return userStats;
+    }))
+    payload.allUserStats = allUserStats;
+    payload.tags = tags;
+    return payload;
+}
+
+// gets solved and pending tickets for the users
+const getTickets = async (httpOptions, user) => {
+
+    const today = moment()
+        .tz('America/Tegucigalpa')
+        .startOf('day')
+        .format();
+
+    let ticketCounts = await Promise.all([
+        getSolvedTickets(httpOptions, user, today),
+        getPendingTicketsFromToday(httpOptions, user, today),
+        getAllPendingTickets(httpOptions, user),
+        getOpenTicketsFromToday(httpOptions, user, today),
+        getAllOpenTickets(httpOptions, user)
+    ])
+
+    //getSolvedTickets returns an object with its payload
+    //plus tags, so decouple those and rewrite its index
+    //to contain payload only
+    let {
+        tags,
+        payload
+    } = ticketCounts[0];
+    ticketCounts[0] = payload;
+
+    let formattedTicketCount = formatTicketCount(ticketCounts);
+    let userStats = createUserStatsObj(user, formattedTicketCount);
+
+    return { userStats: userStats, userTags: tags }
+}
+
+
+//to-do: eventually do a small refactor to remove all the query functions into one
+// const getQuery = (user, today, type) => {
+//     let queries = {
+//         solved_today: '?query=type:ticket solved>=' +
+//             today +
+//             ' assignee:' +
+//             user.id,
+//         pending_today: '?query=type:ticket status:pending updated>=' +
+//             today +
+//             ' assignee:' +
+//             user.id,
+//         open_today: '?query=type:ticket status:open updated>=' + today +
+//             ' assignee:' + user.id,
+//         pending_all: '?query=type:ticket status:pending assignee:' + user.id,
+//         open_all: '?query=type:ticket status:open assignee:' + user.id
+//     }
+
+//     return queries[type];
+// }
+
+// const zendeskQuery = async (httpOptions, user, today, type) => {
+//     let searchQuery = getQuery(user, today, type);
+//     let result = await httpGet(httpOptions.apiURL + '/api/v2/search.json' + searchQuery, httpOptions.creds);
+//     let payload = {};
+//     payload.type = type;
+//     payload.tickets = _.map(result.results, 'id');
+//     payload.ticketCount = result.count;
+//     payload.chats = _.filter(result.results, (o) => {
+//         return o.tags.indexOf('olark_chat') >= 0;
+//     }).length;
+
+//     let tags = [];
+
+//     tags.push(_.map(result.results, 'tags'))
+
+//     return { payload: payload, tags: _.flatten(tags) };
+// }
+
+//  gets solved tickets
+const getSolvedTickets = async (httpOptions, user, today) => {
+    let searchQuery =
+        '?query=type:ticket solved>=' +
+        today +
+        ' assignee:' +
+        user.id;
+
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/search.json' + searchQuery, httpOptions.creds);
+
+    let payload = {};
+    payload.type = 'solved';
+    payload.tickets = _.map(result.results, 'id');
+    payload.ticketCount = result.count;
+    payload.chats = _.filter(result.results, (o) => {
+        return o.tags.indexOf('olark_chat') >= 0;
+    }).length;
+
+    let tags = [];
+
+    tags.push(_.map(result.results, 'tags'))
+
+    return { payload: payload, tags: tags };
+}
+
+//  gets pending tickets updated today
+const getPendingTicketsFromToday = async (httpOptions, user, today) => {
+    let searchQuery =
+        '?query=type:ticket status:pending updated>=' +
+        today +
+        ' assignee:' +
+        user.id;
+
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/search.json' + searchQuery, httpOptions.creds);
+    let payload = {}
+
+    payload.type = 'pending';
+    payload.tickets = _.map(result.results, 'id');
+    payload.ticketCount = result.count;
+    payload.chats = _.filter(result.results, (o) => {
+        return o.tags.indexOf('olark_chat') >= 0;
+    }).length;
+
+    return payload;
+}
+
+//  gets all pending tickets 
+const getAllPendingTickets = async (httpOptions, user) => {
+    let searchQuery =
+        '?query=type:ticket status:pending assignee:' + user.id;
+
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/search.json' + searchQuery, httpOptions.creds);
+
+    let payload = {}
+    payload.type = 'pending_general';
+    payload.tickets = _.map(result.results, 'id');
+    payload.ticketCount = result.count;
+    payload.chats = _.filter(result.results, (o) => {
+        return o.tags.indexOf('olark_chat') >= 0;
+    }).length;
+
+    return payload;
+}
+
+//  gets open tickets updated today
+const getOpenTicketsFromToday = async (httpOptions, user, today) => {
+    let searchQuery =
+        '?query=type:ticket status:open updated>=' + today +
+        ' assignee:' + user.id;
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/search.json' + searchQuery, httpOptions.creds);
+    let payload = {}
+    payload.type = 'open';
+    payload.tickets = _.map(result.results, 'id');
+    payload.ticketCount = result.count;
+    payload.chats = _.filter(result.results, (o) => {
+        return o.tags.indexOf('olark_chat') >= 0;
+    }).length;
+
+    return payload;
+}
+
+//  gets all open tickets
+const getAllOpenTickets = async (httpOptions, user) => {
+    let searchQuery =
+        '?query=type:ticket status:open ' +
+        ' assignee:' +
+        user.id;
+
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/search.json' + searchQuery, httpOptions.creds);
+
+    let payload = {}
+    payload.type = 'open_general';
+    payload.tickets = _.map(result.results, 'id');
+    payload.ticketCount = result.count;
+    payload.chats = _.filter(result.results, (o) => {
+        return o.tags.indexOf('olark_chat') >= 0;
+    }).length;
+
+    return payload;
+
+}
+
+//gets counts and IDs for all states
+const formatTicketCount = (ticketCounts) => {
+    let formattedTicketCount = {};
+    //only add ticket counts to object
+    ticketCounts.map((index) => { formattedTicketCount[index.type] = index.ticketCount })
+    //add solved chats
+    formattedTicketCount.chats = _.find(ticketCounts, (o) => { return o.type == 'solved' }).chats;
+    //add ticket IDs
+    formattedTicketCount.ticketIds = {}
+    formattedTicketCount.ticketIds.solved = _.find(ticketCounts, (o) => { return o.type == 'solved' }).tickets;
+    formattedTicketCount.ticketIds.pending = _.find(ticketCounts, (o) => { return o.type == 'pending' }).tickets;
+    formattedTicketCount.ticketIds.open = _.find(ticketCounts, (o) => { return o.type == 'open' }).tickets;
+
+    return formattedTicketCount;
+}
+
+// formats object that will be pushed to slack
+const createUserStatsObj = (user, formattedTicketCount) => {
+    let userStats = {
+        name: user.name,
+        email: user.email,
+        userId: user.id,
+        solved: formattedTicketCount.solved,
+        open: formattedTicketCount.open_general,
+        pending: formattedTicketCount.pending_general,
+        chats: formattedTicketCount.chats,
+        ticketIds: formattedTicketCount.ticketIds,
+        currentGoal: user.currentGoal
+    }
+    return userStats;
+}
+
+const getCommentsForAllUsers = async (httpOptions, payload) => {
+    let allUserStatsWithTouches = await Promise.all(payload.allUserStats.map(async (userStats) => {
+        let userStatsWithTouches = await getAllTicketComments(httpOptions, userStats);
+        return userStatsWithTouches
+    }))
+
+    payload.allUserStats = allUserStatsWithTouches;
+    return payload;
+}
+
+const getAllTicketComments = async (httpOptions, userStats) => {
+    let ticketIds = userStats.ticketIds;
+    //concat all ticket ids into a single array
+    let allTicketIds = _.concat(ticketIds.solved, ticketIds.pending, ticketIds.open);
+
+    allTicketIds = allTicketIds.map((index) => { return { ticketId: index, userId: userStats.userId } })
+
+    let allTicketComments = await Promise.all(allTicketIds.map(async (ticketObject) => {
+        let ticketComments = await scheduleCommentsEndpointHit(httpOptions, ticketObject);
+        return ticketComments;
+    }))
+
+    let publicComments = 0;
+    let privateComments = 0;
+    //iterate through ticket comments and sum all replies to get touches
+    allTicketComments.map((index, key) => {
+        publicComments += parseFloat(index.replies.public)
+        privateComments += parseFloat(index.replies.private)
+    })
+    //assign touches to user
+    userStats.touches = publicComments;
+    userStats.privateComments = privateComments;
+
+    return userStats;
+}
+
+//assign metric endpoint hit as task to limiter
+const scheduleCommentsEndpointHit = async (httpOptions, ticketObject) => {
+    let ticketMetrics = await limiter.schedule(getComments, httpOptions, ticketObject);
+    return ticketMetrics;
+}
+
+//  hits the metrics endpoint (to see the amount of replies in each ticket)
+const getComments = async (httpOptions, ticketObject) => {
+    let result = await httpGet(httpOptions.apiURL + '/api/v2/tickets/' + ticketObject.ticketId + '/comments.json', httpOptions.creds);
+    let today = moment().tz('America/Tegucigalpa').startOf('day');
+
+    let comments = result.comments;
+    let ticket = {
+        id: ticketObject.ticketId,
+        replies: {
+            public: 0,
+            private: 0
+        }
+    }
+
+    if (comments) {
+        comments.map((comment) => {
+
+            let createdAt = moment(comment.created_at, moment.ISO_8601).add(1,"hours").utc().tz('America/Tegucigalpa');
+
+            //check for comments that were created after today
+            if (createdAt.isSameOrAfter(today) && comment.author_id === ticketObject.userId) {
+                if (comment.public) {
+                    ticket.replies.public++;
+                } else {
+                    ticket.replies.private++;
+                }
+            } else {
+                //if comment was not made today, continue
+                return true;
+            }
+        })
+    }
+
+    return ticket;
+}
+
+const getTagBreakdown = (payload) => {
+    let flatTags = _.flattenDeep(payload.tags);
+
+    _.uniq(flatTags).map((index) => {
+        payload.allocatorData.tags[index] = flatTags.filter(function(tag) { return tag === index }).length;
+    })
+
+    return payload
+}
+
+const prepareAllUserObjects = async (payload, settings) => {
+    let preparedUserObjects = await Promise.all(payload.allUserStats.map(async (userStats) => {
+        let preparedUserObject = await prepareUserObject(userStats, settings);
+        return prepareUserObject;
+    }))
+
+    //order by goal adherence, in descending order
+    payload.userObjects = _.orderBy(preparedUserObjects, 'goalAdherence', 'desc');
+    return payload
+}
+
+// creates the string that'll be sent to slack with all user stats
+const prepareUserObject = async (userStats, settings) => {
+    //olark chats
+    let chats = userStats.chats;
+    //total sum of ticket replies
+    let touches = userStats.touches;
+    let privateComments = userStats.privateComments;
+    //ticket counts per status
+    let open = userStats.open;
+    let pending = userStats.pending;
+    let solved = userStats.solved;
+    //current hourly goal
+    let currentGoal = userStats.currentGoal;
+    //slack strings
+    userStats.chatString = 'Chats : ' + chats;
+    userStats.openString = 'Open: ' + open;
+    userStats.pendingString = 'Pending: ' + pending;
+    userStats.solvedString = 'Solved: ' + solved;
+    userStats.touchesString = 'Touches: ' + touches;
+    userStats.privateCommentString = 'Private comments: ' + privateComments;
+    //emojis
+    let goalEmoji = '';
+    let goalAdherence = '';
+    //set goal type based on incoming goal parameter
+    switch (settings.goal) {
+        case 'touches':
+            //adherence is based on touches
+            goalAdherence = (touches / currentGoal).toFixed(2);
+            //add adherence to touches string
+            userStats.touchesString += ' / ' + currentGoal + ' ';
+            break;
+        case 'solved':
+            //adherence is based on solved tickets
+            goalAdherence = (solved / currentGoal).toFixed(2);
+            //add adherence to solved tickets string
+            userStats.solvedString += ' / ' + currentGoal + ' ';
+            break;
+        default:
+            //do nothing
+    }
+    //append adherence to object for later sorting
+    userStats.goalAdherence = goalAdherence;
+
+    //hardcoded goal deviation value, add to program settings later
+    let goalDeviation = 0.1;
+
+    //asintotes (upper and bottom thresholds)
+    let bottomAsintote = (1 - goalDeviation);
+    let topAsintote = (1 + goalDeviation);
+    //if goal is higher than topasintote, start performer
+    if (goalAdherence >= topAsintote) {
+        goalEmoji = ':star2:'
+        //if goal is between bottom and top asintote
+    } else if (goalAdherence >= bottomAsintote && goalAdherence < topAsintote) {
+        goalEmoji = ':white_check_mark:'
+        //if goal is above between 60% and lower than bottom asintote
+    } else if (goalAdherence >= 0.6 && goalAdherence < bottomAsintote) {
+        goalEmoji = ':warning:'
+        //if goal is less than 60%
+    } else if (goalAdherence < 0.6) {
+        goalEmoji = ':exclamation:'
+    }
+    //if someone has no goal (if it is their first work hour),
+    //remove emoji
+    if (currentGoal === 0) {
+        goalEmoji = ''
+    }
+    //append goal emoji to username
+    userStats.name += ' ' + goalEmoji
+    return userStats;
+}
+
+//  gets chats (olark), individual tickets (assigned), and touches (total replies) for all users
+var prepareDataForSources = (payload, settings) => {
+    try {
+        let slackString = {};
+        payload.allUserStats.map((userStats) => {
+            let userName = userStats.name;
+            let userEmail = userStats.email;
+            let solvedIds = userStats.ticketIds.solved;
+
+            let {
+                chats,
+                touches,
+                solved,
+                pending,
+                open,
+                privateComments,
+                currentGoal,
+                chatString,
+                solvedString,
+                pendingString,
+                touchesString,
+                openString,
+                privateCommentString
+            } = userStats;
+            //most data is included in userobjects already
+            //for slack
+            slackString[userName] =
+                touchesString +
+                '\n' +
+                solvedString +
+                '\n' +
+                pendingString +
+                '\n' +
+                openString;
+            //for spreadsheet
+            payload.allocatorData.associateProductivity[userEmail] = {
+                touches: touches,
+                solved: solved,
+                pending: pending,
+                open: open,
+                solvedIds: solvedIds,
+                currentGoal: currentGoal,
+                goalType: settings.goalType,
+                privateComments: privateComments,
+                email: userEmail
+            };
+
+            //if chats is true
+            //for programs that use olark
+            if (chats) {
+                slackString[userName] += '\n' + chatString;
+                payload.allocatorData.associateProductivity[userName].chats = chats;
+            }
+            //if private comments is true
+            //for programs that track PCs
+            // if (privateCommentsField) {
+            //     slackString[userName] += '\n' + privateCommentString;
+            //     payload.allocatorData.associateProductivity[userName].privateComments = privateComments;
+            // }
+        })
+
+        payload.slackResponse.slackString = slackString
+        return payload;
+
+    } catch (e) {
+        console.warn(e)
+    }
+}
+
+export default startZendeskFetch;
